@@ -53,7 +53,7 @@ router.route('/').get(async (req, res) => {
         res.render('login');
     }
     catch (e) {
-        res.status(400).json({ error: e })
+        res.status(400).json({ error_occured: e })
     }
 })
 
@@ -69,18 +69,18 @@ router.
         try {
             const data = await db.collection('users').findOne({ 'email': username });
             if (!data) {
-                window.alert("Invalid user ID or user does not exist !")
+                res.render('error', { error_occured: "Invalid username or password, please try again" })
             }
 
             if (password !== data.password) {
-                console.log("Wrong password , please enter the correct password and try again");
+                res.render('error', { error_occured: "Wrong password , please enter the correct password and try again" });
             }
-            console.log(data);
+            //console.log(data);
             res.render('dashboard', { data: data });
 
         }
         catch (e) {
-            res.status(400).json({ error: e });
+            res.status(400).json({ error_occured: e });
         }
 
 
