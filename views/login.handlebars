@@ -1,0 +1,37 @@
+<head>
+    <title>Login Page</title>
+    <link rel="stylesheet" type="text/css" href="/public/log_in.css" />
+    <script>
+        function validate_username() {
+            const username = document.getElementById("username").value;
+            //console.log(typeof username);
+            ValidateEmail(username);
+        }
+        function ValidateEmail(input) {
+            var validRegex =
+                /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+            if (!input.value.match(validRegex)) {
+                alert("Invalid email address!");
+
+                return false;
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <form action="/login" , method="POST">
+            <label for="username">Username</label>
+            <input id="username" name="username" required />
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required />
+            <input type="submit" value="Log In" onclick="validadate_username()" />
+        </form>
+    </div>
+    <div class="register_page">
+        <a href="registration">Not a user ,register</a>
+    </div>
+</body>
