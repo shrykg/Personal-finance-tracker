@@ -53,3 +53,17 @@ input[type="submit"]:hover {
 .register_page {
     text-align: center;
 }
+
+h1.page_title {
+    font-family: 'Pacifico', cursive;
+    font-weight: bold;
+    font-style: italic;
+    text-shadow: 1px 1px 2px #ccc;
+}
+
+h2.page_desc {
+    font-family: 'Pacifico', cursive;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+}
