@@ -75,7 +75,8 @@ router.
     route('/login')
     .post(async (req, res) => {
         console.log(req.body);
-        const username = req.body.username;
+        const username = req.body.username.toLowerCase();
+
         const password = req.body.password;
 
         // console.log(username);
