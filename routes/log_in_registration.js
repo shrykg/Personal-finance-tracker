@@ -3,6 +3,7 @@ const router = Router();
 import path from 'path';
 import { dbConnection, closeConnection }
     from "../config/mongoConnection.js";
+import bcrypt from "bcrypt"
 
 const db = await dbConnection();
 
@@ -25,23 +26,36 @@ router
         let email = req.body.email;
         let password = req.body.password_confirm;
 
-        const data = {
-            "firstname": firstname,
-            "lastname": lastname,
-            "dob": dob,
-            "email": email,
-            "password": password,
-            "created_at": new Date()
-        }
-        try {
-            await db.collection('users').insertOne(data)
-        }
-        catch (e) {
-            res.status(400).json({ error: e })
+        const saltRounds = 10;
+
+        let new_password = await bcrypt.hash(password, saltRounds);
+        //console.log(new_password);
+
+        //checking if the user with the same email already exists
+        const check = await db.collection('users').findOne({ 'email': email });
+
+        if (!check || check === null) {
+            const data = {
+                "firstname": firstname,
+                "lastname": lastname,
+                "dob": dob,
+                "email": email,
+                "password": new_password,
+                "created_at": new Date()
+            }
+            try {
+                await db.collection('users').insertOne(data)
+            }
+            catch (e) {
+                res.status(400).render('error', { error_occured: e })
+            }
+
+            res.render('login');
         }
 
-        res.render('login');
-
+        else {
+            res.status(500).render('error', { error_occured: "User already exists" })
+        }
 
     })
 
@@ -53,38 +67,36 @@ router.route('/').get(async (req, res) => {
         res.render('login');
     }
     catch (e) {
-        res.status(400).json({ error_occured: e })
+        res.status(400).render('error', { error_occured: e })
     }
 })
 
 router.
     route('/login')
     .post(async (req, res) => {
-        //console.log(req.body);
+        console.log(req.body);
         const username = req.body.username;
         const password = req.body.password;
 
-        //console.log(username);
+        // console.log(username);
+        // console.log(password);
 
         try {
             const data = await db.collection('users').findOne({ 'email': username });
+            console.log(data)
             if (!data) {
                 res.render('error', { error_occured: "Invalid username or password, please try again" })
             }
 
-            if (password !== data.password) {
-                res.render('error', { error_occured: "Wrong password , please enter the correct password and try again" });
+            if (!(await bcrypt.compare(password, data.password))) {
+                res.render('error', { error_occured: "Wrong username or password , please try again" });
             }
-            //console.log(data);
             res.render('dashboard', { data: data });
 
         }
         catch (e) {
-            res.status(400).json({ error_occured: e });
+            res.status(400).render('error', { error_occured: e });
         }
-
-
-
 
     });
 
