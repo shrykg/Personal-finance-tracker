@@ -1,29 +1,8 @@
-<head>
+<body>
+    <link rel="stylesheet" type="text/css" href="/public/log_in.css" />
     <title>Login Page</title>
     <h1 class="page_title">Money Minder</h1>
     <h2 class="page_desc">The one stop for tracking your expenses</h2>
-    <h2></h2>
-    <link rel="stylesheet" type="text/css" href="/public/log_in.css" />
-    <script>
-        function validate_username() {
-            const username = document.getElementById("username").value;
-            //console.log(typeof username);
-            ValidateEmail(username);
-        }
-        function ValidateEmail(input) {
-            var validRegex =
-                /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
-            if (!input.value.match(validRegex)) {
-                alert("Invalid email address!");
-
-                return false;
-            }
-        }
-    </script>
-</head>
-
-<body>
     <div class="container">
         <h1>Login</h1>
         <form action="/login" , method="POST">
