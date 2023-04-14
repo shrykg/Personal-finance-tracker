@@ -88,6 +88,106 @@ router.route('/new').get(async (req, res) => {
       res.status(500).json({error: e});
     }
   })
+//   .put(async (req, res) => {
+//     res.send('ROUTED TO PUT ROUTE');
+//   }); 
+
+// route for indivisual transactions to view, edit, delete
+
+router
+  .route('/:id')
+  .get(async (req, res) => {
+    try {
+      req.params.id = validation.checkId(req.params.id, 'Id URL Param');
+    } catch (e) {
+      return res.status(400).json({error: e});
+    }
+    try {
+      const post = await transactionData.getTransaction(req.params.id)
+    //   res.render('posts/single', {post: post});
+    //   render indivisual transaction
+    } catch (e) {
+      res.status(404).json({error: e});
+    }
+  })
   .put(async (req, res) => {
-    res.send('ROUTED TO PUT ROUTE');
-  }); 
+    const updatedData = req.body;
+    try {
+
+      req.params.id = validation.checkId(req.params.id, 'ID url param');
+      updatedData.description = validation.checkString(updatedData.description, 'Description');
+      updatedData.category = validation.checkString(updatedData.category, 'category');
+      updatedData.amount = validation.checkNumber(updatedData.amount,'Amount')
+      // change this to validate date
+      updatedData.transaction_date = validation.checkString(updatedData.transaction_date,'Transaction Date')
+      updatedData.paymentType = validation.checkString(updatedData.paymentType,'Payment Type')
+      updatedData.user_id = validation.checkId(
+        updatedData.user_id,
+        'User ID'
+      );
+      
+    } catch (e) {
+      return res.status(400).json({error: e});
+    }
+
+    try {
+      const updatedTransaction = await transactionData.updateTransaction(
+        req.params.id,
+        updatedData
+      );
+      res.json(updatedTransaction);
+    } catch (e) {
+      let status = e[0];
+      let message = e[1];
+      res.status(status).json({error: message});
+    }
+  })
+//   .patch(async (req, res) => {
+//     const requestBody = req.body;
+//     try {
+//       req.params.id = validation.checkId(req.params.id, 'Post ID');
+//       if (requestBody.title)
+//         requestBody.title = validation.checkString(requestBody.title, 'Title');
+//       if (requestBody.body)
+//         requestBody.body = validation.checkString(requestBody.body, 'Body');
+//       if (requestBody.posterId)
+//         requestBody.posterId = validation.checkId(
+//           requestBody.posterId,
+//           'Poster ID'
+//         );
+//       if (requestBody.tags)
+//         requestBody.tags = validation.checkStringArray(
+//           requestBody.tags,
+//           'Tags'
+//         );
+//     } catch (e) {
+//       return res.status(400).json({error: e});
+//     }
+
+//     try {
+//       const updatedPost = await postData.updatePostPatch(
+//         req.params.id,
+//         requestBody
+//       );
+//       res.json(updatedPost);
+//     } catch (e) {
+//       let status = e[0];
+//       let message = e[1];
+//       res.status(status).json({error: message});
+//     }
+//   })
+  .delete(async (req, res) => {
+    try {
+      req.params.id = validation.checkId(req.params.id, 'Id URL Param');
+    } catch (e) {
+      return res.status(400).json({error: e});
+    }
+    try {
+      let deletedTransaction = await transactionData.removeTransaction(req.params.id)
+      res.status(200).json(deletedTransaction);
+    } catch (e) {
+      let status = e[0];
+      let message = e[1];
+      res.status(status).json({error: message});
+    }
+  });
