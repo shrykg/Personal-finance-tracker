@@ -91,6 +91,9 @@ router.
             if (!(await bcrypt.compare(password, data.password))) {
                 res.render('error', { error_occured: "Wrong username or password , please try again" });
             }
+            // Only for initial testing
+            global.loggedInUserId = data._id.toString()
+            // Change it soon to store loggedin user information in session
             res.render('dashboard', { data: data });
 
         }
