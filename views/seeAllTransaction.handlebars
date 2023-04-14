@@ -1,0 +1,12 @@
+ <section>
+    <h1>{{title}}</h1>
+	<h2>See all Transaction</h2>
+    
+        <ol>
+			{{#each transaction}}
+			<li>
+				All details:{{catagory}} {{amount}} {{date}}
+			</li>
+			{{/each}}
+		</ol>
+        </section>

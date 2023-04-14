@@ -3,6 +3,15 @@
 
     <h2> Transaction history</h2>
     <!-- Aishwariya and Shreyak please add the latest 10 transactions from the database here  -->
+    <div class="history">
+       <ol>
+			{{#each results}}
+			<li>
+				Date:{{date}} catagory: {{catagory}} Amount : {{amount}} 
+			</li>
+			{{/each}}
+		</ol>
+    </div>
     <button type="button">Add a new Transaction</button>
     <button type="button">View Charts</button>
     <button type="button">Upload excel</button>
