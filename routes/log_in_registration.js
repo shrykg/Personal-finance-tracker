@@ -75,7 +75,8 @@ router.
     route('/login')
     .post(async (req, res) => {
         console.log(req.body);
-        const username = req.body.username;
+        const username = req.body.username.toLowerCase();
+
         const password = req.body.password;
 
         // console.log(username);
@@ -91,6 +92,9 @@ router.
             if (!(await bcrypt.compare(password, data.password))) {
                 res.render('error', { error_occured: "Wrong username or password , please try again" });
             }
+            // Only for initial testing
+            global.loggedInUserId = data._id.toString()
+            // Change it soon to store loggedin user information in session
             res.render('dashboard', { data: data });
 
         }

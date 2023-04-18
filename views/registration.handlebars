@@ -1,44 +1,5 @@
-<head>
-    <title>Registration Page</title>
-    <link rel="stylesheet" type="text/css" href="../public/registration.css" />
-</head>
-<script>
-    function ValidateEmail(input) {
-        var validRegex =
-            /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
-        if (!input.value.match(validRegex)) {
-            alert("Invalid email address!");
-
-            return false;
-        }
-    }
-
-    const validatename = (val) => {
-        console.log("inside the function ");
-        console.log(val);
-        if (!val.value.match(/[^a-zA-Z]/)) {
-            alert("Invalid Username");
-        }
-    };
-
-    function validate() {
-        const username = document.getElementById("firstname");
-        const lastname = document.getElementById("lastname");
-        const dob = document.getElementById("dob");
-        const email = document.getElementById("email");
-
-        console.log(username);
-        //validatename(username);
-        ValidateEmail(email);
-    }
-</script>
-<script>
-    type = "text/javascript";
-    src = "data/register.js";
-</script>
-
 <body>
+    <link rel="stylesheet" type="text/css" href="../public/registration.css" />
     <div class="container">
         <h1>Registration</h1>
         <form action="/registration" method="POST">
@@ -55,7 +16,7 @@
             <label for="password_confirm">Confirm Password</label>
             <input type="password" id="password_confirm" name="password_confirm" required />
             <label for="monthly_target">Monthly saving target</label>
-            <input type="number" id="monthly_target" name="monthly_target" />
+            <input type="number" step="0.01" id="monthly_target" name="monthly_target" />
 
             <input type="submit" value="Register" onclick="validate()" />
         </form>
