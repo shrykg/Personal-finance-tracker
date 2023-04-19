@@ -1,5 +1,5 @@
 import {ObjectId} from 'mongodb';
-import { transactions } from '../config/mongoCollections';
+import { transactions } from '../config/mongoCollections.js';
 import validation from '../validation.js'
 
 const exportedMethods = {
