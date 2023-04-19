@@ -5,6 +5,7 @@ import validation from '../validation.js';
 
 router.route('/new').get(async (req, res) => {
     // Render add new transcation HTML form
+    res.render('addtransaction')
   });
 
   router
@@ -20,7 +21,10 @@ router.route('/new').get(async (req, res) => {
   })
   .post(async (req, res) => {
     const transactionPostData = req.body;
-    
+    transactionPostData['user_id'] = global.loggedInUserId
+    transactionPostData['amount'] = Number(transactionPostData.amount)
+    console.log(transactionPostData)
+
     
     let errors = [];
 
@@ -74,16 +78,22 @@ router.route('/new').get(async (req, res) => {
     //     users: users
     //   });
     // render error with prefilled data
+      console.log('errorssss')
+      console.log(errors)
       return;
     }
 
     try {
-      const {user_id, paymentType, amount, description, category} = transactionPostData;
+      console.log('inside bitch')
+      const {user_id, paymentType, amount, description, category, transaction_date} = transactionPostData;
       
-      const newTransaction = await transactionData.addTransaction(user_id,paymentType,amount,description,category)
+      const newTransaction = await transactionData.addTransaction(user_id,paymentType,amount,description,category,transaction_date)
     //   const newPost = await postData.addPost(title, body, posterId, tags);
     //   res.redirect(`/posts/${newPost._id}`);
     // redirect to home with lastest transactions
+    console.log('_____________')
+    console.log(newTransaction)
+    res.render('dashboard',{transactions: [newTransaction]})
     } catch (e) {
       res.status(500).json({error: e});
     }
