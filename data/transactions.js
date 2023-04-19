@@ -1,4 +1,6 @@
+
 import { ObjectId } from 'mongodb';
+
 import { transactions } from '../config/mongoCollections.js';
 import validation from '../validation.js'
 
@@ -7,44 +9,60 @@ const exportedMethods = {
     async getAllTransactions(userId) {
         userId = validation.checkId(userId, 'User ID')
 
-        const transactionCollections = await transactions()
-        return await transactionCollections
-            .find({ user_id: userId })
-            .toArray();
-    },
+
+     const transactionCollections = await transactions()
+     return await transactionCollections
+      .find({user_id: new ObjectId(userId)})
+      .toArray();
+},
+
 
     async getTransaction(transactionId) {
         transactionId = validation.checkId(transactionId, 'Transaction ID')
 
-        const transactionCollections = await transactions()
-        const transaction = await transactionCollections.findOne({ _id: ObjectId(transactionId) })
-        if (!transaction) {
-            throw 'Error: Transaction not found'
-        }
-        return transaction
-    },
 
-    async addTransaction(userId, paymentType, amount, description, category) {
-        userId = validation.checkId(userId, 'User ID')
-        paymentType = validation.checkString(paymentType, 'Payment Type')
-        amount = validation.checkNumber(amount, 'Amount')
-        description = validation.checkString(description, 'Description')
-        category = validation.checkString(category, 'Category')
-        const date = new Date()
 
-        const newTransaction = {
-            user_id: ObjectId(userId),
-            transaction_date: date.toISOString(),
-            amount: amount,
-            description: description,
-            category: category
-        }
-        const transactionCollections = await transactions()
-        const insertInformation = await transactionCollections.insertOne(newTransaction)
-        const newId = insertInformation.insertedId
-        return await getTransaction(newId.toString())
+    const transactionCollections = await transactions()
+    const transaction = await transactionCollections.findOne({_id: new ObjectId(transactionId)})
+    if (!transaction) {
+        throw 'Error: Transaction not found'
+    }
+    return transaction
+},
 
-    },
+async addTransaction(userId,paymentType,amount,description,category,date) {
+    
+    console.log('start')
+    console.log(userId)
+    console.log(paymentType)
+    console.log(amount)
+    console.log(description)
+    console.log(category)
+    console.log(date)
+    // userId = validation.checkId(userId,'User ID')
+    // paymentType = validation.checkString(paymentType,'Payment Type')
+    // amount = validation.checkNumber(amount,'Amount')
+    // description = validation.checkString(description,'Description')
+    // category = validation.checkString(category,'Category')
+    // date = validation.checkString(date,'Date')
+    console.log('beforeeeee')
+    let newTransaction  = {
+        user_id: new ObjectId(userId) ,
+        transaction_date: date,
+        amount: amount,
+        description: description,
+        category: category,
+        paymentType: paymentType
+    }
+    console.log('afterrrrrr')
+    const transactionCollections = await transactions()
+    const newInsertInformation = await transactionCollections.insertOne(newTransaction)
+    const newId = newInsertInformation.insertedId;
+    console.log(newId)
+    console.log(newId.toString())
+    return await this.getTransaction(newId.toString())
+},
+
 
     async removeTransaction(transactionId) {
         transactionId = validation.checkId(transactionId, 'Transaction ID')
