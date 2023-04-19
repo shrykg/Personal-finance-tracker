@@ -9,7 +9,7 @@ async getAllTransactions(userId) {
 
      const transactionCollections = await transactions()
      return await transactionCollections
-      .find({user_id: userId})
+      .find({user_id: new ObjectId(userId)})
       .toArray();
 },
 

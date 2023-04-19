@@ -91,9 +91,10 @@ router.route('/new').get(async (req, res) => {
     //   const newPost = await postData.addPost(title, body, posterId, tags);
     //   res.redirect(`/posts/${newPost._id}`);
     // redirect to home with lastest transactions
+    const alltransactions = await transactionData.getAllTransactions(global.loggedInUserId)
     console.log('_____________')
-    console.log(newTransaction)
-    res.render('dashboard',{transactions: [newTransaction]})
+    console.log(alltransactions)
+    res.render('dashboard',{transactions: alltransactions})
     } catch (e) {
       res.status(500).json({error: e});
     }
