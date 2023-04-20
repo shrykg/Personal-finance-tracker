@@ -1,6 +1,10 @@
 <body>
-    <h1 style="text-align: center">Welcome {{data.firstname}} {{data.lastname}}</h1>
 
+    <h1 style="text-align: center">Welcome {{data.firstname}} {{data.lastname}}</h1>
+    <button type="button" onclick="window.location.href='/transactions/new'">Add a new Transaction</button>
+    <button type="button">View Charts</button>
+    <button type="button">Upload excel</button>
+    <button type="button">Settings</button>
     <h2> Transaction history</h2>
     <!-- Aishwariya and Shreyak please add the latest 10 transactions from the database here  -->
     <div class="history">
@@ -11,9 +15,78 @@
 			</li>
 			{{/each}}
 		</ol>
-    </div>
-    <button type="button">Add a new Transaction</button>
-    <button type="button">View Charts</button>
-    <button type="button">Upload excel</button>
-    <button type="button">Settings</button>
+    </div> --}}
+    <style>
+      html, body, table {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font-family: sans-serif;
+  vertical-align: baseline;
+}
+
+/* Style the table */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Style the table headers */
+th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+  text-align: left;
+  padding: 8px;
+}
+
+/* Style the table cells */
+td {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Style alternating rows */
+tbody tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+/* Style the page title */
+h1 {
+  text-align: center;
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+
+/* Style the page wrapper */
+body {
+  padding: 16px;
+}
+    </style>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Category</th>
+          <th>Amount</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each transactions}}
+        <tr>
+          <td>{{transaction_date}}</td>
+          <td>{{description}}</td>
+          <td>{{category}}</td>
+          <td>{{amount}}</td>
+          <td>{{paymentType}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+
 </body>
