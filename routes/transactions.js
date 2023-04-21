@@ -60,10 +60,7 @@ router.route('/new').get(async (req, res) => {
     }
 
     try {
-        transactionPostData.user_id = validation.checkId(
-            transactionPostData.user_id,
-        'User ID'
-      );
+        transactionPostData.user_id = validation.checkId(transactionPostData.user_id,'User ID');
     } catch (e) {
       errors.push(e);
     }
