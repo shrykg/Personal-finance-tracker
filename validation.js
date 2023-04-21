@@ -1,4 +1,4 @@
-import {ObjectId} from 'mongodb';
+import { ObjectId } from 'mongodb';
 // Need to add validations for date
 const exportedMethods = {
   checkId(id, varName) {
@@ -45,6 +45,11 @@ const exportedMethods = {
     }
 
     return arr;
+  },
+
+  validatePassword(new_password) {
+    const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+    return regex.test(new_password);
   }
 };
 

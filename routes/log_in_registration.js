@@ -4,6 +4,7 @@ import path from 'path';
 import { dbConnection, closeConnection }
     from "../config/mongoConnection.js";
 import bcrypt from "bcrypt"
+import { login_reg_data } from "../data/index.js";
 
 const db = await dbConnection();
 
@@ -26,25 +27,17 @@ router
         let email = req.body.email;
         let password = req.body.password_confirm;
 
-        const saltRounds = 10;
 
-        let new_password = await bcrypt.hash(password, saltRounds);
-        //console.log(new_password);
+        console.log(new_password);
 
         //checking if the user with the same email already exists
-        const check = await db.collection('users').findOne({ 'email': email });
+        const check = await login_reg_data.get_user_by_email(email);
 
         if (!check || check === null) {
-            const data = {
-                "firstname": firstname,
-                "lastname": lastname,
-                "dob": dob,
-                "email": email,
-                "password": new_password,
-                "created_at": new Date()
-            }
+
             try {
-                await db.collection('users').insertOne(data)
+
+                await login_reg_data.add_user(firstname, lastname, dob, email, password);
             }
             catch (e) {
                 res.status(400).render('error', { error_occured: e })
@@ -63,7 +56,6 @@ router
 
 router.route('/').get(async (req, res) => {
     try {
-        //console.log(__dirname);
         res.render('login');
     }
     catch (e) {
@@ -74,17 +66,13 @@ router.route('/').get(async (req, res) => {
 router.
     route('/login')
     .post(async (req, res) => {
-        console.log(req.body);
+
         const username = req.body.username.toLowerCase();
 
         const password = req.body.password;
 
-        // console.log(username);
-        // console.log(password);
-
         try {
-            const data = await db.collection('users').findOne({ 'email': username });
-            console.log(data)
+            const data = await login_reg_data.get_user_by_email(username);
             if (!data) {
                 res.render('error', { error_occured: "Invalid username or password, please try again" })
             }

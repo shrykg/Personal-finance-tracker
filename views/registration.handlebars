@@ -14,10 +14,11 @@
             <label for="password_initial">Set a new Password</label>
             <input type="password" id="password_initial" name="password_initial" required />
             <label for="password_confirm">Confirm Password</label>
+            <div id="error-label" style="display: none; color: red;"></div>
             <input type="password" id="password_confirm" name="password_confirm" required />
             <label for="monthly_target">Monthly saving target</label>
             <input type="number" step="0.01" id="monthly_target" name="monthly_target" />
 
-            <input type="submit" value="Register" onclick="validate()" />
+            <input type="submit" id="register_button" value="Register" />
         </form>
     </div>
