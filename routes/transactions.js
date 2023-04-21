@@ -6,13 +6,13 @@ import validation from '../validation.js';
 router.route('/new').get(async (req, res) => {
     // Render add new transcation HTML form
     res.render('addtransaction')
-  });
+  })
 
   router
   .route('/')
   .get(async (req, res) => {
     try {
-      const transactionList = await transactionData.getAllTransactions(global.loggedInUserId)
+      const budgetList = await transactionData.getAllTransactions(global.loggedInUserId)
     //   res.render('posts/index', {posts: postList});
     // render the html for top 10 transactions for the user
     } catch (e) {
