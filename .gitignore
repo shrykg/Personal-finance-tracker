@@ -2375,6 +2375,7 @@ node_modules/yallist/LICENSE
 node_modules/yallist/package.json
 node_modules/yallist/README.md
 node_modules/yallist/yallist.js
+
 node_modules/.bin/color-support.cmd
 node_modules/.bin/color-support.ps1
 node_modules/.bin/glob
@@ -2949,3 +2950,6 @@ node_modules/wrap-ansi/package.json
 node_modules/wrap-ansi/readme.md
 package-lock.json
 package-lock.json
+
+node_modules/
+
