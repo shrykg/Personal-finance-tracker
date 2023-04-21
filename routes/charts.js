@@ -2,7 +2,7 @@ import { Router } from "express";
 const router = Router();
 import path from 'path';
 import { dbConnection, closeConnection } from "../config/mongoConnection.js";
-import Chart from 'chart.js/auto';
+
 
 
 const data = [12, 19, 3, 5, 2, 3];
