@@ -23,49 +23,50 @@ router
         let dob = req.body.dob;
         let email = req.body.email;
         let password = req.body.password_confirm;
+        let password_1 = req.body.password_initial;
 
 
         //console.log(new_password);
 
         //checking if the user with the same email already exists
-        const check = await login_reg_data.get_user_by_email(email);
-
-        if (!check || check === null) {
-
+        let check = '';
+        check = await login_reg_data.get_user_by_email(email);
+        if (!check) {
             try {
-
                 await login_reg_data.add_user(firstname, lastname, dob, email, password);
+                res.status(200).redirect('/login');
             }
             catch (e) {
-                res.status(400).render('error', { error_occured: e })
+                res.status(400).render('registration', { error: 'Something went wrong , please try again !', firstname: firstname, lastname: lastname, dob: dob, email: email })
             }
-
-            res.render('login');
         }
-
         else {
-            res.status(500).render('error', { error_occured: "User already exists" })
+            res.status(400).render('registration', { error: 'User already exists', firstname: firstname, lastname: lastname, dob: dob, email: email })
         }
 
+        //res.status(400).render('register', { error: 'Unable to register please try again !', firstname: firstname, lastname: lastname, dob: dob, email: email })
     })
 
 
 
-router.route('/').get(async (req, res) => {
-    try {
-        res.render('login');
-    }
-    catch (e) {
-        res.status(400).render('error', { error_occured: e })
-    }
-})
+router.
+    route('/').get(async (req, res) => {
+        try {
+            res.render('login');
+        }
+        catch (e) {
+            res.status(400).render('error', { error_occured: e })
+        }
+    })
 
 router
     .route('/dashboard')
     .get(async (req, res) => {
         let data = req.session.user;
+        console.log(data);
         const trans_data = await transactionData.getAllTransactions(data.id);
         const active_budget = await budgetData.get_all_active_users(data.id);
+        console.log(active_budget);
         try {
             res.status(200).render('dashboard', { data: data, transactions: trans_data, active_budget: active_budget });
         }
@@ -81,7 +82,7 @@ router
             req.session.destroy();
             res.redirect('/login')
         } else {
-            res.status(403).render('logout');
+            res.status(403).render('login');
         }
     });
 

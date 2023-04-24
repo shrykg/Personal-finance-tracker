@@ -12,7 +12,9 @@ router.route('/new').get(async (req, res) => {
     budget['amount'] = Number(budget.amount)
     let errors = [];
     try {
-      const result = await budgetDataFunctions.create(global.loggedInUserId, budget.category, budget.amount, budget.start_Date, budget.end_Date)
+      await budgetDataFunctions.create(global.loggedInUserId, budget.category, budget.amount, budget.start_Date, budget.end_Date)
+      //let active_users = budgetDataFunctions.get_all_active_users(global.loggedInUserId);
+      res.redirect('/dashboard')
       //console.log(result);
     }
     catch (e) {

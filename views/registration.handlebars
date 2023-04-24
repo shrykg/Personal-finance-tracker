@@ -1,24 +1,25 @@
-<body>
-    <link rel="stylesheet" type="text/css" href="../public/registration.css" />
-    <div class="container">
-        <h1>Registration</h1>
-        <form action="/registration" method="POST">
-            <label for="firstname">First Name</label>
-            <input type="text" id="firstname" name="firstname" required />
-            <label for="lastname">Last Name</label>
-            <input type="text" id="lastname" name="lastname" required />
-            <label for="dob">Date of Birth</label>
-            <input type="date" id="dob" name="dob" required />
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" required />
-            <label for="password_initial">Set a new Password</label>
-            <input type="password" id="password_initial" name="password_initial" required />
-            <label for="password_confirm">Confirm Password</label>
-            <div id="error-label" style="display: none; color: red;"></div>
-            <input type="password" id="password_confirm" name="password_confirm" required />
-            <label for="monthly_target">Monthly saving target</label>
-            <input type="number" step="0.01" id="monthly_target" name="monthly_target" />
+<link rel="stylesheet" type="text/css" href="../public/registration.css" />
+<div class="container">
+    <h1>Registration Page</h1>
+    <form id="registration-form" action="/registration" method="POST">
+        <label for="firstname">First Name</label>
+        <input type="text" id="firstname" name="firstname" required value={{firstname}}>
+        <label for="lastname">Last Name</label>
+        <input type="text" id="lastname" name="lastname" required value={{lastname}}>
+        <label for="dob">Date of Birth</label>
+        <input type="date" id="dob" name="dob" required value={{dob}}>
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required value={{email}}>
+        <label for="password_initial">Set a new Password</label>
+        <input type="password" id="password_initial" name="password_initial" required />
+        <label for="password_confirm">Confirm Password</label>
+        <input type="password" id="password_confirm" name="password_confirm" required />
+        <label for="monthly_target">Monthly saving target</label>
+        <input type="number" step="0.01" id="monthly_target" name="monthly_target" />
 
-            <input type="submit" id="register_button" value="Register" />
-        </form>
-    </div>
+        <input type="submit" id="register_button" value="Register" />
+    </form>
+</div>
+
+<p>Already have an account? <a href="login">Click here to log-in</a></p>
+<div id="error-container">{{error}}</div>

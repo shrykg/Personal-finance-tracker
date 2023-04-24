@@ -35,6 +35,23 @@ const rewriteUnsupportedBrowserMethods = (req, res, next) => {
     next();
 };
 
+app.use(async (req, res, next) => {
+    let date = new Date().toUTCString();
+    let method = req.method;
+    let url = req.originalUrl;
+    let auth = ''
+    if (req.session.user) {
+        auth = '(User is Authenticated)'
+    }
+
+    else {
+        auth = '(User is Not Authenticated)';
+    }
+
+    console.log(date + ":" + " " + method + " " + url + " " + auth);
+    next();
+})
+
 app.use(rewriteUnsupportedBrowserMethods);
 
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
