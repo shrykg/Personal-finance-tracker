@@ -50,6 +50,50 @@ const exportedMethods = {
   validatePassword(new_password) {
     const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
     return regex.test(new_password);
+  },
+
+  validateFirstName(firstName) {
+    const regex = /^[a-zA-Z]{2,25}$/;
+    if (!regex.test(firstName)) {
+      throw ("First name must be a valid string with at least 2 characters and at most 25 characters.");
+    }
+  },
+
+  validateLastName(lastName) {
+    const regex = /^[a-zA-Z]{2,25}$/;
+    if (!regex.test(lastName)) {
+      throw ("Last name must be a valid string with at least 2 characters and at most 25 characters.");
+    }
+  },
+
+  validateEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i;
+    if (!regex.test(email)) {
+      throw ("Invalid email address.");
+    }
+  },
+
+  validatePassword(password) {
+    const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!regex.test(password)) {
+      throw ("Password must be a valid string with at least 8 characters, containing at least one uppercase letter, one number, and one special character.");
+    }
+  },
+
+  validateRole(role) {
+    if (role.toLowerCase() !== "admin" && role.toLowerCase() !== "user") {
+      throw ("Role must be either 'admin' or 'user'");
+    }
+  },
+
+  getTime() {
+    let today = new Date();
+    let hours = today.getHours();
+    let minutes = today.getMinutes();
+    let time = hours + ":" + minutes;
+
+    return time;
+
   }
 };
 

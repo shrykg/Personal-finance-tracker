@@ -1,12 +1,9 @@
 import { Router } from "express";
 const router = Router();
-import path from 'path';
-import { dbConnection, closeConnection }
-    from "../config/mongoConnection.js";
-import bcrypt from "bcrypt"
-import { login_reg_data } from "../data/index.js";
 
-const db = await dbConnection();
+import bcrypt from "bcrypt"
+import { login_reg_data, transactionData, budgetData } from "../data/index.js";
+
 
 router
     .route('/registration')
@@ -28,7 +25,7 @@ router
         let password = req.body.password_confirm;
 
 
-        console.log(new_password);
+        //console.log(new_password);
 
         //checking if the user with the same email already exists
         const check = await login_reg_data.get_user_by_email(email);
@@ -63,6 +60,31 @@ router.route('/').get(async (req, res) => {
     }
 })
 
+router
+    .route('/dashboard')
+    .get(async (req, res) => {
+        let data = req.session.user;
+        const trans_data = await transactionData.getAllTransactions(data.id);
+        const active_budget = await budgetData.get_all_active_users(data.id);
+        try {
+            res.status(200).render('dashboard', { data: data, transactions: trans_data, active_budget: active_budget });
+        }
+
+        catch (e) {
+            res.status(500).json({ error: e });
+        }
+    })
+router
+    .route('/logout').get(async (req, res) => {
+        //code here for GET
+        if (req.session.user) {
+            req.session.destroy();
+            res.redirect('/login')
+        } else {
+            res.status(403).render('logout');
+        }
+    });
+
 router.
     route('/login')
     .post(async (req, res) => {
@@ -70,26 +92,27 @@ router.
         const username = req.body.username.toLowerCase();
 
         const password = req.body.password;
-
+        let data = ''
         try {
-            const data = await login_reg_data.get_user_by_email(username);
-            if (!data) {
-                res.render('error', { error_occured: "Invalid username or password, please try again" })
-            }
-
-            if (!(await bcrypt.compare(password, data.password))) {
-                res.render('error', { error_occured: "Wrong username or password , please try again" });
-            }
-            // Only for initial testing
-            global.loggedInUserId = data._id.toString()
-            // Change it soon to store loggedin user information in session
-            res.render('dashboard', { data: data });
-
+            data = await login_reg_data.checkUser(username, password);
         }
         catch (e) {
             res.status(400).render('error', { error_occured: e });
         }
-
+        //storing user session data
+        if (!data) {
+            res.status(400).render('login', { error: "Invalid credentials used to log in" })
+        }
+        else {
+            global.loggedInUserId = data._id.toString()
+            req.session.user = { id: data._id.toString(), firstname: data.firstname, lastname: data.lastname, email: data.email }
+            if (req.session.user) {
+                res.redirect('/dashboard');
+            }
+            else {
+                res.status(400).render('login', { error: "Invalid credentials used to log in" })
+            }
+        }
     });
 
 export default router; 

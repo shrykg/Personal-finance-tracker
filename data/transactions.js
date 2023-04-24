@@ -9,11 +9,11 @@ const exportedMethods = {
         userId = validation.checkId(userId, 'User ID')
 
 
-     const transactionCollections = await transactions()
-     return await transactionCollections
-      .find({user_id: new ObjectId(userId)})
-      .toArray();
-},
+        const transactionCollections = await transactions()
+        return await transactionCollections
+            .find({ user_id: new ObjectId(userId) })
+            .toArray();
+    },
 
 
     async getTransaction(transactionId) {
@@ -21,46 +21,46 @@ const exportedMethods = {
 
 
 
-    const transactionCollections = await transactions()
-    const transaction = await transactionCollections.findOne({_id: new ObjectId(transactionId)})
-    if (!transaction) {
-        throw 'Error: Transaction not found'
-    }
-    return transaction
-},
+        const transactionCollections = await transactions()
+        const transaction = await transactionCollections.findOne({ _id: new ObjectId(transactionId) })
+        if (!transaction) {
+            throw 'Error: Transaction not found'
+        }
+        return transaction
+    },
 
-async addTransaction(userId,paymentType,amount,description,category,date) {
-    
-    console.log('start')
-    console.log(userId)
-    console.log(paymentType)
-    console.log(amount)
-    console.log(description)
-    console.log(category)
-    console.log(date)
-    // userId = validation.checkId(userId,'User ID')
-    // paymentType = validation.checkString(paymentType,'Payment Type')
-    // amount = validation.checkNumber(amount,'Amount')
-    // description = validation.checkString(description,'Description')
-    // category = validation.checkString(category,'Category')
-    // date = validation.checkString(date,'Date')
-    console.log('beforeeeee')
-    let newTransaction  = {
-        user_id: new ObjectId(userId) ,
-        transaction_date: date,
-        amount: amount,
-        description: description,
-        category: category,
-        paymentType: paymentType
-    }
-    console.log('afterrrrrr')
-    const transactionCollections = await transactions()
-    const newInsertInformation = await transactionCollections.insertOne(newTransaction)
-    const newId = newInsertInformation.insertedId;
-    console.log(newId)
-    console.log(newId.toString())
-    return await this.getTransaction(newId.toString())
-},
+    async addTransaction(userId, paymentType, amount, description, category, date) {
+
+        //console.log('start')
+        //console.log(userId)
+        //console.log(paymentType)
+        //console.log(amount)
+        //console.log(description)
+        //console.log(category)
+        //console.log(date)
+        // userId = validation.checkId(userId,'User ID')
+        // paymentType = validation.checkString(paymentType,'Payment Type')
+        // amount = validation.checkNumber(amount,'Amount')
+        // description = validation.checkString(description,'Description')
+        // category = validation.checkString(category,'Category')
+        // date = validation.checkString(date,'Date')
+        //console.log('beforeeeee')
+        let newTransaction = {
+            user_id: new ObjectId(userId),
+            transaction_date: date,
+            amount: amount,
+            description: description,
+            category: category,
+            paymentType: paymentType
+        }
+        //console.log('afterrrrrr')
+        const transactionCollections = await transactions()
+        const newInsertInformation = await transactionCollections.insertOne(newTransaction)
+        const newId = newInsertInformation.insertedId;
+        //console.log(newId)
+        //console.log(newId.toString())
+        return await this.getTransaction(newId.toString())
+    },
 
 
     async removeTransaction(transactionId) {
