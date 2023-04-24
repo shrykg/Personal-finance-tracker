@@ -3,8 +3,9 @@ import { budget } from '../config/mongoCollections.js'
 import { ObjectId } from 'mongodb';
 import { transactionData } from '../data/index.js';
 const create = async (user_id, category, budget_amount, start, end) => {
-  start = new Date().getDate();
-  end = new Date().getDate();
+  start = new Date(start)
+  end = new Date(end);
+
   //console.log(start)
   let newdata =
   {
@@ -19,7 +20,7 @@ const create = async (user_id, category, budget_amount, start, end) => {
   if (found) { throw "Already Exist category" }
   const Info = await getbudget.insertOne(newdata);
   if (!Info.acknowledged || !Info.insertedId) { throw "Could not add info" }
-  return "Data added!!"
+
 };
 
 const getAll = async (user_id) => {

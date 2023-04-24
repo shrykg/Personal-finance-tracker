@@ -9,6 +9,8 @@ const exportedMethods = {
         const user_collection = await users();
 
         return await user_collection.findOne({ 'email': email })
+        //console.log(data);
+
     },
 
     async get_user_by_id(id) {
