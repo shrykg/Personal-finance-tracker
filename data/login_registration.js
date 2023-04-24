@@ -19,7 +19,7 @@ const exportedMethods = {
     },
 
     async add_user(firstname, lastname, dob, email, new_password) {
-        console.log("I am in the function")
+        //console.log("I am in the function")
         firstname = validation.checkString(firstname, 'firstname');
         lastname = validation.checkString(lastname, 'lastname');
         email = validation.checkString(email, 'email');
@@ -59,10 +59,51 @@ const exportedMethods = {
 
         await user_collection.insertOne(data);
 
-        console.log('Data added')
+        //console.log('Data added')
+
+    },
+
+    async checkUser(emailAddress, password) {
+        // if (!emailAddress || !password || ) {
+        //   throw ("Error: You must provide both email address and password");
+        // }
+        // console.log(emailAddress);
+        // console.log(password);
+        // try {
+        //     validation.validateEmail(emailAddress);
+        // }
+        // catch (e) {
+        //     console.log(e);
+        // }
+        // try {
+        //     validation.validatePassword(password);
+        // }
+        // catch (e) {
+        //     console.log(e);
+        // }
+
+        const user_collection = await users();
+
+        try {
+            const user = await user_collection.findOne({ email: emailAddress })
+            //console.log(user);
+            if (!user) {
+                throw ("Either Email address or password is invalid");
+            }
+            if (!await bcrypt.compare(password, user.password)) {
+                throw ("Either Email address or password is invalid");
+            }
+            else {
+                //return { "firstName": user.firstName, "lastName": user.lastName, "emailAddress": user.emailAddress, "role": user.role }
+                return user;
+            }
+        }
+
+        catch (e) {
+            console.log(e);
+        }
 
     }
-
 }
 
 

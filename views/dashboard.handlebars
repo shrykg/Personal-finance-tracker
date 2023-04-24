@@ -1,7 +1,7 @@
 <body>
-
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script>
+  <link rel="stylesheet" type="text/css" href="/public/dashboard.css" />
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script>
     function drawChart() {
       // Define the data for the chart
       let data = new google.visualization.DataTable();
@@ -59,109 +59,64 @@
     google.charts.load('current', { packages: ['corechart'] });
     google.charts.setOnLoadCallback(drawChart_bar);
   </script>
-    <h1 style="text-align: center">Welcome {{data.firstname}} {{data.lastname}}</h1>
+  <h1 style="text-align: center">Welcome {{data.firstname}} {{data.lastname}}</h1>
+  <div id="chart_wrapper">
     <div id="chart_div_piechart" style="width: 900px; height: 500px;">Charts</div>
     <div id="chart_div_barchart" style="width: 900px; height: 500px;">Charts</div>
+  </div>
+  <button type="button" onclick="window.location.href='/transactions/new'">Add a new Transaction</button>
+  <button type="button " onclick="window.location.href='/budget/new'">Add a new Budget</button>
+  <button type="button " onclick="window.location.href='/budget/seeAllBudgets'">View All Budgets</button>
+  <a href="charts"><button type="button">View Detailed Charts</button></a>
+  <button type="button">Upload excel</button>
+  <button type="button">Settings</button>
+  <a href="logout" id="logout_link">Logout</a>
+  <h2>Budgets Set</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Category</th>
+        <th>Amount Set</th>
+        <th>Amount Remaining</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each active_budget}}
+      <tr>
+        <td>{{start_date}}</td>
+        <td>{{end_date}}</td>
+        <td>{{category}}</td>
+        <td>{{budget_amount}}</td>
+        <td>{{budget_amount}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
 
-    <style>
-    #chart_div_piechart, #chart_div_barchart {
-      display: inline-block;
-      width: 50%;
-    }
-    </style>
-    
-
-
-    <button type="button" onclick="window.location.href='/transactions/new'">Add a new Transaction</button>
-    <button type="button " onclick="window.location.href='/budget/new'">Add a new Budget</button> 
-    <button type="button " onclick="window.location.href='/budget/seeAllBudgets'">View All Budgets</button> 
-    <a href="charts"><button type="button">View Detailed Charts</button></a>
-    <button type="button">Upload excel</button>
-    <button type="button">Settings</button>
-    <h2> Transaction history</h2>
-    <!-- Aishwariya and Shreyak please add the latest 10 transactions from the database here  -->
-    {{!-- <div class="history">
-
-       <ol>
-			{{#each results}}
-			<li>
-				Date:{{date}} catagory: {{catagory}} Amount : {{amount}} 
-			</li>
-			{{/each}}
-		</ol>
-    </div> --}}
-
-    <style>
-      html, body, table {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font-family: sans-serif;
-  vertical-align: baseline;
-}
-
-/* Style the table */
-table {
-  border-collapse: collapse;
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-/* Style the table headers */
-th {
-  background-color: #f5f5f5;
-  font-weight: bold;
-  text-align: left;
-  padding: 8px;
-}
-
-/* Style the table cells */
-td {
-  padding: 8px;
-  border-bottom: 1px solid #ddd;
-}
-
-/* Style alternating rows */
-tbody tr:nth-child(even) {
-  background-color: #f5f5f5;
-}
-
-/* Style the page title */
-h1 {
-  text-align: center;
-  margin-top: 24px;
-  margin-bottom: 16px;
-}
-
-/* Style the page wrapper */
-body {
-  padding: 16px;
-}
-    </style>
-
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Description</th>
-          <th>Category</th>
-          <th>Amount</th>
-          <th>Type</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each transactions}}
-        <tr>
-          <td>{{transaction_date}}</td>
-          <td>{{description}}</td>
-          <td>{{category}}</td>
-          <td>{{amount}}</td>
-          <td>{{paymentType}}</td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
+  <h2> Transaction history</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Amount</th>
+        <th>Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each transactions}}
+      <tr>
+        <td>{{transaction_date}}</td>
+        <td>{{description}}</td>
+        <td>{{category}}</td>
+        <td>{{amount}}</td>
+        <td>{{paymentType}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
 
 </body>

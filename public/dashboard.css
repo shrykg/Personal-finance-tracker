@@ -1,0 +1,89 @@
+html,
+body,
+table {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font-family: sans-serif;
+    vertical-align: baseline;
+}
+
+/* Style the table */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Style the table headers */
+th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    text-align: left;
+    padding: 8px;
+}
+
+/* Style the table cells */
+td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Style alternating rows */
+tbody tr:nth-child(even) {
+    background-color: #f5f5f5;
+}
+
+/* Style the page title */
+h1 {
+    text-align: center;
+    margin-top: 24px;
+    margin-bottom: 16px;
+}
+
+/* Style the page wrapper */
+body {
+    padding: 16px;
+}
+
+
+h2 {
+    text-align: center;
+    margin-top: 24px;
+    margin-bottom: 16px;
+}
+
+
+#chart-wrapper {
+    display: inline;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* optional */
+}
+
+#chart_div_piechart,
+#chart_div_barchart {
+    /* Add styling for the charts here */
+    margin: 0%;
+    /* optional: add some space between the charts */
+    max-width: 100%;
+    align-items: center;
+    display: inline-block;
+    /* Make the chart element responsive */
+}
+
+@media only screen and (max-width: 768px) {
+    #chart-wrapper {
+        flex-direction: column;
+        /* Stack the charts vertically on small screens */
+    }
+
+    #chart_div_piechart,
+    #chart_div_barchart {
+        margin: 10px 0;
+        /* Add some space between the charts */
+    }
+}

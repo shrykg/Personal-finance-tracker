@@ -2,7 +2,6 @@ import log_in_routes from './log_in_registration.js';
 
 
 import budgetRoutes from './budget.js'
-
 import transactionRoutes from './transactions.js';
 import chartRoutes from './charts.js';
 
@@ -12,10 +11,12 @@ const constructorMethod = (app) => {
     app.use('/', log_in_routes);
     app.use('/login', log_in_routes)
     app.use('/registration', log_in_routes)
+    app.use('/dashboard', log_in_routes)
     app.use('error', log_in_routes)
     app.use('/transactions', transactionRoutes)
 
-    app.use('/budget',budgetRoutes)
+
+    app.use('/budget', budgetRoutes)
 
     app.use('/', chartRoutes)
 
