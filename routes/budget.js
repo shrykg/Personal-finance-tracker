@@ -4,6 +4,9 @@ import budgetDataFunctions from '../data/budget.js';
 import { transactionData } from '../data/index.js';
 router.route('/new').get(async (req, res) => {
   // Render add new transcation HTML form
+  if (!req.session.user) {
+    res.redirect('/login');
+  }
   res.render('addbudget')
 })
   .post(async (req, res) => {
