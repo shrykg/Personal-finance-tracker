@@ -63,17 +63,48 @@ router
     .route('/dashboard')
     .get(async (req, res) => {
         let data = req.session.user;
+        let trans_data = '';
+        let active_budget = '';
         console.log(data);
-        const trans_data = await transactionData.getAllTransactions(data.id);
-        const active_budget = await budgetData.get_all_active_users(data.id);
-        console.log(active_budget);
         try {
-            res.status(200).render('dashboard', { data: data, transactions: trans_data, active_budget: active_budget });
+            trans_data = await transactionData.getAllTransactions(data.id);
+        }
+        catch (e) {
+
+        }
+        try {
+            active_budget = await budgetData.get_all_active_users(data.id);
+        }
+        catch (e) {
+
         }
 
-        catch (e) {
-            res.status(500).json({ error: e });
+        // try {
+        //     let amount_remaining = await budgetData.amount_remaining(data.id);
+        //     console.log(amount_remaining)
+        // }
+
+        // catch (e) {
+
+        // }
+        //console.log(active_budget);
+        //needs work
+        // let amount_remaining = await budgetData.amount_remaining(data.id);
+        // console.log(amount_remaining)
+        if (data) {
+            try {
+                res.status(200).render('dashboard', { data: data, transactions: trans_data, active_budget: active_budget, amount_remaining: amount_remaining });
+            }
+
+            catch (e) {
+                res.status(500).json({ error: e });
+            }
         }
+
+        else {
+            res.redirect('/login');
+        }
+
     })
 router
     .route('/logout').get(async (req, res) => {
@@ -85,7 +116,16 @@ router
             res.status(403).render('login');
         }
     });
-
+router.
+    route('/login')
+    .get(async (req, res) => {
+        try {
+            res.status(200).render('login');
+        }
+        catch (e) {
+            res.status.json({ error: e })
+        }
+    });
 router.
     route('/login')
     .post(async (req, res) => {

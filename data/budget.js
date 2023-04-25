@@ -2,9 +2,11 @@
 import { budget } from '../config/mongoCollections.js'
 import { ObjectId } from 'mongodb';
 import { transactionData } from '../data/index.js';
+import { transactions } from '../config/mongoCollections.js';
+
 const create = async (user_id, category, budget_amount, start, end) => {
-  start = new Date(start)
-  end = new Date(end);
+  start = new Date(start).getDate(start)
+  end = new Date(end).getDate(start);
 
   //console.log(start)
   let newdata =
@@ -110,9 +112,62 @@ const amount_aggregate = async (user_id) => {
     acc[key].aggregate += value;
     return acc;
   }, {});
-
-
   return Object.values(result);
-}
-const budgetDataFunctions = { create, getAll, get, remove, update, get_all_active_users, amount_aggregate }
+};
+
+const amount_remaining = async (user_id) => {
+  let category = ["groceries", "shopping", "eating_out", "bills", "transportation", "entertainment", "travel", "healthcare", "education", "miscellaneous"]
+  //let budget_array = []
+  const transaction_collection = await transactions();
+  let budget_data = await get_all_active_users(user_id);
+  // console.log(budget_data[0].category);
+  // console.log(budget_data.lengh)
+  let categories = [];
+  for (let i = 0; i < budget_data.length; i++) {
+    categories.push({ category: budget_data[i].category, start_date: budget_data[i].start_date, end_date: budget_data[i].end_date, amount: budget_data[i].amount });
+  }
+  console.log(categories);
+  //array will look like this [{category: bills , start_date : something , end_date: something} , {category : shopping}]
+  let transaction_array = [];
+  console.log('before transactions')
+  for (let i = 0; i < categories.length; i++) {
+    console.log('Entered loop')
+    //let x = await transaction_collection.find({ user_id: user_id }, { category: categories[i].category }, { transaction_date: { $gte: new Date(categories[i].start_date), $lt: new Date(categories[i].end_date) } }).toArray()
+    let x = await transaction_collection.aggregate([
+      {
+        $match: {
+          user_id: new ObjectId(user_id),
+          category: categories[i].category,
+          transaction_date: {
+            $gte: new Date(categories[i].start_date),
+            $lte: new Date(categories[i].end_date)
+          }
+        }
+      },
+      {
+        $group: {
+          _id: '$_id',
+          total: {
+            $sum: '$amount'
+          }
+        }
+      }
+    ]).toArray();
+
+    console.log(x);
+    console.log('added transaction' + " " + i)
+    transaction_array.push({ category: categories[i].category, transaction_sum: x });
+  }
+  console.log(transaction_array[0].transaction_sum.amount);
+  let final_array = [];
+  //return transaction_array
+
+  for (let i = 0; i < transaction_array.length; i++) {
+    final_array.push({ category: transaction_array[i].category, amount_remaining: budget_data[i].amount - transaction_array[i].transaction_sum.total })
+  }
+
+  return final_array;
+};
+
+const budgetDataFunctions = { create, getAll, get, remove, update, get_all_active_users, amount_aggregate, amount_remaining }
 export default budgetDataFunctions;
