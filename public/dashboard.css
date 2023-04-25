@@ -1,89 +1,80 @@
-html,
-body,
-table {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font-family: sans-serif;
-    vertical-align: baseline;
+/* Center align the title */
+h1 {
+    text-align: center;
+}
+
+/* Style the table headers */
+th {
+    text-align: left;
+    font-weight: bold;
+    padding: 10px 5px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+}
+
+/* Style the table cells */
+td {
+    padding: 10px 5px;
+    border: 1px solid #ddd;
+}
+
+/* Add some spacing to the buttons */
+button {
+    margin: 5px;
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Change the style of the last button */
+button:last-child {
+    background-color: #f44336;
+}
+
+/* Style the wrapper for the charts */
+#chart_wrapper {
+    display: flex;
+    justify-content: space-around;
+}
+
+/* Style the individual chart divs */
+#chart_div_piechart,
+#chart_div_barchart {
+    width: 900px;
+    height: 500px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
 }
 
 /* Style the table */
 table {
     border-collapse: collapse;
+    margin-bottom: 20px;
     width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
 }
 
-/* Style the table headers */
-th {
+/* Style the odd table rows */
+tbody tr:nth-child(odd) {
     background-color: #f5f5f5;
+}
+
+/* Style the table footer */
+tfoot {
     font-weight: bold;
-    text-align: left;
-    padding: 8px;
+    border-top: 2px solid #ddd;
 }
 
-/* Style the table cells */
-td {
-    padding: 8px;
-    border-bottom: 1px solid #ddd;
+/* Style the "Budgets Set" section */
+h2:first-of-type {
+    margin-top: 40px;
+    margin-bottom: 10px;
 }
 
-/* Style alternating rows */
-tbody tr:nth-child(even) {
-    background-color: #f5f5f5;
-}
-
-/* Style the page title */
-h1 {
-    text-align: center;
-    margin-top: 24px;
-    margin-bottom: 16px;
-}
-
-/* Style the page wrapper */
-body {
-    padding: 16px;
-}
-
-
-h2 {
-    text-align: center;
-    margin-top: 24px;
-    margin-bottom: 16px;
-}
-
-
-#chart-wrapper {
-    display: inline;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    /* optional */
-}
-
-#chart_div_piechart,
-#chart_div_barchart {
-    /* Add styling for the charts here */
-    margin: 0%;
-    /* optional: add some space between the charts */
-    max-width: 100%;
-    align-items: center;
-    display: inline-block;
-    /* Make the chart element responsive */
-}
-
-@media only screen and (max-width: 768px) {
-    #chart-wrapper {
-        flex-direction: column;
-        /* Stack the charts vertically on small screens */
-    }
-
-    #chart_div_piechart,
-    #chart_div_barchart {
-        margin: 10px 0;
-        /* Add some space between the charts */
-    }
+/* Style the "Transaction history" section */
+h2:last-of-type {
+    margin-top: 40px;
+    margin-bottom: 10px;
 }
