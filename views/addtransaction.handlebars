@@ -20,98 +20,101 @@
   <button type="submit">Submit</button>
 </form> --}}
 <style>
-form {
-        max-width: 500px;
-        margin: 0 auto;
-        font-family: Arial, sans-serif;
-      }
+  form {
+    max-width: 500px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+  }
 
-      label {
-        display: block;
-        margin-bottom: 5px;
-      }
-      h1{
-        text-align: center;
-      }
-      input[type="text"],
-      input[type="number"],
-      select {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        margin-bottom: 15px;
-        box-sizing: border-box;
-      }
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
 
-      button[type="submit"] {
-        background-color: #4CAF50;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
+  h1 {
+    text-align: center;
+  }
 
-      button[type="submit"]:hover {
-        background-color: #3e8e41;
-      }
+  input[type="text"],
+  input[type="number"],
+  select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+  }
 
-      .form-group {
-        margin-bottom: 15px;
-      }
+  button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
 
-      .form-group:last-child {
-        margin-bottom: 0;
-      }
+  button:hover {
+    background-color: #3e8e41;
+  }
 
-      .form-group label {
-        font-weight: bold;
-        margin-bottom: 5px;
-      }
-    </style>
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+</style>
 <form action="/transactions" method="POST">
-      <div class="form-group">
-        <label for="description">Description</label>
-        <input type="text" id="description" name="description" placeholder="Enter description" required>
-      </div>
+  <div class="form-group">
+    <label for="description">Description</label>
+    <input type="text" id="description" name="description" placeholder="Enter description" required>
+  </div>
 
-      <div class="form-group">
-        <label for="category">Category</label>
-        <select id="category" name="category" required>
-          <option value="">Select category</option>
-          <option value="groceries">Groceries</option>
-          <option value="shopping">Shopping</option>
-          <option value="eating_out">Eating Out</option>
-          <option value="bills">Bills</option>
-          <option value="transportation">Transportation</option>
-          <option value="entertainment">Entertainment</option>
-          <option value="travel">Travel</option>
-          <option value="healthcare">Healthcare</option>
-          <option value="education">Education</option>
-          <option value="miscellaneous">Miscellaneous</option>
-        </select>
-      </div>
+  <div class="form-group">
+    <label for="category">Category</label>
+    <select id="category" name="category" required>
+      <option value="">Select category</option>
+      <option value="groceries">Groceries</option>
+      <option value="shopping">Shopping</option>
+      <option value="eating_out">Eating Out</option>
+      <option value="bills">Bills</option>
+      <option value="transportation">Transportation</option>
+      <option value="entertainment">Entertainment</option>
+      <option value="travel">Travel</option>
+      <option value="healthcare">Healthcare</option>
+      <option value="education">Education</option>
+      <option value="miscellaneous">Miscellaneous</option>
+    </select>
+  </div>
 
-      <div class="form-group">
-        <label for="amount">Amount</label>
-        <input type="number" id="amount" name="amount" placeholder="Enter amount" step="0.01" required>
-      </div>
+  <div class="form-group">
+    <label for="amount">Amount</label>
+    <input type="number" id="amount" name="amount" placeholder="Enter amount" step="0.01" required>
+  </div>
 
-      <div class="form-group">
-        <label for="transaction_date">Date</label>
-        <input type="date" id="transaction_date" name="transaction_date" required>
-      </div>
+  <div class="form-group">
+    <label for="transaction_date">Date</label>
+    <input type="date" id="transaction_date" name="transaction_date" required>
+  </div>
 
-      <div class="form-group">
-        <label for="paymentType">Type</label>
-        <select id="paymentType" name="paymentType" required>
-          <option value="">Select Type</option>
-          <option value="Cash">Cash</option>
-          <option value="Checking">Checking</option>
-          <option value="Pending">Pending</option>
-        </select>
-      </div>
+  <div class="form-group">
+    <label for="paymentType">Type</label>
+    <select id="paymentType" name="paymentType" required>
+      <option value="">Select Type</option>
+      <option value="Cash">Cash</option>
+      <option value="Checking">Checking</option>
+      <option value="Pending">Pending</option>
+    </select>
+  </div>
 
-      <button type="submit">Add Transaction</button>
-    </form>
+  <button type="submit">Add Transaction</button>
+  <button onclick=window.location.href="/dashboard">Back to Dashboard</button>
+</form>

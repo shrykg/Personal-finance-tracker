@@ -47,7 +47,7 @@ const exportedMethods = {
         //console.log('beforeeeee')
         let newTransaction = {
             user_id: new ObjectId(userId),
-            transaction_date: date,
+            transaction_date: new Date(date),
             amount: amount,
             description: description,
             category: category,
