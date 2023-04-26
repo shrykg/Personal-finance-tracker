@@ -1,12 +1,14 @@
- <section>
-    <h1>{{title}}</h1>
+<section>
+	<h1>{{title}}</h1>
 	<h2>See all Transaction</h2>
-    
-        <ol>
-			{{#each transaction}}
-			<li>
-				All details:{{catagory}} {{amount}} {{date}}
-			</li>
-			{{/each}}
-		</ol>
-        </section>
+
+	<ol>
+		{{#each transaction}}
+		<li>
+			All details:{{catagory}} {{amount}} {{date}}
+		</li>
+		{{/each}}
+	</ol>
+</section>
+
+<button onclick=window.location.href="/dashboard">Back to Dashboard</button>

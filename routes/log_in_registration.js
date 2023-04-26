@@ -79,8 +79,8 @@ router
 
         }
 
-        console.log(trans_data);
-        console.log(active_budget)
+        // console.log(trans_data);
+        // console.log(active_budget)
 
 
         // try {
@@ -93,11 +93,11 @@ router
         // }
         //console.log(active_budget);
         //needs work
-        // let amount_remaining = await budgetData.amount_remaining(data.id);
-        // console.log(amount_remaining)
+        let amount_remaining = await budgetData.amount_remaining(data.id);
+        console.log(amount_remaining)
         if (data) {
             try {
-                res.status(200).render('dashboard', { data: data, transactions: trans_data, active_budget: active_budget });
+                res.status(200).render('dashboard', { data: data, transactions: trans_data, active_budget: active_budget, amount_remaining: amount_remaining });
             }
 
             catch (e) {

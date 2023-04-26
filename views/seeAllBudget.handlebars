@@ -1,73 +1,91 @@
 <h1>Budgets</h1>
+
 <body>
-<style>
-      html, body, table {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font-family: sans-serif;
-  vertical-align: baseline;
-}
+  <style>
+    html,
+    body,
+    table {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      font-size: 100%;
+      font-family: sans-serif;
+      vertical-align: baseline;
+    }
 
-/* Style the table */
-table {
-  border-collapse: collapse;
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-}
+    /* Style the table */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
 
-/* Style the table headers */
-th {
-  background-color: #f5f5f5;
-  font-weight: bold;
-  text-align: left;
-  padding: 8px;
-}
+    /* Style the table headers */
+    th {
+      background-color: #f5f5f5;
+      font-weight: bold;
+      text-align: left;
+      padding: 8px;
+    }
 
-/* Style the table cells */
-td {
-  padding: 8px;
-  border-bottom: 1px solid #ddd;
-}
+    /* Style the table cells */
+    td {
+      padding: 8px;
+      border-bottom: 1px solid #ddd;
+    }
 
-/* Style alternating rows */
-tbody tr:nth-child(even) {
-  background-color: #f5f5f5;
-}
+    /* Style alternating rows */
+    tbody tr:nth-child(even) {
+      background-color: #f5f5f5;
+    }
 
-/* Style the page title */
-h1 {
-  text-align: center;
-  margin-top: 24px;
-  margin-bottom: 16px;
-}
+    /* Style the page title */
+    h1 {
+      text-align: center;
+      margin-top: 24px;
+      margin-bottom: 16px;
+    }
 
-/* Style the page wrapper */
-body {
-  padding: 16px;
-}
-    </style>
+    /* Style the page wrapper */
+    body {
+      padding: 16px;
+    }
 
-    <table>
-      <thead>
-        <tr>
-          <th>Date Started</th>
-          <th>Date Valid till</th>
-          <th>category</th>
-          <th>Amount</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each budget}}
-        <tr>
-          <td>{{start_date}}</td>
-          <td>{{end_date}}</td>
-          <td>{{category}}</td>
-          <td>{{budget_amount}}</td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #3e8e41;
+    }
+  </style>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Date Started</th>
+        <th>Date Valid till</th>
+        <th>category</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each budget}}
+      <tr>
+        <td>{{start_date}}</td>
+        <td>{{end_date}}</td>
+        <td>{{category}}</td>
+        <td>{{budget_amount}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  <button onclick=window.location.href="/dashboard">Back to Dashboard</button>
 </body>
