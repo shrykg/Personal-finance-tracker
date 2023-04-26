@@ -5,27 +5,55 @@ import validation from '../validation.js'
 
 const exportedMethods = {
 
+    async getLatestTransactions(userId) {
+        userId = validation.checkId(userId, 'User ID')
+        const transactionCollections = await transactions()
+        const result = await transactionCollections
+            .find({ user_id: new ObjectId(userId) })
+            .sort({ transaction_date: -1 })
+            .limit(10)
+            .toArray();
+    
+        const transformedResult = result.map((transaction) => {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
+            return {
+                ...transaction,
+                transaction_date: formattedDate
+            };
+        });
+    
+        return transformedResult;
+    },
+
     async getAllTransactions(userId) {
         userId = validation.checkId(userId, 'User ID')
-
-
         const transactionCollections = await transactions()
-        return await transactionCollections
-            .find({ user_id: new ObjectId(userId) })
-            .toArray();
+        var result = await transactionCollections
+        .find({ user_id: new ObjectId(userId) })
+        .toArray();
+        var transformedResult = result.map((transaction) => {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
+            return {
+                ...transaction,
+                transaction_date: formattedDate
+              };
+        })
+        return transformedResult
     },
 
 
     async getTransaction(transactionId) {
         transactionId = validation.checkId(transactionId, 'Transaction ID')
-
-
-
         const transactionCollections = await transactions()
         const transaction = await transactionCollections.findOne({ _id: new ObjectId(transactionId) })
         if (!transaction) {
             throw 'Error: Transaction not found'
         }
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
+        transaction.transaction_date = formattedDate
         return transaction
     },
 

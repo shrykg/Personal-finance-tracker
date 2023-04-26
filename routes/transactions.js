@@ -26,7 +26,7 @@ router
     const transactionPostData = req.body;
     transactionPostData['user_id'] = global.loggedInUserId
     transactionPostData['amount'] = Number(transactionPostData.amount)
-    //console.log(transactionPostData)
+    console.log(transactionPostData)
 
 
     let errors = [];
@@ -88,13 +88,11 @@ router
       const { user_id, paymentType, amount, description, category, transaction_date } = transactionPostData;
 
       const newTransaction = await transactionData.addTransaction(user_id, paymentType, amount, description, category, transaction_date)
-      //   const newPost = await postData.addPost(title, body, posterId, tags);
-      //   res.redirect(`/posts/${newPost._id}`);
-      // redirect to home with lastest transactions
-      const alltransactions = await transactionData.getAllTransactions(global.loggedInUserId)
+      
+      const latestTransactions = await transactionData.getLatestTransactions(global.loggedInUserId)
       //console.log('_____________')
-      //console.log(alltransactions)
-      res.render('dashboard', { transactions: alltransactions })
+      console.log(latestTransactions)
+      res.redirect('/dashboard')
     } catch (e) {
       res.status(500).json({ error: e });
     }

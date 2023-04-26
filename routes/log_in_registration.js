@@ -67,7 +67,7 @@ router
         let active_budget = '';
         console.log(data);
         try {
-            trans_data = await transactionData.getAllTransactions(data.id);
+            trans_data = await transactionData.getLatestTransactions(data.id);
         }
         catch (e) {
 
