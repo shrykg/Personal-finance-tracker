@@ -5,8 +5,8 @@ import { transactionData } from '../data/index.js';
 import { transactions } from '../config/mongoCollections.js';
 
 const create = async (user_id, category, budget_amount, start, end) => {
-  start = new Date(start).getDate(start)
-  end = new Date(end).getDate(start);
+  start = new Date(start)
+  end = new Date(end);
 
   //console.log(start)
   let newdata =
@@ -124,7 +124,7 @@ const amount_remaining = async (user_id) => {
   // console.log(budget_data.lengh)
   let categories = [];
   for (let i = 0; i < budget_data.length; i++) {
-    categories.push({ category: budget_data[i].category, start_date: budget_data[i].start_date, end_date: budget_data[i].end_date, amount: budget_data[i].amount });
+    categories.push({ category: budget_data[i].category, start_date: budget_data[i].start_date, end_date: budget_data[i].end_date, amount: budget_data[i].budget_amount });
   }
   console.log(categories);
   //array will look like this [{category: bills , start_date : something , end_date: something} , {category : shopping}]
@@ -158,12 +158,20 @@ const amount_remaining = async (user_id) => {
     console.log('added transaction' + " " + i)
     transaction_array.push({ category: categories[i].category, transaction_sum: x });
   }
-  console.log(transaction_array[0].transaction_sum.amount);
+  //console.log(transaction_array[1].transaction_sum[0]);
   let final_array = [];
   //return transaction_array
 
   for (let i = 0; i < transaction_array.length; i++) {
-    final_array.push({ category: transaction_array[i].category, amount_remaining: budget_data[i].amount - transaction_array[i].transaction_sum.total })
+    if (transaction_array[i].transaction_sum[0]) {
+
+      // console.log(typeof budget_data[i].amount)
+      // console.log(budget_data[i].amount)
+      // console.log(typeof transaction_array[i].transaction_sum[0].total)
+      final_array.push({ category: transaction_array[i].category, amount_remaining: categories[i].amount - transaction_array[i].transaction_sum[0].total })
+    }
+    // console.log(transaction_array[i].transaction_sum[0].total)
+    // final_array.push({ category: transaction_array[i].category, amount_remaining: budget_data[i].amount - transaction_array[i].transaction_sum[0].total })
   }
 
   return final_array;

@@ -89,7 +89,14 @@
         <td>{{end_date}}</td>
         <td>{{category}}</td>
         <td>{{budget_amount}}</td>
-        <td>{{budget_amount}}</td>
+        {{!-- {{#if (eq category amount_remaining.category)}}
+        {{anotherObject.amountRemaining}}
+        {{else}}
+        {{amountRemaining}}
+        {{/if}} --}}
+        {{#each amount_remaining}}
+        <td>{{total}}</td>
+        {{/each}}
       </tr>
       {{/each}}
     </tbody>
