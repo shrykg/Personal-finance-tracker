@@ -91,7 +91,9 @@ router
       
       const latestTransactions = await transactionData.getLatestTransactions(global.loggedInUserId)
       //console.log('_____________')
+
       console.log(latestTransactions)
+
       res.redirect('/dashboard')
     } catch (e) {
       res.status(500).json({ error: e });

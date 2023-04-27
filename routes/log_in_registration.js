@@ -65,6 +65,7 @@ router
         let data = req.session.user;
         let trans_data = '';
         let active_budget = '';
+        let amount_remaining = '';
         console.log(data);
         try {
             trans_data = await transactionData.getLatestTransactions(data.id);
@@ -80,7 +81,6 @@ router
         }
 
         // console.log(trans_data);
-        // console.log(active_budget)
 
 
         // try {
@@ -93,11 +93,26 @@ router
         // }
         //console.log(active_budget);
         //needs work
-        let amount_remaining = await budgetData.amount_remaining(data.id);
-        console.log(amount_remaining)
+        try {
+            amount_remaining = await budgetData.amount_remaining(data.id);
+            for (let j = 0; j < active_budget.length; j++) {
+                active_budget[j].amount_remaining = active_budget[j].budget_amount
+            }
+
+            for (let i = 0; i < amount_remaining.length; i++) {
+                for (let j = 0; j < active_budget.length; j++) {
+                    if (amount_remaining[i].category === active_budget[j].category) {
+                        active_budget[j].amount_remaining = amount_remaining[i].amount_remaining
+                    }
+                }
+            }
+        }
+
+        catch (e) { }
+
         if (data) {
             try {
-                res.status(200).render('dashboard', { data: data, transactions: trans_data, active_budget: active_budget, amount_remaining: amount_remaining });
+                res.status(200).render('dashboard', { data: data, transactions: trans_data, active_budget: active_budget });
             }
 
             catch (e) {
