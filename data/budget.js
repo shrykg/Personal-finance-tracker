@@ -8,7 +8,6 @@ const create = async (user_id, category, budget_amount, start, end) => {
   start = new Date(start)
   end = new Date(end);
 
-  //console.log(start)
   let newdata =
   {
     user_id: user_id,
@@ -35,23 +34,24 @@ const getAll = async (user_id) => {
   return alldata;
 };
 
-const get = async (user_id) => {
-  user_id = user_id.trim();
+const get = async (budget_id) => {
+  budget_id = budget_id.trim();
   const getbudget = await budget();
-  let found = await getbudget.findOne({ user_id: new ObjectId(user_id) });
+  let found = await getbudget.findOne({_id: new ObjectId(budget_id) });
   if (found === null) { throw "This id is not present in database" }
-  found.user_id = found.user_id.toString();
+  found._id = found._id.toString();
   return found
 };
 
-const remove = async (user_id) => {
-  user_id = user_id.trim();
+const remove = async (budget_id) => {
+  budget_id = budget_id.trim();
   const getbudget = await budget();
-  let deldata = await getbudget.findOneAndDelete({ user_id: new ObjectId(user_id) });
+  const ele=await get(budget_id);
+  let deldata = await getbudget.findOneAndDelete({_id: new ObjectId(budget_id) });
   if (deldata.lastErrorObject.n === 0) {
-    throw `"No data with id : ${user_id}"`;
+    throw `"No data with id : ${budget_id}"`;
   }
-  return { "user_Id": deldata.value.user_id.toString(), "deleted": true }
+  return { deltedBudget: true }
 };
 
 const update = async (user_id, category, budget_amount, start, end) => {
