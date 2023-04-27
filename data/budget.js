@@ -126,12 +126,12 @@ const amount_remaining = async (user_id) => {
   for (let i = 0; i < budget_data.length; i++) {
     categories.push({ category: budget_data[i].category, start_date: budget_data[i].start_date, end_date: budget_data[i].end_date, amount: budget_data[i].budget_amount });
   }
-  console.log(categories);
+  //console.log(categories);
   //array will look like this [{category: bills , start_date : something , end_date: something} , {category : shopping}]
   let transaction_array = [];
-  console.log('before transactions')
+  //console.log('before transactions')
   for (let i = 0; i < categories.length; i++) {
-    console.log('Entered loop')
+    //console.log('Entered loop')
     //let x = await transaction_collection.find({ user_id: user_id }, { category: categories[i].category }, { transaction_date: { $gte: new Date(categories[i].start_date), $lt: new Date(categories[i].end_date) } }).toArray()
     let x = await transaction_collection.aggregate([
       {
@@ -154,8 +154,8 @@ const amount_remaining = async (user_id) => {
       }
     ]).toArray();
 
-    console.log(x);
-    console.log('added transaction' + " " + i)
+    // console.log(x);
+    // console.log('added transaction' + " " + i)
     transaction_array.push({ category: categories[i].category, transaction_sum: x });
   }
   //console.log(transaction_array[1].transaction_sum[0]);

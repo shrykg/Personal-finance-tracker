@@ -94,7 +94,7 @@ router
       const alltransactions = await transactionData.getAllTransactions(global.loggedInUserId)
       //console.log('_____________')
       //console.log(alltransactions)
-      res.render('dashboard', { transactions: alltransactions })
+      res.redirect('/dashboard')
     } catch (e) {
       res.status(500).json({ error: e });
     }
