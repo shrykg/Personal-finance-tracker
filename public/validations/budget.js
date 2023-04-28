@@ -11,10 +11,9 @@ if(budget)
 
         let amount = Number(document.getElementById("amount").value);
         let category = document.getElementById("category").value.trim();
-        let start_Date= new Date(document.getElementById("start_Date").value);
-        let end_Date= new Date(document.getElementById("end_Date").value);
-        console.log(typeof start_Date)
-        console.log(typeof end_Date)
+        let start_Date= document.getElementById("start_Date").value
+        let end_Date=document.getElementById("end_Date").value
+    
         if (isNaN(amount) || amount<=0) { err.push("Please enter a valid amount.") }
         let validCategories = [
             "groceries",
@@ -29,8 +28,6 @@ if(budget)
             "miscellaneous"
           ];
         if (!validCategories.includes(category.toLowerCase())) { err.push("Please select a valid category.");}
-           
-    
         if(err.length>0)
         {
             errorDiv.hidden=false
