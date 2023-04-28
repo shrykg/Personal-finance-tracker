@@ -37,12 +37,7 @@ router.route('/new').get(async (req, res) => {
     //   res.status(500).json({ error: e });
     // }
   })
-router.route('/seeAllBudgets').get(async (req, res) => {
-  const result = await budgetDataFunctions.getAll(global.loggedInUserId)
-  //console.log(result);
-  res.render('seeAllBudget', { budget: result })
 
-})
 router.route('/seeAllBudgets').get(async (req, res) => {
   const result = await budgetDataFunctions.getAll(global.loggedInUserId)
   //console.log(result);
