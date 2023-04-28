@@ -21,8 +21,7 @@ router.route('/new').get(async (req, res) => {
       //console.log(result);
     }
     catch (e) {
-      res.status(500).json({ error: e });
-
+      res.render('error',{error_occured:e})
     }
 
     // try {
@@ -38,11 +37,19 @@ router.route('/new').get(async (req, res) => {
     //   res.status(500).json({ error: e });
     // }
   })
+
 router.route('/seeAllBudgets').get(async (req, res) => {
   const result = await budgetDataFunctions.getAll(global.loggedInUserId)
   //console.log(result);
   res.render('seeAllBudget', { budget: result })
 
 })
+
+router.route('/remove/:id').post(async(req,res)=>{
+let budget_id=req.params.id.trim()
+const remove=await budgetDataFunctions.remove(budget_id);
+console.log(remove);
+res.redirect('/budget/seeAllBudgets'); 
+}) 
 
 export default router
