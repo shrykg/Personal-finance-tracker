@@ -10,18 +10,6 @@ router.route('/new').get(async (req, res) => {
   }
   res.render('addtransaction')
 })
-
-router
-  .route('/')
-  .get(async (req, res) => {
-    try {
-      const budgetList = await transactionData.getAllTransactions(global.loggedInUserId)
-      //   res.render('posts/index', {posts: postList});
-      // render the html for top 10 transactions for the user
-    } catch (e) {
-      res.status(500).json({ error: e });
-    }
-  })
   .post(async (req, res) => {
     const transactionPostData = req.body;
     transactionPostData['user_id'] = global.loggedInUserId

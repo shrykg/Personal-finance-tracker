@@ -3,8 +3,13 @@ import { budget } from '../config/mongoCollections.js'
 import { ObjectId } from 'mongodb';
 import { transactionData } from '../data/index.js';
 import { transactions } from '../config/mongoCollections.js';
+import validation from '../validation.js';
 
 const create = async (user_id, category, budget_amount, start, end) => {
+
+
+validation.checkBudget(category,budget_amount,start,end);
+  
   start = new Date(start)
   end = new Date(end);
 
