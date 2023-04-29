@@ -80,7 +80,7 @@ router
 
         }
 
-        // console.log(trans_data);
+        console.log(trans_data);
 
 
         // try {
