@@ -1,72 +1,27 @@
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
+<head>
+  <title>Charts</title>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript" src="/public/charts/charts.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {packages: ['corechart']});
+    google.charts.setOnLoadCallback(drawCharts);
+  </script>
+</head>
 <body>
-  <script>
-    function drawChart() {
-      // Define the data for the chart
-      let data = new google.visualization.DataTable();
-      data.addColumn('string', 'Task');
-      data.addColumn('number', 'Hours per Day');
-      data.addRows([
-        ['Food', 8],
-        ['Clothing', 2],
-        ['Travel', 4],
-        ['Bills', 8],
-        ['Misc', 2]
-      ]);
+  <h1>Charts</h1>
+  
+  <form action="/charts" method="get">
+    <label for="startDate">Start Date:</label>
+    <input type="date" id="startDate" name="startDate" value="{{startDate}}" required>
+    <label for="endDate">End Date:</label>
+    <input type="date" id="endDate" name="endDate" value="{{endDate}}" required>
+    <button type="submit">Update Charts</button>
+  </form>
 
-      // Define the options for the chart
-      let options = {
-        title: 'Category wise expenditure'
-      };
+  <div id="transactions-data" style="display:none;">{{json transactions1}}</div>
 
-      // Create a new chart and draw it on the page
-      let chart = new google.visualization.PieChart(document.getElementById('chart_div_piechart'));
-      chart.draw(data, options);
-    }
-
-    // Load the Google Charts library and call the drawChart function
-    google.charts.load('current', { packages: ['corechart'] });
-    google.charts.setOnLoadCallback(drawChart);
-  </script>
-  <script>
-    function drawChart_bar() {
-      // Define the data for the chart
-      var data = new google.visualization.DataTable();
-      data.addColumn('string', 'Year');
-      data.addColumn('number', 'Sales');
-      data.addRows([
-        ['2010', 1000],
-        ['2011', 1170],
-        ['2012', 660],
-        ['2013', 1030]
-      ]);
-
-      // Define the options for the chart
-      var options = {
-        title: 'Sales by Year',
-        legend: { position: 'none' },
-        width: 600,
-        height: 400
-      };
-
-      // Create a new chart and draw it on the page
-      var chart = new google.visualization.ColumnChart(document.getElementById('chart_div_barchart'));
-      chart.draw(data, options);
-    }
-
-    // Load the Google Charts library and call the drawChart function
-    google.charts.load('current', { packages: ['corechart'] });
-    google.charts.setOnLoadCallback(drawChart_bar);
-  </script>
-
-  <div id="chart_div_piechart" style="width: 900px; height: 500px;">Charts</div>
-  <div id="chart_div_barchart" style="width: 900px; height: 500px;">Charts</div>
-
-  <style>
-  #chart_div_piechart, #chart_div_barchart {
-    display: inline-block;
-    width: 50%;
-  }
-  </style>
+  <div id="piechart" style="width: 900px; height: 500px;"></div>
+  <div id="linechart" style="width: 900px; height: 500px;"></div>
+  <div id="barchart" style="width: 900px; height: 500px;"></div>
 </body>
+

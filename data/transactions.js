@@ -1,5 +1,6 @@
 
 import { ObjectId } from 'mongodb';
+
 import { transactions } from '../config/mongoCollections.js';
 import validation from '../validation.js'
 
@@ -128,7 +129,32 @@ const exportedMethods = {
         if (updatedInfo.lastErrorObject.n === 0)
             throw `Error: Update failed! Could not update transaction with id ${transactionId}`;
         return updatedInfo.value;
+    },
+
+    async getTransactionsByDateRange(userId, startDate, endDate) {
+        userId = validation.checkId(userId, 'User ID');
+        console.log("Before");
+        const transactionCollections = await transactions();
+        console.log("After");
+        const transactions1 = await transactionCollections.find({
+            user_id: new ObjectId(userId),
+            transaction_date: { $gte: new Date(startDate), $lte: new Date(endDate) },
+        }).toArray();
+    
+        const transformedResult = transactions1.map((transaction) => {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
+            return {
+                ...transaction,
+                transaction_date: formattedDate
+            };
+        });
+    
+        console.log("Transformed result:", transformedResult); // Add this line
+    
+        return transformedResult;
     }
+    
 
 }
 

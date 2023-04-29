@@ -3,16 +3,20 @@ import { budget } from '../config/mongoCollections.js'
 import { ObjectId } from 'mongodb';
 import { transactionData } from '../data/index.js';
 import { transactions } from '../config/mongoCollections.js';
+import validation from '../validation.js';
 
 const create = async (user_id, category, budget_amount, start, end) => {
+
+
+validation.checkBudget(category,budget_amount,start,end);
+  
   start = new Date(start)
   end = new Date(end);
 
-  //console.log(start)
   let newdata =
   {
-    user_id: user_id,
-    category: category,
+    user_id: user_id.trim(),
+    category: category.trim(),
     budget_amount: budget_amount,
     start_date: start,
     end_date: end
@@ -22,12 +26,12 @@ const create = async (user_id, category, budget_amount, start, end) => {
   if (found) { throw "Already Exist category" }
   const Info = await getbudget.insertOne(newdata);
   if (!Info.acknowledged || !Info.insertedId) { throw "Could not add info" }
-
+return {inserted:true}
 };
 
 const getAll = async (user_id) => {
   const getbudget = await budget();
-  let alldata = await getbudget.find({ user_id: user_id }).toArray();
+  let alldata = await getbudget.find({ user_id: user_id.trim() }).toArray();
   alldata = alldata.map((ele) => {
     ele.user_id = ele.user_id.toString();
     return ele;
@@ -35,23 +39,24 @@ const getAll = async (user_id) => {
   return alldata;
 };
 
-const get = async (user_id) => {
-  user_id = user_id.trim();
+const get = async (budget_id) => {
+  budget_id = budget_id.trim();
   const getbudget = await budget();
-  let found = await getbudget.findOne({ user_id: new ObjectId(user_id) });
+  let found = await getbudget.findOne({_id: new ObjectId(budget_id.trim()) });
   if (found === null) { throw "This id is not present in database" }
-  found.user_id = found.user_id.toString();
+  found._id = found._id.toString();
   return found
 };
 
-const remove = async (user_id) => {
-  user_id = user_id.trim();
+const remove = async (budget_id) => {
+  budget_id = budget_id.trim();
   const getbudget = await budget();
-  let deldata = await getbudget.findOneAndDelete({ user_id: new ObjectId(user_id) });
+  const ele=await get(budget_id);
+  let deldata = await getbudget.findOneAndDelete({_id: new ObjectId(budget_id.trim()) });
   if (deldata.lastErrorObject.n === 0) {
-    throw `"No data with id : ${user_id}"`;
+    throw `"No data with id : ${budget_id}"`;
   }
-  return { "user_Id": deldata.value.user_id.toString(), "deleted": true }
+  return { deltedBudget: true }
 };
 
 const update = async (user_id, category, budget_amount, start, end) => {

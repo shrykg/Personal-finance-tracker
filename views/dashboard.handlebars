@@ -1,70 +1,23 @@
 <body>
   <link rel="stylesheet" type="text/css" href="/public/dashboard.css" />
+  
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script>
-    function drawChart() {
-      // Define the data for the chart
-      let data = new google.visualization.DataTable();
-      data.addColumn('string', 'Task');
-      data.addColumn('number', 'Hours per Day');
-      data.addRows([
-        ['Food', 8],
-        ['Clothing', 2],
-        ['Travel', 4],
-        ['Bills', 8],
-        ['Misc', 2]
-      ]);
-
-      // Define the options for the chart
-      let options = {
-        title: 'Category wise expenditure'
-      };
-
-      // Create a new chart and draw it on the page
-      let chart = new google.visualization.PieChart(document.getElementById('chart_div_piechart'));
-      chart.draw(data, options);
-    }
-
-    // Load the Google Charts library and call the drawChart function
-    google.charts.load('current', { packages: ['corechart'] });
-    google.charts.setOnLoadCallback(drawChart);
+  <script type="text/javascript" src="/public/charts/charts.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {packages: ['corechart']});
+    google.charts.setOnLoadCallback(drawCharts);
   </script>
-  <script>
-    function drawChart_bar() {
-      // Define the data for the chart
-      var data = new google.visualization.DataTable();
-      data.addColumn('string', 'Year');
-      data.addColumn('number', 'Sales');
-      data.addRows([
-        ['2010', 1000],
-        ['2011', 1170],
-        ['2012', 660],
-        ['2013', 1030]
-      ]);
-
-      // Define the options for the chart
-      var options = {
-        title: 'Sales by Year',
-        legend: { position: 'none' },
-        width: 600,
-        height: 400
-      };
-
-      // Create a new chart and draw it on the page
-      var chart = new google.visualization.ColumnChart(document.getElementById('chart_div_barchart'));
-      chart.draw(data, options);
-    }
-
-    // Load the Google Charts library and call the drawChart function
-    google.charts.load('current', { packages: ['corechart'] });
-    google.charts.setOnLoadCallback(drawChart_bar);
-  </script>
+  
+  <div id="transactions-data" style="display:none;">{{json transactions}}</div>
   <h1 style="text-align: center">Welcome {{data.firstname}} {{data.lastname}}</h1>
   <div id="chart_wrapper">
-    <div id="chart_div_piechart" style="width: 900px; height: 500px;">Charts</div>
-    <div id="chart_div_barchart" style="width: 900px; height: 500px;">Charts</div>
+    <div id="piechart" style="width: 900px; height: 500px;">Charts</div>
+    <div id="linechart" style="display:none;"></div>
+    <div id="barchart" style="width: 900px; height: 500px;"></div>
   </div>
+
   <button type="button" onclick="window.location.href='/transactions/new'">Add a new Transaction</button>
+  <button type="button " onclick="window.location.href='/transactions/seeAllTransaction'">View All Transactions</button>
   <button type="button " onclick="window.location.href='/budget/new'">Add a new Budget</button>
   <button type="button " onclick="window.location.href='/budget/seeAllBudgets'">View All Budgets</button>
   <a href="charts"><button type="button">View Detailed Charts</button></a>
@@ -89,11 +42,6 @@
         <td>{{end_date}}</td>
         <td>{{category}}</td>
         <td>{{budget_amount}}</td>
-        {{!-- {{#if (eq category amount_remaining.category)}}
-        {{anotherObject.amountRemaining}}
-        {{else}}
-        {{amountRemaining}}
-        {{/if}} --}}
         <td>{{amount_remaining}}</td>
       </tr>
       {{/each}}

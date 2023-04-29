@@ -1,8 +1,9 @@
-// You can add and export any helper functions you want here - if you aren't using any, then you can just leave this file as is
-import { ObjectId } from 'mongodb';
-
-function check_user_name(username){
-    
+export function isLoggedIn(req, res, next)
+{
+    if (req.session && req.session.user) 
+    {
+      req.user = req.session.user;
+      return next();
+    }
+    res.redirect('/log_in_registration');
 }
-
-export default exportedMethods;

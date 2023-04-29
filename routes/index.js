@@ -11,7 +11,6 @@ const constructorMethod = (app) => {
     app.use('/login', log_in_routes)
     app.use('/registration', log_in_routes)
     app.use('/dashboard', log_in_routes)
-    app.use('error', log_in_routes)
     app.use('/transactions', transactionRoutes)
     app.use('/forgot', log_in_routes)
     app.use('/otp_validation', log_in_routes)
