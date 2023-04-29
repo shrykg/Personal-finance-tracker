@@ -3,8 +3,8 @@ const router = Router();
 
 import bcrypt from "bcrypt"
 import { login_reg_data, transactionData, budgetData } from "../data/index.js";
-
-
+import { sendOTP, generateOTP } from "../data/forgot_password.js";
+import nodemailer from 'nodemailer'
 router
     .route('/registration')
     .get(async (req, res) => {
@@ -175,4 +175,64 @@ router.
         }
     });
 
+router
+    .route('/forgot')
+    .get(async (req, res) => {
+        try {
+            res.render('forgotpassword');
+        }
+
+        catch (e) {
+            res.status(500).json({ error: e });
+        }
+    });
+router
+    .route('/forgot')
+    .post(async (req, res) => {
+        //let testAccount = await nodemailer.createTestAccount();
+        let otp = generateOTP();
+        console.log(otp);
+
+        let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'moneyminder.yasd@gmail.com', // generated ethereal user
+                pass: 'mwwcnbpjgmrfoczo' // generated ethereal password
+            }
+        });
+
+        // send mail with defined transport object
+        let info = await transporter.sendMail({
+            from: 'moneyminder.yasd@gmail.com', // sender address
+            to: req.body.email, // list of receivers
+            subject: "OTP for forgot password", // Subject line
+            text: "Hello ! Your OTP to restore your password is:" + " " + otp, // plain text body
+        });
+
+        console.log("Message sent: %s", info.messageId);
+        // create reusable transporter object using the default SMTP transport
+        res.render('enter_otp', otp);
+    });
+
+router
+    .route('/otp_validation')
+    .get(async (req, res) => {
+        try {
+            res.render('enter_otp');
+        }
+
+        catch (e) {
+            res.status(500).json({ error: e });
+        }
+    });
+router
+    .route('/otp_validation')
+    .post(async (req, res) => {
+        if (req.body.otp === otp) {
+            res.redirect('/set_password');
+        }
+        else {
+            console.log('incorrect password entered');
+        }
+    });
 export default router; 
