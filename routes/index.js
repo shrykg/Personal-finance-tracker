@@ -14,11 +14,8 @@ const constructorMethod = (app) => {
     app.use('/transactions', transactionRoutes)
     app.use('/forgot', log_in_routes)
     app.use('/otp_validation', log_in_routes)
-
-
     app.use('/budget', budgetRoutes)
-
-    app.use('/', chartRoutes)
+    app.use('/charts', chartRoutes)
 
 
     app.use('*', (req, res) => {
