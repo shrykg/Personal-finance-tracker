@@ -1,6 +1,6 @@
 import { Router } from "express";
 const router = Router();
-
+import xss from "xss"
 import bcrypt from "bcrypt"
 import { login_reg_data, transactionData, budgetData } from "../data/index.js";
 
@@ -18,12 +18,12 @@ router
     })
 
     .post(async (req, res) => {
-        let firstname = req.body.firstname;
-        let lastname = req.body.lastname;
-        let dob = req.body.dob;
-        let email = req.body.email;
-        let password = req.body.password_confirm;
-        let password_1 = req.body.password_initial;
+        let firstname = xss(req.body.firstname);
+        let lastname = xss(req.body.lastname);
+        let dob = xss(req.body.dob);
+        let email =xss (req.body.email);
+        let password = xss(req.body.password_confirm);
+        let password_1 = xss(req.body.password_initial);
 
 
         //console.log(new_password);
@@ -134,9 +134,10 @@ router.
     route('/login')
     .post(async (req, res) => {
 
-        const username = req.body.username.toLowerCase();
+        let username = xss(req.body.username);
+        username=username.toLowerCase()
 
-        const password = req.body.password;
+        const password = xss(req.body.password);
         let data = ''
         try {
             data = await login_reg_data.checkUser(username, password);
