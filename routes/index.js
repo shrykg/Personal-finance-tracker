@@ -4,7 +4,6 @@ import log_in_routes from './log_in_registration.js';
 import budgetRoutes from './budget.js'
 import transactionRoutes from './transactions.js';
 import chartRoutes from './charts.js';
-
 import path from 'path';
 
 const constructorMethod = (app) => {
@@ -13,6 +12,8 @@ const constructorMethod = (app) => {
     app.use('/registration', log_in_routes)
     app.use('/dashboard', log_in_routes)
     app.use('/transactions', transactionRoutes)
+    app.use('/forgot', log_in_routes)
+    app.use('/otp_validation', log_in_routes)
 
 
     app.use('/budget', budgetRoutes)
