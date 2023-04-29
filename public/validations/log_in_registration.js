@@ -9,6 +9,9 @@ console.log(form)
 console.log(login_form)
 if (form) {
     form.addEventListener('submit', function (event) {
+        let errorContainer = document.querySelector('#error-container');
+        errorContainer.innerHTML = '';
+        errorContainer.hidden=true;
         console.log('in form')
         // Prevent the form from being submitted
         event.preventDefault();
@@ -73,9 +76,7 @@ if (form) {
 
         // Display error messages if there are any
         if (errors.length > 0) {
-            const errorContainer = document.querySelector('#error-container');
-            errorContainer.innerHTML = '';
-
+            errorContainer.hidden=false;
             errors.forEach(function (error) {
                 const errorElement = document.createElement('div');
                 errorElement.classList.add('error');
@@ -111,9 +112,7 @@ if (login_form) {
 
         if (passwordInput === '') {
             errors.push('Password is required');
-        } else if (!isValidPassword(passwordInput)) {
-            errors.push('Password must be at least 8 characters long and contain a combination of letters, numbers, and special characters');
-        }
+        } 
 
         // Display error messages if there are any
         if (errors.length > 0) {
