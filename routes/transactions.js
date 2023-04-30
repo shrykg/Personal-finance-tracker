@@ -12,6 +12,10 @@ router.route('/new').get(async (req, res) => {
 })
   .post(async (req, res) => {
     const transactionPostData = req.body;
+    if (!transactionData || Object.keys(transactionPostData).length === 0) {
+      return res
+        .status(400).render('error',{error_occured:"No data in body part"})
+    }
     transactionPostData['user_id'] = global.loggedInUserId
     transactionPostData['amount'] = Number(transactionPostData.amount)
     console.log(transactionPostData)
