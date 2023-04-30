@@ -1,18 +1,22 @@
+<link rel="stylesheet" type="text/css" href="/public/settings.css" />
 <div class="container">
-<h1>Your Profile</h1>
+    <h1>Your Profile</h1>
     <form id="setting-form" action="/settings/profile" method="POST">
         <label for="firstname">First Name</label>
-        <input type="text" id="firstname" name="firstname" required value={{firstname}}>
-        <label for="lastname">Last Name</label>
-        <input type="text" id="lastname" name="lastname" required value={{lastname}}>
-        <label for="dob">Date of Birth</label>
-        <input type="date" id="dob" name="dob" required value={{dob}}>
-        <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" required value={{email}}>
+        <input type="text" id="firstname" name="firstname" value="{{data.firstname}}" readonly>
+        <label for=" lastname">Last Name</label>
+        <input type="text" id="lastname" name="lastname" value="{{data.lastname}}" readonly>
+        <label for=" dob">Date of Birth</label>
+        <input type="date" id="dob" name="dob" value="{{data.dob}}" readonly>
+        <label for=" email">Email Address</label>
+        <input type="email" id="email" name="email" value="{{data.email}}" readonly>
+        <label for="user_since">User Since</label>
+        <p>{{data.created_at}}</p>
 
-        <button type="submit">Submit</button>
+        <button type="submit">Edit</button>
         <button onclick=window.location.href="/dashboard">Back to Dashboard</button>
 
     </form>
 </div>
-{{!-- <script src='/public/validations/log_in_registration.js'></script> --}}
+{{!--
+<script src='/public/validations/log_in_registration.js'></script> --}}

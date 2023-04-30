@@ -21,7 +21,7 @@ router
         let firstname = xss(req.body.firstname);
         let lastname = xss(req.body.lastname);
         let dob = xss(req.body.dob);
-        let email =xss (req.body.email);
+        let email = xss(req.body.email);
         let password = xss(req.body.password_confirm);
         let password_1 = xss(req.body.password_initial);
 
@@ -150,7 +150,7 @@ router.
     .post(async (req, res) => {
 
         let username = xss(req.body.username);
-        username=username.toLowerCase()
+        username = username.toLowerCase()
 
         const password = xss(req.body.password);
         let data = ''
@@ -166,7 +166,7 @@ router.
         }
         else {
             global.loggedInUserId = data._id.toString()
-            req.session.user = { id: data._id.toString(), firstname: data.firstname, lastname: data.lastname, email: data.email }
+            req.session.user = { id: data._id.toString(), firstname: data.firstname, lastname: data.lastname, email: data.email, dob: data.dob, created_at: new Date(data.created_at).toISOString().slice(0, 10) }
             if (req.session.user) {
                 res.redirect('/dashboard');
             }
