@@ -31,8 +31,8 @@ input[type="text"],
 input[name="monthly_target"],
 input[type="email"],
 input[type="date"],
-input[name = "password_initial"],
-input[name = "password_confirm"] {
+input[name="password_initial"],
+input[name="password_confirm"] {
     padding: 10px;
     margin-bottom: 20px;
     border-radius: 5px;
@@ -52,4 +52,23 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
     background-color: #3e8e41;
+}
+
+nav {
+    background-color: #008000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+nav h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #ffffff;
+}
+
+img {
+    height: 50px;
+    margin-right: 20px;
 }
