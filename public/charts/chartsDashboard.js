@@ -76,6 +76,6 @@ function drawCharts()
 {
     const transactions = JSON.parse(document.getElementById('transactions-data').textContent);
     drawPieChart(transactions);
-    drawLineChart(transactions);
+    // drawLineChart(transactions);
     drawBarChart(transactions);
 }
