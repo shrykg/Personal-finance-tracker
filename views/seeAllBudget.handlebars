@@ -85,6 +85,7 @@
         <td>{{budget_amount}}</td>
          <td>
           <form method="POST" action="/budget/remove/{{_id}}">
+          <input type="hidden" name="_method" value="DELETE">
           <button type="submit" >Remove</button>
           </form>
           </td>

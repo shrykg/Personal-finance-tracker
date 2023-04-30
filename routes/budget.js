@@ -45,11 +45,15 @@ router.route('/seeAllBudgets').get(async (req, res) => {
 
 })
 
-router.route('/remove/:id').post(async(req,res)=>{
-let budget_id=req.params.id.trim()
-const remove=await budgetDataFunctions.remove(budget_id);
-console.log(remove);
-res.redirect('/budget/seeAllBudgets'); 
-}) 
 
+router.delete('/remove/:id', async (req, res) => {
+  let budget_id=req.params.id.trim()
+ 
+    const remove=await budgetDataFunctions.remove(budget_id);
+    // if (!remove) {
+    //   return res.status(404).send(`Budget with id ${budget_id} not found.`);
+    // }
+    res.redirect('/budget/seeAllBudgets');
+ 
+});
 export default router
