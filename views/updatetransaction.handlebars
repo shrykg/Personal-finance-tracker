@@ -1,0 +1,131 @@
+<h1> Update Transaction</h1>
+<style>
+  form {
+    max-width: 500px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  h1 {
+    text-align: center;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+  }
+
+  button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #3e8e41;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+</style>
+<form id="edit-transaction-form" >
+  <div class="form-group">
+    <label for="description">Description</label>
+    <input type="text" id="description" name="description" placeholder="Enter description" value="{{transaction.description}}"required>
+  </div>
+
+  <div class="form-group">
+    <label for="category">Category</label>
+    <select id="category" name="category" required>
+      <option value="">Select category</option>
+      <option value="groceries" {{#ifEqual transaction.category "groceries"}}selected{{/ifEqual}}>Groceries</option>
+      <option value="shopping" {{#ifEqual transaction.category "shopping"}}selected{{/ifEqual}}>Shopping</option>
+      <option value="eating_out" {{#ifEqual transaction.category "eating_out"}}selected{{/ifEqual}}>Eating Out</option>
+      <option value="bills" {{#ifEqual transaction.category "bills"}}selected{{/ifEqual}}>Bills</option>
+      <option value="transportation" {{#ifEqual transaction.category "transportation"}}selected{{/ifEqual}}>Transportation</option>
+      <option value="entertainment" {{#ifEqual transaction.category "entertainment"}}selected{{/ifEqual}}>Entertainment</option>
+      <option value="travel" {{#ifEqual transaction.category "travel"}}selected{{/ifEqual}}>Travel</option>
+      <option value="healthcare" {{#ifEqual transaction.category "healthcare"}}selected{{/ifEqual}}>Healthcare</option>
+      <option value="education" {{#ifEqual transaction.category "education"}}selected{{/ifEqual}}>Education</option>
+      <option value="miscellaneous" {{#ifEqual transaction.category "miscellaneous"}}selected{{/ifEqual}}>Miscellaneous</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="amount">Amount</label>
+    <input type="number" id="amount" name="amount" placeholder="Enter amount" step="0.01" value="{{transaction.amount}}" required>
+  </div>
+
+  <div class="form-group">
+    <label for="transaction_date">Date</label>
+    <input type="date" id="transaction_date" name="transaction_date" value="{{moment transaction.transaction_date format="YYYY-MM-DD"}}"required>
+  </div>
+
+  <div class="form-group">
+    <label for="paymentType">Type</label>
+    <select id="paymentType" name="paymentType" required>
+      <option value="">Select Type</option>
+      <option value="Cash" {{#ifEqual transaction.paymentType "Cash"}}selected{{/ifEqual}}>Cash</option>
+      <option value="Checking" {{#ifEqual transaction.paymentType "Checking"}}selected{{/ifEqual}}>Checking</option>
+      <option value="Pending" {{#ifEqual transaction.paymentType "Pending"}}selected{{/ifEqual}}>Pending</option>
+    </select>
+  </div>
+
+  <button id="edit-transaction-button"type="submit" data-transaction-id="{{transaction._id}}">Edit Transaction</button>
+  <button onclick=window.location.href="/dashboard">Back to Dashboard</button>
+</form>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script>
+     
+     $("#edit-transaction-form").submit(function(event){
+         event.preventDefault()
+         console.log('Edit transaction tapped')
+         submitData()
+         
+     })
+
+     function submitData() {
+        const transactionId = $("#edit-transaction-button").data('transaction-id');
+        console.log(transactionId)
+        console.log($('#edit-transaction-form').serialize())
+        $.ajax({
+            url: '/transactions/' + transactionId,
+            type: 'PUT',
+            data: $('#edit-transaction-form').serialize(),
+            success: function (result) {
+                // Do something with the result
+                console.log('success in request yo')
+                window.location.href = '/dashboard';
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+     }
+
+</script>        

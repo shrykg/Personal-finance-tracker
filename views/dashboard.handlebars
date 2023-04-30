@@ -82,6 +82,11 @@
         <td>{{category}}</td>
         <td>{{amount}}</td>
         <td>{{paymentType}}</td>
+        <td>
+           <button type="button" onclick="window.location.href='/transactions/{{_id}}'">Edit</button>
+           {{!-- <button>Edit</button> --}}
+           <button>Delete</button>
+       </td>
       </tr>
       {{/each}}
     </tbody>
