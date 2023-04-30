@@ -15,7 +15,7 @@ if (form) {
         let errors = [];
 
         if (old_passwordInput === '') {
-            errors.push('Email address is required');
+            errors.push('Password is required');
         }
 
         if (passwordInput === '') {
@@ -41,7 +41,9 @@ if (form) {
                 errorContainer.appendChild(errorElement);
             });
 
-        } else {
+        }
+
+        else {
             // If all fields are valid, submit the form to the server
             form.submit();
         }
