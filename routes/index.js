@@ -13,7 +13,7 @@ const constructorMethod = (app) => {
     app.use('/otp_validation', log_in_routes)
     app.use('/budget', budgetRoutes)
     app.use('/charts', chartRoutes)
-    app.use('/settings',settingRoutes)
+    app.use('/settings', settingRoutes)
 
     app.use('*', (req, res) => {
         res.status(404).render("error", { error_occured: "The URL Passed is invalid" });
