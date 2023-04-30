@@ -78,3 +78,58 @@ h2:last-of-type {
     margin-top: 40px;
     margin-bottom: 10px;
 }
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #047c34;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+/* Style the Money Minder text */
+.navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+    font-style: oblique;
+}
+
+/* Style the dropdown button */
+.dropdown-btn {
+    background-color: #f7f2f2;
+    color: #0b0000;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+
+/* Style the dropdown content */
+.dropdown-content {
+    background-color: #f9f9f9;
+    display: none;
+    position: absolute;
+    top: 60px;
+    /* adjust as needed */
+    /* adjust as needed */
+    z-index: 1;
+}
+
+/* Style the links inside the dropdown */
+.dropdown-content a {
+    color: #333;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
