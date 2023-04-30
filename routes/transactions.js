@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { ObjectId } from 'mongodb';
 const router = Router();
 import { transactionData } from '../data/index.js';
 import validation from '../validation.js';
@@ -91,7 +92,8 @@ router
       
       const latestTransactions = await transactionData.getLatestTransactions(global.loggedInUserId)
       //console.log('_____________')
-      console.log(latestTransactions)
+      // console.log(latestTransactions)
+      console.log(newTransaction)
       res.redirect('/dashboard')
     } catch (e) {
       res.status(500).json({ error: e });
@@ -106,21 +108,33 @@ router
 router
   .route('/:id')
   .get(async (req, res) => {
+    console.log('goingggg in getttttt')
     try {
       req.params.id = validation.checkId(req.params.id, 'Id URL Param');
     } catch (e) {
       return res.status(400).json({ error: e });
     }
     try {
-      const post = await transactionData.getTransaction(req.params.id)
-      //   res.render('posts/single', {post: post});
+      let transaction = await transactionData.getTransaction(req.params.id)
+      transaction.transaction_date = new Date(transaction.transaction_date)
       //   render indivisual transaction
+      console.log('-----')
+      console.log(transaction)
+      
+       res.render('updatetransaction',{transaction})
     } catch (e) {
       res.status(404).json({ error: e });
     }
   })
   .put(async (req, res) => {
     const updatedData = req.body;
+    console.log('updatedData')
+    console.log(req.params.id)
+    updatedData['user_id'] = global.loggedInUserId
+    updatedData['amount'] = Number(updatedData.amount)
+    
+    console.log(updatedData)
+
     try {
 
       req.params.id = validation.checkId(req.params.id, 'ID url param');
@@ -136,19 +150,25 @@ router
       );
 
     } catch (e) {
+      
       return res.status(400).json({ error: e });
     }
 
     try {
+      console.log('now update')
       const updatedTransaction = await transactionData.updateTransaction(
         req.params.id,
         updatedData
       );
-      res.json(updatedTransaction);
+      
+      
+      return res.json({"update":true})
+
     } catch (e) {
+      
       let status = e[0];
       let message = e[1];
-      res.status(status).json({ error: message });
+      return res.status(status).json({ error: message });
     }
   })
   //   .patch(async (req, res) => {

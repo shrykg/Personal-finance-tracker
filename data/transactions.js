@@ -113,15 +113,16 @@ const exportedMethods = {
         updatedTransaction.category = validation.checkString(updatedTransaction.category)
 
         let updatedTransactionData = {
-            user_id: updatedTransaction.user_id,
-            transaction_date: updatedTransaction.transaction_date,
+            user_id: new ObjectId(updatedTransaction.user_id),
+            transaction_date: new Date(updatedTransaction.transaction_date),
             amount: updatedTransaction.amount,
             description: updatedTransaction.description,
-            category: updatedTransaction.category
+            category: updatedTransaction.category,
+            paymentType: updatedTransaction.paymentType
         }
         const transactionCollections = await transactions()
         const updatedInfo = await transactionCollections.findOneAndReplace(
-            { _id: ObjectId(transactionId) },
+            { _id: new ObjectId(transactionId) },
             updatedTransactionData,
             { returnDocument: 'after' }
         )
