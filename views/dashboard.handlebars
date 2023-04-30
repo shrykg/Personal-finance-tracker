@@ -83,7 +83,7 @@
 <head>
   <link rel="stylesheet" type="text/css" href="/public/dashboard.css" />
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript" src="/public/charts/charts.js"></script>
+  <script type="text/javascript" src="/public/charts/chartsDashboard.js"></script>
   <script type="text/javascript">
     google.charts.load('current', { packages: ['corechart'] });
     google.charts.setOnLoadCallback(drawCharts);
@@ -115,7 +115,7 @@
   <h1 style="text-align: center">Welcome {{data.firstname}} {{data.lastname}}</h1>
   <div id="chart_wrapper">
     <div id="piechart" style="width: 900px; height: 500px;">Charts</div>
-    <div id="linechart" style="display:none;"></div>
+    {{!-- <div id="linechart" style="display:none;"></div> --}}
     <div id="barchart" style="width: 900px; height: 500px;"></div>
   </div>
   <h2>Budgets Set</h2>
