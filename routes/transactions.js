@@ -201,18 +201,22 @@ router
   //     }
   //   })
   .delete(async (req, res) => {
+    console.log(req.params.id)
     try {
       req.params.id = validation.checkId(req.params.id, 'Id URL Param');
     } catch (e) {
+      console.log(e)
       return res.status(400).json({ error: e });
     }
     try {
       let deletedTransaction = await transactionData.removeTransaction(req.params.id)
-      res.status(200).json(deletedTransaction);
+      console.log(deletedTransaction)
+      return res.status(200).json(deletedTransaction);
     } catch (e) {
+      console.log(e)
       let status = e[0];
       let message = e[1];
-      res.status(status).json({ error: message });
+      return res.status(status).json({ error: message });
     }
   });
 
