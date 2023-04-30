@@ -1,13 +1,15 @@
+{{!--
+
 <body>
   <link rel="stylesheet" type="text/css" href="/public/dashboard.css" />
-  
+
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript" src="/public/charts/charts.js"></script>
   <script type="text/javascript">
-    google.charts.load('current', {packages: ['corechart']});
+    google.charts.load('current', { packages: ['corechart'] });
     google.charts.setOnLoadCallback(drawCharts);
   </script>
-  
+
   <div id="transactions-data" style="display:none;">{{json transactions}}</div>
   <h1 style="text-align: center">Welcome {{data.firstname}} {{data.lastname}}</h1>
   <div id="chart_wrapper">
@@ -72,4 +74,99 @@
     </tbody>
   </table>
 
+</body> --}}
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="/public/dashboard.css" />
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript" src="/public/charts/charts.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', { packages: ['corechart'] });
+    google.charts.setOnLoadCallback(drawCharts);
+  </script>
+  <style>
+    /* Style the navigation bar */
+  </style>
+</head>
+
+<body>
+
+  <div class="navbar">
+    <div class="navbar-brand">Money Minder</div>
+    <div class="dropdown">
+      <button class="dropdown-btn">Menu</button>
+      <div class="dropdown-content">
+        <a href="/transactions/new">Add a new Transaction</a>
+        <a href="/transactions/seeAllTransaction">View All Transactions</a>
+        <a href="/budget/new">Add a new Budget</a>
+        <a href="/budget/seeAllBudgets">View All Budgets</a>
+        <a href="/charts/getCharts">View Detailed Charts</a>
+        <a href="#">Upload excel</a>
+        <a href="/settings/profile/">Settings</a>
+        <a href="/logout">Logout</a>
+      </div>
+    </div>
+  </div>
+  <div id="transactions-data" style="display:none;">{{json transactions}}</div>
+  <h1 style="text-align: center">Welcome {{data.firstname}} {{data.lastname}}</h1>
+  <div id="chart_wrapper">
+    <div id="piechart" style="width: 900px; height: 500px;">Charts</div>
+    <div id="linechart" style="display:none;"></div>
+    <div id="barchart" style="width: 900px; height: 500px;"></div>
+  </div>
+  <h2>Budgets Set</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Category</th>
+        <th>Amount Set</th>
+        <th>Amount Remaining</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each active_budget}}
+      <tr>
+        <td>{{start_date}}</td>
+        <td>{{end_date}}</td>
+        <td>{{category}}</td>
+        <td>{{budget_amount}}</td>
+        <td>{{amount_remaining}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  <h2> Transaction history</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Amount</th>
+        <th>Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each transactions}}
+      <tr>
+        <td>{{transaction_date}}</td>
+        <td>{{description}}</td>
+        <td>{{category}}</td>
+        <td>{{amount}}</td>
+        <td>{{paymentType}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  <!-- Rest of the code goes here -->
 </body>
+
+</html>
