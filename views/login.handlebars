@@ -1,4 +1,10 @@
 <link rel="stylesheet" type="text/css" href="/public/log_in.css" />
+<nav>
+    <img id="logo" src="../public/images/798-7981159_piggy-bank-png-icon-white-piggy-bank-vector.png">
+    <ul>
+        <li><a href="about">About</a></li>
+</nav>
+
 <h1 class="page_title">Money Minder</h1>
 <h2 class="page_desc">The one stop for tracking your expenses</h2>
 <div class="container">
@@ -11,8 +17,12 @@
         <input type="submit" value="Log In" />
     </form>
 </div>
-<div id="error-container-login">{{error}}</div>
 
+<div id="error-container-login">{{error}}</div>
+<script src='/public/validations/log_in_registration.js'></script>
 <div class="register_page">
     <a href="registration">Not a user ,register</a>
+</div>
+<div class="forgot-password">
+    <button onclick=window.location.href="/forgot">Forgot Password?</button>
 </div>

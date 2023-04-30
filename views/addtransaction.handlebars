@@ -1,4 +1,6 @@
+
 <h1> Add Transaction</h1>
+
 <style>
   form {
     max-width: 500px;
@@ -51,8 +53,12 @@
     font-weight: bold;
     margin-bottom: 5px;
   }
+   .error{
+    color:red;
+  }
 </style>
-<form action="/transactions" method="POST">
+<h1> Add Transaction</h1>
+<form id="transaction_form" action="/transactions/new" method="POST">
   <div class="form-group">
     <label for="description">Description</label>
     <input type="text" id="description" name="description" placeholder="Enter description" required>
@@ -94,7 +100,10 @@
       <option value="Pending">Pending</option>
     </select>
   </div>
-
+  <div class="error" id="error" hidden></div>
   <button type="submit">Add Transaction</button>
   <button onclick=window.location.href="/dashboard">Back to Dashboard</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+  <script src='/public/validations/transaction.js'></script>
 </form>

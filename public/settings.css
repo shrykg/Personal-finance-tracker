@@ -1,22 +1,12 @@
 nav {
-    background-color: #008000;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    background-color: #15722b;
     padding: 20px;
 }
 
 nav h1 {
     margin: 0;
-    font-size: 24px;
-    color: #ffffff;
+    color: white;
 }
-
-img {
-    height: 50px;
-    margin-right: 20px;
-}
-
 
 nav ul {
     list-style: none;
@@ -47,7 +37,7 @@ nav a {
 
 h1.page_title {
     text-align: center;
-    color: #1e7132;
+    color: #15722b;
 }
 
 h2.page_desc {
@@ -73,7 +63,7 @@ input {
 }
 
 input[type="submit"] {
-    background-color: #1e7132;
+    background-color: #15722b;
     color: white;
     border: none;
     cursor: pointer;
@@ -93,10 +83,4 @@ input[type="submit"] {
 .forgot-password {
     text-align: center;
     margin-top: 20px;
-}
-
-.forgot-password button {
-    color: rgb(120, 117, 117);
-    border: none;
-    cursor: pointer;
 }

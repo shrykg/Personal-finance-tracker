@@ -1,4 +1,5 @@
 import { ObjectId } from 'mongodb';
+import moment from 'moment';
 // Need to add validations for date
 const exportedMethods = {
   checkId(id, varName) {
@@ -94,7 +95,60 @@ const exportedMethods = {
 
     return time;
 
-  }
-};
+  },
 
+  checkBudget(category,amount,start_Date,end_Date)
+  {
+    if(!category){throw "Please provide category"}
+    if(!typeof category==='string'){throw "Type of category is not string"}
+    let validCategories = [
+      "groceries",
+      "shopping",
+      "eating_out",
+      "bills",
+      "transportation",
+      "entertainment",
+      "travel",
+      "healthcare",
+      "education",
+      "miscellaneous"
+    ]
+    if (!validCategories.includes(category.toLowerCase())) { throw "Please select a valid category"}
+    if(!amount){throw "Please Provide amount"}
+    if (isNaN(amount) || amount<=0) { throw "Please enter a valid amount." }
+    if(amount>999999999){throw "Enter amount under 9 digits only"}
+
+    if(!start_Date){throw "Please select start_date"}
+    if(!end_Date){throw"Please select end_date"}
+    if(start_Date.trim().length==0){err.push("Please Enter start_Date")}
+    if(end_Date.trim().length==0){err.push("Please Enter end_Date")}
+    if(!typeof start_Date==='string' || !typeof end_Date==='string'){throw "Enter date in only YYYY-MM-DD string format"}
+
+    let isValidDate = moment(start_Date, "YYYY-MM-DD", true).isValid();
+    if(isValidDate===false){throw "Please Enter Start date in YYYY-MM-DD format"}
+
+    isValidDate = moment(end_Date, "YYYY-MM-DD", true).isValid();
+    if(isValidDate===false){throw"Please Enter End date in YYYY-MM-DD format"}
+
+    start_Date= moment(start_Date).format("YYYY-MM-DD");
+    end_Date= moment(end_Date).format("YYYY-MM-DD");
+    let today = moment().format("YYYY-MM-DD");
+    if(moment(start_Date).isBefore(today))
+    {
+        throw "Start date cannot be earlier than today.";
+    }
+    if(moment(end_Date).isBefore(today))
+    {
+        throw "End date cannot be earlier than today.";
+    }
+    if(moment(end_Date).isBefore(today))
+    {
+        throw "End date cannot be earlier than today.";
+    }
+    if(moment(end_Date).isBefore(start_Date))
+    {
+        throw "End date cannot be earlier than start date."
+    }
+  }
+}
 export default exportedMethods;

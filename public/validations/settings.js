@@ -1,18 +1,9 @@
-//registration form
-
-// Select the form and attach a submit event listener
-
-const form = document.getElementById('registration-form');
-const login_form = document.getElementById('login-form');
-console.log('script is being called !')
-console.log(form)
-console.log(login_form)
+const form = document.getElementById('setting-form');
 if (form) {
     form.addEventListener('submit', function (event) {
-        let errorContainer = document.querySelector('#error-container');
+        let errorContainer = document.querySelector('#error-container-settings');
         errorContainer.innerHTML = '';
-        errorContainer.hidden=true;
-        console.log('in form')
+        errorContainer.hidden = true;
         // Prevent the form from being submitted
         event.preventDefault();
         //console.log('in submit handle')
@@ -20,9 +11,6 @@ if (form) {
 
         const firstNameInput = document.querySelector('#firstname').value;
         const lastNameInput = document.querySelector('#lastname').value;
-        const emailAddressInput = document.querySelector('#email').value;
-        const passwordInput = document.querySelector('#password_initial').value;
-        const confirmPasswordInput = document.querySelector('#password_confirm').value;
         const dob = document.querySelector('#dob').value;
         let errors = [];
 
@@ -46,24 +34,6 @@ if (form) {
             errors.push(e);
         }
 
-        if (emailAddressInput === '') {
-            errors.push('Email address is required');
-        } else if (!isValidEmail(emailAddressInput)) {
-            errors.push('Email address is invalid');
-        }
-
-        if (passwordInput === '') {
-            errors.push('Password is required');
-        } else if (!isValidPassword(passwordInput)) {
-            errors.push('Password must be at least 8 characters long and contain a combination of letters, numbers, and special characters');
-        }
-
-        if (confirmPasswordInput === '') {
-            errors.push('Confirm password is required');
-        } else if (passwordInput !== confirmPasswordInput) {
-            errors.push('Passwords do not match');
-        }
-
 
         if (dob === '') {
             errors.push('Please enter a valid dob');
@@ -76,7 +46,7 @@ if (form) {
 
         // Display error messages if there are any
         if (errors.length > 0) {
-            errorContainer.hidden=false;
+            errorContainer.hidden = false;
             errors.forEach(function (error) {
                 const errorElement = document.createElement('div');
                 errorElement.classList.add('error');
@@ -92,52 +62,7 @@ if (form) {
     });
 }
 
-//console.log(form)
-if (login_form) {
-    login_form.addEventListener('submit', function (event) {
-        // Prevent the form from being submitted
-        event.preventDefault();
-        // Validate the form fields
 
-        const emailAddressInput = document.querySelector('#username').value;
-        const passwordInput = document.querySelector('#password').value;
-
-        let errors = [];
-
-        if (emailAddressInput === '') {
-            errors.push('Email address is required');
-        } else if (!isValidEmail(emailAddressInput)) {
-            errors.push('Email address is invalid');
-        }
-
-        if (passwordInput === '') {
-            errors.push('Password is required');
-        } 
-
-        // Display error messages if there are any
-        if (errors.length > 0) {
-            const errorContainer = document.querySelector('#error-container-login');
-            errorContainer.innerHTML = '';
-
-            errors.forEach(function (error) {
-                const errorElement = document.createElement('div');
-                errorElement.classList.add('error');
-                errorElement.innerText = error;
-
-                errorContainer.appendChild(errorElement);
-            });
-
-        } else {
-            // If all fields are valid, submit the form to the server
-            login_form.submit();
-        }
-    });
-}
-
-
-
-
-// Validate the email address
 function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -187,5 +112,3 @@ function validateDOB(dob) {
     // display the age
     return age;
 }
-
-

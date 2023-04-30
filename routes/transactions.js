@@ -11,20 +11,12 @@ router.route('/new').get(async (req, res) => {
   }
   res.render('addtransaction')
 })
-
-router
-  .route('/')
-  .get(async (req, res) => {
-    try {
-      const budgetList = await transactionData.getAllTransactions(global.loggedInUserId)
-      //   res.render('posts/index', {posts: postList});
-      // render the html for top 10 transactions for the user
-    } catch (e) {
-      res.status(500).json({ error: e });
-    }
-  })
   .post(async (req, res) => {
     const transactionPostData = req.body;
+    if (!transactionData || Object.keys(transactionPostData).length === 0) {
+      return res
+        .status(400).render('error',{error_occured:"No data in body part"})
+    }
     transactionPostData['user_id'] = global.loggedInUserId
     transactionPostData['amount'] = Number(transactionPostData.amount)
     console.log(transactionPostData)
@@ -92,8 +84,11 @@ router
       
       const latestTransactions = await transactionData.getLatestTransactions(global.loggedInUserId)
       //console.log('_____________')
-      // console.log(latestTransactions)
-      console.log(newTransaction)
+
+
+      console.log(latestTransactions)
+
+
       res.redirect('/dashboard')
     } catch (e) {
       res.status(500).json({ error: e });
