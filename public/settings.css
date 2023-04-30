@@ -1,106 +1,86 @@
-.container {
-    max-width: 600px;
-    margin: 0 auto;
+nav {
+    background-color: #15722b;
     padding: 20px;
 }
 
-h1 {
-    font-size: 32px;
-    text-align: center;
-    margin-bottom: 30px;
+nav h1 {
+    margin: 0;
+    color: white;
 }
 
-form label {
-    display: block;
-    margin-bottom: 5px;
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+nav li {
+    margin-left: 20px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
     font-weight: bold;
 }
 
-form input[type="text"],
-form input[type="date"],
-form input[type="email"],
-form p {
-    display: block;
-    width: 100%;
+.container {
+    width: 50%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px #aaa;
+}
+
+h1.page_title {
+    text-align: center;
+    color: #15722b;
+}
+
+h2.page_desc {
+    text-align: center;
     margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 10px;
+}
+
+input {
     padding: 10px;
-    font-size: 16px;
+    border-radius: 5px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    color: #555;
-}
-
-form input[type="text"]:read-only,
-form input[type="date"]:read-only,
-form input[type="email"]:read-only,
-form p {
-    border: none;
-    background-color: transparent;
-    color: #888;
-}
-
-form button[type="submit"],
-form button {
-    display: inline-block;
-    padding: 10px 20px;
+    margin-bottom: 20px;
     font-size: 16px;
-    font-weight: bold;
-    text-align: center;
+}
+
+input[type="submit"] {
+    background-color: #15722b;
+    color: white;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.2s;
 }
 
-form button[type="submit"] {
-    background-color: #ab2d2d;
-    color: #fff;
-}
-
-form button[type="submit"]:hover {
-    background-color: #3e8e41;
-}
-
-form button {
-    background-color: #f2f2f2;
-    color: #555;
-    margin-left: 10px;
-}
-
-form button:hover {
-    background-color: #ddd;
-}
-
-button[id="dashboard"] {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    display: inline-flex;
-    padding: 5px 15px;
-    font-size: 16px;
-    font-weight: bold;
+#error-container-login {
+    color: red;
+    margin-top: 20px;
     text-align: center;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    background-color: #4CAF50;
-    color: #fff;
 }
 
-button[id="change_password"] {
-    margin-left: 10px;
-    vertical-align: middle;
-    display: table-column;
-    padding: 5px 15px;
-    font-size: 16px;
-    font-weight: bold;
+.register_page {
     text-align: center;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    background-color: #4CAF50;
-    color: #fff;
+    margin-top: 20px;
+}
+
+.forgot-password {
+    text-align: center;
+    margin-top: 20px;
 }
