@@ -32,7 +32,7 @@ function prepareMonthlyChartData(transactions)
 
     const monthlyChartData = [['Month-Year', 'Amount']];
     const sortedMonths = Array.from(monthlyAmounts.keys()).sort();
-    
+
     sortedMonths.forEach(monthYear => 
         {
             monthlyChartData.push([monthYear, monthlyAmounts.get(monthYear)]);
@@ -41,6 +41,31 @@ function prepareMonthlyChartData(transactions)
     return monthlyChartData;
 }
 
+function prepareYearlyGrowthData(transactions) 
+{
+    const yearlyAmounts = new Map();
+
+    transactions.forEach(transaction => 
+        {
+            const year = new Date(transaction.transaction_date).getFullYear();
+            const currentYearlyAmount = yearlyAmounts.get(year) || 0;
+            yearlyAmounts.set(year, currentYearlyAmount + transaction.amount);
+        });
+
+    const growthData = [['Year', 'Growth']];
+    const sortedYears = Array.from(yearlyAmounts.keys()).sort();
+    let previousYearAmount = 0;
+
+    sortedYears.forEach(year => 
+        {
+            const currentYearAmount = yearlyAmounts.get(year);
+            const growth = currentYearAmount - previousYearAmount;
+            growthData.push([year.toString(), growth]);
+            previousYearAmount = currentYearAmount;
+        });
+
+    return growthData;
+}
 
 function drawPieChart(transactions) 
 {
@@ -54,11 +79,11 @@ function drawPieChart(transactions)
 
 function drawLineChart(transactions) 
 {
-    const monthlyChartData = prepareMonthlyChartData(transactions);
+    const yearlyGrowthData = prepareYearlyGrowthData(transactions);
     const lineChart = new google.visualization.LineChart(document.getElementById('linechart'));
-    lineChart.draw(google.visualization.arrayToDataTable(monthlyChartData), 
+    lineChart.draw(google.visualization.arrayToDataTable(yearlyGrowthData), 
     {
-        title: 'Monthly Expenses Trend (Line Chart)'
+        title: 'Year-on-Year Expenses Growth (Line Chart)'
     });
 }
 
