@@ -5,6 +5,7 @@ import chartRoutes from './charts.js';
 import settingRoutes from './settings.js'
 const constructorMethod = (app) => {
     app.use('/', log_in_routes);
+    app.use('/about', log_in_routes);
     app.use('/login', log_in_routes)
     app.use('/registration', log_in_routes)
     app.use('/dashboard', log_in_routes)

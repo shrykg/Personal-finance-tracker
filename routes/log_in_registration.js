@@ -5,6 +5,19 @@ import bcrypt from "bcrypt"
 import { login_reg_data, transactionData, budgetData } from "../data/index.js";
 import { sendOTP, generateOTP } from "../data/forgot_password.js";
 import nodemailer from 'nodemailer'
+
+router
+    .route('/about')
+    .get(async (req, res) => {
+        try {
+            res.render('about');
+        }
+
+        catch (e) {
+            res.status(500).json({ error: e });
+        }
+    })
+
 router
     .route('/registration')
     .get(async (req, res) => {
