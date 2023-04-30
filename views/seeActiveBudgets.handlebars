@@ -1,5 +1,4 @@
-<h1>Budgets</h1>
-
+<h1>Active Budgets</h1>
 <body>
   <style>
     html,
@@ -76,14 +75,14 @@
       </tr>
     </thead>
     <tbody>
-      {{#each budget}}
+      {{#each active_budgets}}
       <tr>
         <td>{{start_date}}</td>
         <td>{{end_date}}</td>
         <td>{{category}}</td>
         <td>{{budget_amount}}</td>
          <td>
-          <form method="POST" action="/budget/remove/{{_id}}">
+          <form method="POST" action="/budget/ActiveRemove/{{_id}}">
           <input type="hidden" name="_method" value="DELETE">
           <button type="submit" >Remove</button>
           </form>
@@ -94,6 +93,6 @@
   </table>
 
   <button onclick=window.location.href="/dashboard">Back to Dashboard</button>
-  <button onclick="window.location.href='/budget/seeAllBudgets/active'">See All Active Budgets</button>
+  <button onclick="window.location.href='/budget/seeAllBudgets'">See All Budgets</button>
 
 </body>
