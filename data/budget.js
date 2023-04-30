@@ -10,8 +10,12 @@ const create = async (user_id, category, budget_amount, start, end) => {
 
 validation.checkBudget(category,budget_amount,start,end);
   
-  start = new Date(start)
-  end = new Date(end);
+//  // start = new Date(start)
+//   start=new Date(start).toISOString().slice(0, 10)
+//   console.log(start)
+//   //end = new Date(end);
+//   end=new Date(end).toISOString().slice(0, 10)
+
 
   let newdata =
   {
@@ -93,7 +97,8 @@ const get_all_active_users = async (user_id) => {
 
   const result = await get_data.find({
     user_id: user_id,
-    end_date: { $gte: new Date() }
+    start_date:{ $lte: new Date().toISOString()},
+    end_date: { $gte: new Date().toISOString() }
   }).toArray()
 
   return result;
