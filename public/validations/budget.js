@@ -38,8 +38,10 @@ if(budget)
 
         if(!start_Date){err.push("Please select start_date")}
         if(!end_Date){err.push("Please select end_date")}
+        if(start_Date.trim().length==0){err.push("Please Enter start_Date")}
+        if(end_Date.trim().length==0){err.push("Please Enter end_Date")}
 
-        if(!typeof start_Date==='string' || !typeof end_Date==='string'){err.push("Enter date in only YYYY-MM-DD string format")}
+        if(!typeof start_Date==='string' || !typeof end_Date==='string'){err.push("Enter dates in only YYYY-MM-DD string format")}
 
         let isValidDate = moment(start_Date, "YYYY-MM-DD", true).isValid();
         if(isValidDate===false){err.push("Please Enter Start date in YYYY-MM-DD format")}

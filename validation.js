@@ -120,6 +120,8 @@ const exportedMethods = {
 
     if(!start_Date){throw "Please select start_date"}
     if(!end_Date){throw"Please select end_date"}
+    if(start_Date.trim().length==0){err.push("Please Enter start_Date")}
+    if(end_Date.trim().length==0){err.push("Please Enter end_Date")}
     if(!typeof start_Date==='string' || !typeof end_Date==='string'){throw "Enter date in only YYYY-MM-DD string format"}
 
     let isValidDate = moment(start_Date, "YYYY-MM-DD", true).isValid();
