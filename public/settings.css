@@ -54,7 +54,7 @@ form button {
 }
 
 form button[type="submit"] {
-    background-color: #4CAF50;
+    background-color: #ab2d2d;
     color: #fff;
 }
 
@@ -70,4 +70,37 @@ form button {
 
 form button:hover {
     background-color: #ddd;
+}
+
+button[id="dashboard"] {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: inline-flex;
+    padding: 5px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+button[id="change_password"] {
+    margin-left: 10px;
+    vertical-align: middle;
+    display: table-column;
+    padding: 5px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    background-color: #4CAF50;
+    color: #fff;
 }

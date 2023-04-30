@@ -1,22 +1,24 @@
 <link rel="stylesheet" type="text/css" href="/public/settings.css" />
 <div class="container">
     <h1>Your Profile</h1>
+    <h2>Incase you wish to change any of the following details , do so and press the edit button !</h2>
     <form id="setting-form" action="/settings/profile" method="POST">
         <label for="firstname">First Name</label>
-        <input type="text" id="firstname" name="firstname" value="{{data.firstname}}" readonly>
+        <input type="text" id="firstname" name="firstname" value="{{data.firstname}}">
         <label for=" lastname">Last Name</label>
-        <input type="text" id="lastname" name="lastname" value="{{data.lastname}}" readonly>
+        <input type="text" id="lastname" name="lastname" value="{{data.lastname}}">
         <label for=" dob">Date of Birth</label>
-        <input type="date" id="dob" name="dob" value="{{data.dob}}" readonly>
+        <input type="date" id="dob" name="dob" value="{{data.dob}}">
         <label for=" email">Email Address</label>
         <input type="email" id="email" name="email" value="{{data.email}}" readonly>
         <label for="user_since">User Since</label>
         <p>{{data.created_at}}</p>
 
         <button type="submit">Edit</button>
-        <button onclick=window.location.href="/dashboard">Back to Dashboard</button>
-
     </form>
+
+    <button id="dashboard" onclick=window.location.href="/dashboard">Back to Dashboard</button>
+    <button id="change_password" onclick=window.location.href="/settings/changepassword">Change Password</button>
 </div>
 {{!--
 <script src='/public/validations/log_in_registration.js'></script> --}}
