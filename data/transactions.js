@@ -96,9 +96,10 @@ const exportedMethods = {
         transactionId = validation.checkId(transactionId, 'Transaction ID')
 
         const transactionCollections = await transactions()
-        const deletionInfo = transactionCollections.findOneAndDelete({
-            _id: ObjectId(transactionId)
+        const deletionInfo = await transactionCollections.findOneAndDelete({
+            _id: new ObjectId(transactionId)
         })
+        
         if (deletionInfo.lastErrorObject.n === 0) {
             throw `Could not delete post with id of ${transactionId}`
         }
