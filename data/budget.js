@@ -10,8 +10,12 @@ const create = async (user_id, category, budget_amount, start, end) => {
 
 validation.checkBudget(category,budget_amount,start,end);
   
-  start = new Date(start)
-  end = new Date(end);
+//  // start = new Date(start)
+//   start=new Date(start).toISOString().slice(0, 10)
+//   console.log(start)
+//   //end = new Date(end);
+//   end=new Date(end).toISOString().slice(0, 10)
+
 
   let newdata =
   {
@@ -38,6 +42,15 @@ const getAll = async (user_id) => {
   });
   return alldata;
 };
+const getAllsort =async(user_id)=>{
+  const getbudget = await budget();
+  let alldata = await getbudget.find({ user_id: user_id.trim() }).sort({start_date:1}).toArray();
+  alldata = alldata.map((ele) => {
+    ele.user_id = ele.user_id.toString();
+    return ele;
+  });
+  return alldata;
+}
 
 const get = async (budget_id) => {
   budget_id = budget_id.trim();
@@ -93,7 +106,8 @@ const get_all_active_users = async (user_id) => {
 
   const result = await get_data.find({
     user_id: user_id,
-    end_date: { $gte: new Date() }
+    start_date:{ $lte: new Date().toISOString()},
+    end_date: { $gte: new Date().toISOString() }
   }).toArray()
 
   return result;
@@ -182,5 +196,5 @@ const amount_remaining = async (user_id) => {
   return final_array;
 };
 
-const budgetDataFunctions = { create, getAll, get, remove, update, get_all_active_users, amount_aggregate, amount_remaining }
+const budgetDataFunctions = { create, getAll,getAllsort, get, remove, update, get_all_active_users, amount_aggregate, amount_remaining }
 export default budgetDataFunctions;

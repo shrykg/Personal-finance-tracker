@@ -44,12 +44,33 @@ router.route('/seeAllBudgets').get(async (req, res) => {
   res.render('seeAllBudget', { budget: result })
 
 })
+router.route('/seeAllBudgets/sort').get(async (req, res) => {
+  const result = await budgetDataFunctions.getAllsort(global.loggedInUserId)
+  res.render('seeAllBudget', { budget: result })
 
-router.route('/remove/:id').post(async(req,res)=>{
-let budget_id=req.params.id.trim()
-const remove=await budgetDataFunctions.remove(budget_id);
-console.log(remove);
-res.redirect('/budget/seeAllBudgets'); 
-}) 
+})
 
+router.get('/seeAllBudgets/active', async (req, res) => {
+  try {
+    const active_budgets = await budgetDataFunctions.get_all_active_users(global.loggedInUserId);
+    res.render('seeActiveBudgets', { active_budgets:active_budgets });
+  } catch (e) {
+    res.render('error', { error_occured: e });
+  }
+});
+
+
+router.delete('/remove/:id', async (req, res) => {
+  let budget_id=req.params.id.trim()
+    const remove=await budgetDataFunctions.remove(budget_id);
+    res.redirect('/budget/seeAllBudgets');
+ 
+});
+
+router.delete('/ActiveRemove/:id', async (req, res) => {
+  let budget_id=req.params.id.trim()
+    const remove=await budgetDataFunctions.remove(budget_id);
+    res.redirect('/budget/seeAllBudgets/active');
+ 
+});
 export default router
