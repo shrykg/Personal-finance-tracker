@@ -16,7 +16,7 @@ function submitData() {
        success: function (result) {
            // Do something with the result
            console.log('success in request yo')
-           window.location.href = '/dashboard';
+           window.location.href = '/transactions/seeAllTransaction';
        },
        error: function(error) {
            console.log(error);
