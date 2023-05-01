@@ -44,6 +44,11 @@ router.route('/seeAllBudgets').get(async (req, res) => {
   res.render('seeAllBudget', { budget: result })
 
 })
+router.route('/seeAllBudgets/sort').get(async (req, res) => {
+  const result = await budgetDataFunctions.getAllsort(global.loggedInUserId)
+  res.render('seeAllBudget', { budget: result })
+
+})
 
 router.get('/seeAllBudgets/active', async (req, res) => {
   try {
