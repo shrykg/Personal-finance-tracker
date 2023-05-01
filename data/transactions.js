@@ -14,7 +14,7 @@ const exportedMethods = {
             .sort({ transaction_date: -1 })
             .limit(10)
             .toArray();
-    
+
         const transformedResult = result.map((transaction) => {
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
@@ -23,7 +23,7 @@ const exportedMethods = {
                 transaction_date: formattedDate
             };
         });
-    
+
         return transformedResult;
     },
 
@@ -31,15 +31,15 @@ const exportedMethods = {
         userId = validation.checkId(userId, 'User ID')
         const transactionCollections = await transactions()
         var result = await transactionCollections
-        .find({ user_id: new ObjectId(userId) })
-        .toArray();
+            .find({ user_id: new ObjectId(userId) })
+            .toArray();
         var transformedResult = result.map((transaction) => {
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
             return {
                 ...transaction,
                 transaction_date: formattedDate
-              };
+            };
         })
         return transformedResult
     },
@@ -80,7 +80,7 @@ const exportedMethods = {
             amount: amount,
             description: description,
             category: category,
-            paymentType: paymentType
+            paymentType: paymentType,
         }
         //console.log('afterrrrrr')
         const transactionCollections = await transactions()
@@ -99,7 +99,7 @@ const exportedMethods = {
         const deletionInfo = await transactionCollections.findOneAndDelete({
             _id: new ObjectId(transactionId)
         })
-        
+
         if (deletionInfo.lastErrorObject.n === 0) {
             throw `Could not delete post with id of ${transactionId}`
         }
@@ -142,7 +142,7 @@ const exportedMethods = {
             user_id: new ObjectId(userId),
             transaction_date: { $gte: new Date(startDate), $lte: new Date(endDate) },
         }).toArray();
-    
+
         const transformedResult = transactions1.map((transaction) => {
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
@@ -151,12 +151,12 @@ const exportedMethods = {
                 transaction_date: formattedDate
             };
         });
-    
+
         console.log("Transformed result:", transformedResult); // Add this line
-    
+
         return transformedResult;
     }
-    
+
 
 }
 
