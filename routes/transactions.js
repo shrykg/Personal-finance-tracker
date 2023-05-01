@@ -102,6 +102,61 @@ router.route('/new').get(async (req, res) => {
 // route for indivisual transactions to view, edit, delete
 
 router
+  .route('/seeAllTransaction')
+  .get(async (req,res) => {
+      try {
+        let result = await transactionData.getAllTransactions(global.loggedInUserId)
+        return res.render('seeAllTransaction', {
+          transactions: result.reverse()
+        })
+      } catch (e) {
+        res.status(404).json({ error: e });
+      }
+  })
+
+router
+  .route('/seeAllTransaction/filters')
+  .get(async (req,res) => {
+    console.log('inside filters')
+    console.log(req.query)
+      // try {
+      //   let result = await transactionData.getAllTransactions(global.loggedInUserId)
+      //   return res.render('seeAllTransaction', {
+      //     transactions: result.reverse()
+      //   })
+      // } catch (e) {
+      //   res.status(404).json({ error: e });
+      // }
+      try {
+        // validate start date and end date
+        const { start_date, end_date, category } = req.query;
+        const userId = global.loggedInUserId
+        
+        if (!start_date || !end_date) {
+          throw 'Start date and end date are required query parameters';
+        }
+        const start = new Date(start_date);
+        const end = new Date(end_date);
+        if (start > end) {
+          throw 'Start date must be before end date';
+        }
+    
+        // get transactions with given category and date range
+        const transactions = await transactionData.getTransactionsByDateRangeAndCategory(userId, start, end, category) 
+       
+        // render transactions
+        console.log('-----')
+        console.log(transactions)
+        res.render('seeAllTransaction', {transactions, start:start_date, end:end_date, cat:category});
+      } catch (e) {
+        res.status(400).json({ error: e });
+      }
+  })
+
+
+
+
+router
   .route('/:id')
   .get(async (req, res) => {
     console.log('goingggg in getttttt')

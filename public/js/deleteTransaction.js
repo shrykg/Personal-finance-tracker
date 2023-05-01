@@ -10,7 +10,7 @@ $('.del-btn').click(function() {
       success: function(result) {
         console.log('successfully delete')
         // If the transaction was deleted successfully, remove the row from the table
-         {{!-- window.location.href = '/dashboard'; --}}
+        //  {{!-- window.location.href = '/dashboard'; --}}
          $('button[data-transaction-Id="' + transactionId + '"]').closest('tr').remove();
       },
       error: function(error) {
@@ -18,3 +18,5 @@ $('.del-btn').click(function() {
          }
     });
   });
+
+  

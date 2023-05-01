@@ -1,6 +1,6 @@
-<h1>Transaction</h1>
+ <h1>Transaction</h1>
 
-<body>
+{{!-- <body>
   <style>
     html,
     body,
@@ -11,9 +11,9 @@
       font-size: 100%;
       font-family: sans-serif;
       vertical-align: baseline;
-    }
+    } --}}
 
-    /* Style the table */
+    {{!-- /* Style the table */
     table {
       border-collapse: collapse;
       width: 100%;
@@ -23,7 +23,7 @@
 
     /* Style the table headers */
     th {
-      background-color: #f5f5f5;
+      background-color: #df2626;
       font-weight: bold;
       text-align: left;
       padding: 8px;
@@ -64,14 +64,14 @@
     button:hover {
       background-color: #3e8e41;
     }
-  </style>
+  </style> --}}
 
-  <table>
+  {{!-- <table>
     <thead>
       <tr>
         <th>Transaction_Date</th>
         <th>Amount</th>
-		<th>Category</th>
+		    <th>Category</th>
         <th>Delete</th>
       </tr>
     </thead>
@@ -90,7 +90,102 @@
       </tr>
       {{/each}}
     </tbody>
-  </table>
+  </table> --}}
+   <link rel="stylesheet" type="text/css" href="/public/dashboard.css" />
+  {{!-- <h2>Recent Transaction history</h2> --}}
+
+<h2>Recent Transaction history</h2>
+
+{{!-- <div class="filters">
+  <label>Start Date:</label>
+  <input type="date" id="start-date">
+  
+  <label>End Date:</label>
+  <input type="date" id="end-date">
+  
+  <label>Category:</label>
+  <select id="category">
+    <option value="">Select category</option>
+      <option value="groceries">Groceries</option>
+      <option value="shopping">Shopping</option>
+      <option value="eating_out">Eating Out</option>
+      <option value="bills">Bills</option>
+      <option value="transportation">Transportation</option>
+      <option value="entertainment">Entertainment</option>
+      <option value="travel">Travel</option>
+      <option value="healthcare">Healthcare</option>
+      <option value="education">Education</option>
+      <option value="miscellaneous">Miscellaneous</option>
+  </select>
+  
+  <button id="apply-filters">Apply Filters</button>
+</div> --}}
+<form id="filter-form" action="/transactions/seeAllTransaction/filters" method="GET">
+  <label for="start-date-input">Start Date:</label>
+  <input type="date" id="start-date-input" name="start_date"
+  {{#if start}}
+   value="{{moment start format="YYYY-MM-DD"}}"
+   {{/if}}
+   >
+
+  <label for="end-date-input">End Date:</label>
+  <input type="date" id="end-date-input" name="end_date"
+   {{#if end}}
+   value="{{moment end format="YYYY-MM-DD"}}"
+   {{/if}}
+   >
+
+  <label for="category-input">Category:</label>
+  <select id="category-input" name="category">
+     <option value="">Select category</option>
+    <option value="groceries" {{#ifEqual cat "groceries"}}selected{{/ifEqual}}>Groceries</option>
+    <option value="shopping"  {{#ifEqual cat "shopping"}}selected{{/ifEqual}}>Shopping</option>
+    <option value="eating_out"  {{#ifEqual cat "eating_out"}}selected{{/ifEqual}}>Eating Out</option>
+    <option value="bills"  {{#ifEqual cat "bills"}}selected{{/ifEqual}}>Bills</option>
+    <option value="transportation"  {{#ifEqual cat "transportation"}}selected{{/ifEqual}}>Transportation</option>
+    <option value="entertainment"  {{#ifEqual cat "entertainment"}}selected{{/ifEqual}}>Entertainment</option>
+    <option value="travel"  {{#ifEqual cat "travel"}}selected{{/ifEqual}}>Travel</option>
+    <option value="healthcare"  {{#ifEqual cat "healthcare"}}selected{{/ifEqual}}>Healthcare</option>
+    <option value="education"  {{#ifEqual cat "education"}}selected{{/ifEqual}}>Education</option>
+    <option value="miscellaneous"  {{#ifEqual cat "miscellaneous"}}selected{{/ifEqual}}>Miscellaneous</option>
+  </select>
+
+  <button type="submit">Filter Transactions</button>
+  <button type="button" onclick="window.location.href='/transactions/seeAllTransaction'">Clear Filters</button>
+  
+</form>
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Description</th>
+      <th>Category</th>
+      <th>Amount</th>
+      <th>Type</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each transactions}}
+    <tr class="transaction-row" data-date="{{transaction_date}}" data-category="{{category}}">
+      <td>{{transaction_date}}</td>
+      <td>{{description}}</td>
+      <td>{{category}}</td>
+      <td>{{amount}}</td>
+      <td>{{paymentType}}</td>
+      <td>
+        <button type="button" onclick="window.location.href='/transactions/{{_id}}'">Edit</button>
+        <button class="del-btn" data-transaction-id="{{_id}}">Delete</button>
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
 
   <button onclick=window.location.href="/dashboard">Back to Dashboard</button>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script src="/public/js/deleteTransaction.js"></script>
 </body>
