@@ -31,13 +31,14 @@ router
     })
 
     .post(async (req, res) => {
+        console.log(req.body);
         let firstname = xss(req.body.firstname);
         let lastname = xss(req.body.lastname);
         let dob = xss(req.body.dob);
         let email = xss(req.body.email);
         let password = xss(req.body.password_confirm);
         let password_1 = xss(req.body.password_initial);
-
+        let region = xss(req.body.region)
 
         //console.log(new_password);
 
@@ -46,15 +47,15 @@ router
         check = await login_reg_data.get_user_by_email(email);
         if (!check) {
             try {
-                await login_reg_data.add_user(firstname, lastname, dob, email, password);
+                await login_reg_data.add_user(firstname, lastname, dob, email, password, region);
                 res.status(200).redirect('/login');
             }
             catch (e) {
-                res.status(400).render('registration', { error: 'Something went wrong , please try again !', firstname: firstname, lastname: lastname, dob: dob, email: email })
+                res.status(400).render('registration', { error: 'Something went wrong , please try again !', firstname: firstname, lastname: lastname, dob: dob, email: email, region: region })
             }
         }
         else {
-            res.status(400).render('registration', { error: 'User already exists', firstname: firstname, lastname: lastname, dob: dob, email: email })
+            res.status(400).render('registration', { error: 'User already exists', firstname: firstname, lastname: lastname, dob: dob, email: email, region: region })
         }
 
         //res.status(400).render('register', { error: 'Unable to register please try again !', firstname: firstname, lastname: lastname, dob: dob, email: email })
@@ -179,7 +180,8 @@ router.
         }
         else {
             global.loggedInUserId = data._id.toString()
-            req.session.user = { id: data._id.toString(), firstname: data.firstname, lastname: data.lastname, email: data.email, dob: data.dob, created_at: new Date(data.created_at).toISOString().slice(0, 10) }
+            let symbol = login_reg_data.check_currency_symbol(data.region)
+            req.session.user = { id: data._id.toString(), firstname: data.firstname, lastname: data.lastname, email: data.email, dob: data.dob, created_at: new Date(data.created_at).toISOString().slice(0, 10), symbol: symbol }
             if (req.session.user) {
                 res.redirect('/dashboard');
             }

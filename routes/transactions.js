@@ -15,7 +15,7 @@ router.route('/new').get(async (req, res) => {
     const transactionPostData = req.body;
     if (!transactionData || Object.keys(transactionPostData).length === 0) {
       return res
-        .status(400).render('error',{error_occured:"No data in body part"})
+        .status(400).render('error', { error_occured: "No data in body part" })
     }
     transactionPostData['user_id'] = global.loggedInUserId
     transactionPostData['amount'] = Number(transactionPostData.amount)
@@ -78,10 +78,11 @@ router.route('/new').get(async (req, res) => {
 
     try {
       //console.log('inside bitch')
+
       const { user_id, paymentType, amount, description, category, transaction_date } = transactionPostData;
 
       const newTransaction = await transactionData.addTransaction(user_id, paymentType, amount, description, category, transaction_date)
-      
+
       const latestTransactions = await transactionData.getLatestTransactions(global.loggedInUserId)
       //console.log('_____________')
 
@@ -115,8 +116,8 @@ router
       //   render indivisual transaction
       console.log('-----')
       console.log(transaction)
-      
-       res.render('updatetransaction',{transaction})
+
+      res.render('updatetransaction', { transaction })
     } catch (e) {
       res.status(404).json({ error: e });
     }
@@ -127,7 +128,7 @@ router
     console.log(req.params.id)
     updatedData['user_id'] = global.loggedInUserId
     updatedData['amount'] = Number(updatedData.amount)
-    
+
     console.log(updatedData)
 
     try {
@@ -145,7 +146,7 @@ router
       );
 
     } catch (e) {
-      
+
       return res.status(400).json({ error: e });
     }
 
@@ -155,12 +156,12 @@ router
         req.params.id,
         updatedData
       );
-      
-      
-      return res.json({"update":true})
+
+
+      return res.json({ "update": true })
 
     } catch (e) {
-      
+
       let status = e[0];
       let message = e[1];
       return res.status(status).json({ error: message });

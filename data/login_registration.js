@@ -20,7 +20,7 @@ const exportedMethods = {
         return await user_collection.findOne({ '_id': id })
     },
 
-    async add_user(firstname, lastname, dob, email, new_password) {
+    async add_user(firstname, lastname, dob, email, new_password, region) {
         //console.log("I am in the function")
         firstname = validation.checkString(firstname, 'firstname');
         lastname = validation.checkString(lastname, 'lastname');
@@ -55,7 +55,8 @@ const exportedMethods = {
             "dob": dob,
             "email": email,
             "password": hashed_password,
-            "created_at": new Date()
+            "created_at": new Date(),
+            "region": region
         }
         const user_collection = await users();
 
@@ -104,6 +105,65 @@ const exportedMethods = {
         catch (e) {
             console.log(e);
         }
+
+    },
+
+    check_currency_symbol(region) {
+        const currencyMap = {
+            'China': '¥',
+            'India': '₹',
+            'United States': '$',
+            'Indonesia': 'Rp',
+            'Pakistan': '₨',
+            'Brazil': 'R$',
+            'Nigeria': '₦',
+            'Bangladesh': '৳',
+            'Russia': '₽',
+            'Mexico': '$',
+            'Japan': '¥',
+            'Ethiopia': 'Br',
+            'Philippines': '₱',
+            'Egypt': '£',
+            'Vietnam': '₫',
+            'DR Congo': 'FC',
+            'Turkey': '₺',
+            'Iran': '﷼',
+            'Germany': '€',
+            'Thailand': '฿',
+            'United Kingdom': '£',
+            'France': '€',
+            'Italy': '€',
+            'Tanzania': 'Sh',
+            'South Africa': 'R',
+            'Myanmar': 'Ks',
+            'Kenya': 'Sh',
+            'South Korea': '₩',
+            'Colombia': '$',
+            'Spain': '€',
+            'Uganda': 'Sh',
+            'Argentina': '$',
+            'Algeria': 'د.ج',
+            'Sudan': 'SDG',
+            'Ukraine': '₴',
+            'Iraq': 'ع.د',
+            'Afghanistan': '؋',
+            'Poland': 'zł',
+            'Canada': '$',
+            'Morocco': 'د.م.',
+            'Uzbekistan': 'soʻm',
+            'Saudi Arabia': '﷼',
+            'Peru': 'S/',
+            'Malaysia': 'RM',
+            'Angola': 'Kz',
+            'Mozambique': 'MT',
+            'Yemen': '﷼',
+            'Nepal': 'रू',
+            'Venezuela': 'Bs.',
+        };
+
+        let symbol = currencyMap[region];
+
+        return symbol;
 
     }
 }
