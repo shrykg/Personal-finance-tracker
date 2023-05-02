@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Goals</title>
+</head>
+<body>
+    <h1>All Goals</h1>
+    <h2>Current Goals Set</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Goal Purpose</th>
+        <th>Goal Name</th>
+        <th>Target Date</th>
+        <th>Goal Amount</th>
+        <th>Monthly Savings</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each data}}
+      <tr>
+        <td>{{goal_purpose}}</td>
+        <td>{{goal_name}}</td>
+        <td>{{target_date}}</td>
+        <td>{{goal_amount}}</td>
+        <td>{{savings_monthly}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+<style>/* Center align the title */
+h1 {
+    text-align: center;
+}
+
+/* Style the table headers */
+th {
+    text-align: left;
+    font-weight: bold;
+    padding: 10px 5px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+}
+
+/* Style the table cells */
+td {
+    padding: 10px 5px;
+    border: 1px solid #ddd;
+}
+</style>
+</body>
+</html>
