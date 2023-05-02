@@ -26,7 +26,7 @@
         <a href="/budget/new">Add a new Budget</a>
         <a href="/budget/seeAllBudgets/active">View All Budgets</a>
         <a href="/charts/getCharts">View Detailed Charts</a>
-        <a href="#">Upload excel</a>
+        <a href="/goals/viewgoals">Set a Goal</a>
         <a href="/settings/profile/">Settings</a>
         <a href="/logout">Logout</a>
       </div>
@@ -85,12 +85,12 @@
         <td>{{amount}}</td>
         <td>{{paymentType}}</td>
 
-        
+
         {{!-- <td>
-           <button type="button" onclick="window.location.href='/transactions/{{_id}}'">Edit</button>
-           
-           <button class="del-btn" data-transaction-Id="{{_id}}">Delete</button>
-       </td> --}}
+          <button type="button" onclick="window.location.href='/transactions/{{_id}}'">Edit</button>
+
+          <button class="del-btn" data-transaction-Id="{{_id}}">Delete</button>
+        </td> --}}
 
       </tr>
       {{/each}}
@@ -99,10 +99,11 @@
 
   <!-- Rest of the code goes here -->
 
-{{!-- <script src="https://code.jquery.com/jquery-2.2.4.min.js"
-        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-<script src="/public/js/deleteTransaction.js"></script> --}}
- 
+  {{!--
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+  <script src="/public/js/deleteTransaction.js"></script> --}}
+
 </body>
 
 
