@@ -1,0 +1,44 @@
+<h1 class="existing_goals">Existing Goals</h1>>
+<div class="container">
+    <h1>Goals</h1>
+    <form id="login-form" action="/login" method="POST">
+        <label for="username">Email</label>
+        <input id="username" name="username" required />
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required />
+        <input type="submit" value="Log In" />
+    </form>
+</div>
+
+
+<h1 class="set_new_goals">Set a new Goal</h1>
+<div class="container">
+    <h1>Let's get started</h1>
+    <form id="goal-form" action="/viewgoals" method="POST">
+        <label for="goal_purpose">What is this Goal for?</label>
+        <select id="goal-select" name="">
+            <option value="">--Select Goal Purpose--</option>
+            <!-- Create options for each region in alphabetical order -->
+            <option value="Crush_credit_card_debt">Crush credit card debt</option>
+            <option value="Wipe_out_my_loans">Wipe out my loans</option>
+            <option value="Save_for_a_rainy_day">Save for a rainy day</option>
+            <option value="Prepare_for_retirement">Prepare for retirement</option>
+            <option value="Buy_a_home">Buy a home</option>
+            <option value="Buy_a_car">Buy a car</option>
+            <option value="Save_for_college">Save for college</option>
+            <option value="Take_a_Trip">Take a Trip</option>
+            <option value="Improve_my_home">Improve my home</option>
+            <option value="Something_else">Something else</option>
+        </select>
+        <label for="goal_name">Name your goal</label>
+        <input type="text" id="goal_name" name="goal_name" required />
+        <label for="goal_savings">How much do you want to save</label>
+        <input type="number" id="goal_amount" name="goal_amount" required />
+        <label for="goal_timeline">Awesome , when do you need it by ? </label>
+        <input type="date" id="goal_date" name="goal_date" required />
+        <label for="month_saving">How much can you save a month</label>
+        <input type="number" id="goal_saving_monthly" name="goal_saving_monthly" required />
+
+        <input type="submit" value="Let's get started" />
+    </form>
+</div>

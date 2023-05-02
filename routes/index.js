@@ -3,6 +3,7 @@ import budgetRoutes from './budget.js'
 import transactionRoutes from './transactions.js';
 import chartRoutes from './charts.js';
 import settingRoutes from './settings.js'
+import goalRoutes from './goals.js'
 const constructorMethod = (app) => {
     app.use('/', log_in_routes);
     app.use('/about', log_in_routes);
@@ -15,6 +16,7 @@ const constructorMethod = (app) => {
     app.use('/budget', budgetRoutes)
     app.use('/charts', chartRoutes)
     app.use('/settings', settingRoutes)
+    app.use('/goals', goalRoutes)
 
     app.use('*', (req, res) => {
         res.status(404).render("error", { error_occured: "The URL Passed is invalid" });

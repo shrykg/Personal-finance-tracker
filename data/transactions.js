@@ -163,32 +163,36 @@ const exportedMethods = {
         console.log("Before");
         const transactionCollections = await transactions();
         console.log("After");
-      
+
         // Create an object to hold the filter criteria
         const filter = { user_id: new ObjectId(userId) };
         if (startDate && endDate) {
-          filter.transaction_date = { $gte: new Date(startDate), $lte: new Date(endDate) };
+            filter.transaction_date = { $gte: new Date(startDate), $lte: new Date(endDate) };
         }
         if (category) {
-          filter.category = category;
+            filter.category = category;
         }
-      
+
         // Use the filter object to find transactions that match the criteria
         const transactions1 = await transactionCollections.find(filter).toArray();
-      
+
         const transformedResult = transactions1.map((transaction) => {
-          const options = { year: 'numeric', month: 'long', day: 'numeric' };
-          const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
-          return {
-            ...transaction,
-            transaction_date: formattedDate
-          };
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
+            return {
+                ...transaction,
+                transaction_date: formattedDate
+            };
         });
-      
+
         console.log("Transformed result:", transformedResult);
         return transformedResult;
-      }
-    
+    },
+
+    // export_to_excel = (transactions, col_names, filePath) => {
+
+    // }
+
 
 
 }
