@@ -12,6 +12,7 @@ router.route('/new').get(async (req, res) => {
   res.render('addtransaction')
 })
   .post(async (req, res) => {
+    let session_data = req.session.user;
     const transactionPostData = req.body;
     if (!transactionData || Object.keys(transactionPostData).length === 0) {
       return res
@@ -45,6 +46,7 @@ router.route('/new').get(async (req, res) => {
 
     try {
       transactionPostData.amount = validation.checkNumber(transactionPostData.amount, 'Amount');
+      //transactionPostData.amount = session_data.symbol + transactionPostData.amount;
     } catch (e) {
       errors.push(e);
     }
