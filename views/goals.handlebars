@@ -1,22 +1,9 @@
-<h1 class="existing_goals">Existing Goals</h1>>
-<div class="container">
-    <h1>Goals</h1>
-    <form id="login-form" action="/login" method="POST">
-        <label for="username">Email</label>
-        <input id="username" name="username" required />
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required />
-        <input type="submit" value="Log In" />
-    </form>
-</div>
-
-
 <h1 class="set_new_goals">Set a new Goal</h1>
 <div class="container">
     <h1>Let's get started</h1>
-    <form id="goal-form" action="/viewgoals" method="POST">
+    <form id="goal-form" action="/goals/viewgoals" method="POST">
         <label for="goal_purpose">What is this Goal for?</label>
-        <select id="goal-select" name="">
+        <select id="goal-select" name="goal_select">
             <option value="">--Select Goal Purpose--</option>
             <!-- Create options for each region in alphabetical order -->
             <option value="Crush_credit_card_debt">Crush credit card debt</option>
