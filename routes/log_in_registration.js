@@ -87,6 +87,13 @@ router
         catch (e) {
 
         }
+        try{
+            let check_budget=await budgetData.archiveExpiredBudgets() // checking for budget expiration and adding it into new collection
+        }
+        catch(e)
+        {
+            
+        }
         try {
             active_budget = await budgetData.get_all_active_users(data.id);
         }

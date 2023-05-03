@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/public/budget.css">
-<h1>Active Budgets</h1>
+<h1>All expired Budgets</h1>
 <body>
   <table>
     <thead>
@@ -12,14 +12,14 @@
       </tr>
     </thead>
     <tbody>
-      {{#each active_budgets}}
+      {{#each budget}}
       <tr>
         <td>{{start_date}}</td>
         <td>{{end_date}}</td>
         <td>{{category}}</td>
         <td>{{budget_amount}}</td>
          <td>
-          <form method="POST" action="/budget/ActiveRemove/{{_id}}">
+          <form method="POST" action="/budget/remove/{{_id}}">
           <input type="hidden" name="_method" value="DELETE">
           <button type="submit" >Remove</button>
           </form>
@@ -30,6 +30,8 @@
   </table>
 
   <button onclick=window.location.href="/dashboard">Back to Dashboard</button>
-  <button onclick="window.location.href='/budget/expiredBudgets'">See All expired Budgets</button>
+  <button onclick="window.location.href='/budget/seeAllBudgets/active'">See All Active Budgets</button>
+  <button onclick="window.location.href='/budget/expiredBudgets/sort'">Sort By Date</button>
+  <button onclick="window.location.href='/budget/expiredBudgets'">View by expired</button>
 
 </body>

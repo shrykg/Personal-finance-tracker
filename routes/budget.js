@@ -12,7 +12,7 @@ router.route('/new').get(async (req, res) => {
   }
   res.render('addbudget')
 })
-  .post(async (req, res) => {
+  .post(async (req, res) => { // adding new budget 
     const budget = req.body;
     if (!budget || Object.keys(budget).length === 0) {
       return res
@@ -39,18 +39,8 @@ router.route('/new').get(async (req, res) => {
     }
   })
 
-router.route('/seeAllBudgets').get(async (req, res) => {
-  const result = await budgetDataFunctions.getAll(global.loggedInUserId)
-  res.render('seeAllBudget', { budget: result })
 
-})
-router.route('/seeAllBudgets/sort').get(async (req, res) => {
-  const result = await budgetDataFunctions.getAllsort(global.loggedInUserId)
-  res.render('seeAllBudget', { budget: result })
-
-})
-
-router.get('/seeAllBudgets/active', async (req, res) => {
+router.get('/seeAllBudgets/active', async (req, res) => { // to see all active budgets 
   try {
     const active_budgets = await budgetDataFunctions.get_all_active_users(global.loggedInUserId);
     res.render('seeActiveBudgets', { active_budgets:active_budgets });
@@ -58,19 +48,29 @@ router.get('/seeAllBudgets/active', async (req, res) => {
     res.render('error', { error_occured: e });
   }
 });
-
-
-router.delete('/remove/:id', async (req, res) => {
+router.delete('/ActiveRemove/:id', async (req, res) => { // to delete active budget
   let budget_id=req.params.id.trim()
-    const remove=await budgetDataFunctions.remove(budget_id);
-    res.redirect('/budget/seeAllBudgets');
- 
-});
-
-router.delete('/ActiveRemove/:id', async (req, res) => {
-  let budget_id=req.params.id.trim()
-    const remove=await budgetDataFunctions.remove(budget_id);
+    const remove=await budgetDataFunctions.removeActive(budget_id);
     res.redirect('/budget/seeAllBudgets/active');
  
 });
+router.route('/expiredBudgets').get(async (req, res) => { // to see expired budget
+  const result = await budgetDataFunctions.getAll(global.loggedInUserId)
+  res.render('expiredBudgets', { budget: result })
+
+})
+router.route('/expiredBudgets/sort').get(async (req, res) => { //to see expired budget, sort by start_date
+  const result = await budgetDataFunctions.getAllsort(global.loggedInUserId)
+  res.render('expiredBudgets', { budget: result })
+
+})
+
+router.delete('/remove/:id', async (req, res) => { // to remove expired budget 
+  let budget_id=req.params.id.trim()
+    const remove1=await budgetDataFunctions.removeExpired(budget_id);
+    res.redirect('/budget/expiredBudgets');
+ 
+});
+
+
 export default router
