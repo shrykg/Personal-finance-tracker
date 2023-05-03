@@ -23,6 +23,7 @@
       <div class="dropdown-content">
         <a href="/transactions/new">Add a new Transaction</a>
         <a href="/transactions/seeAllTransaction">View All Transactions</a>
+         <a href="api/transactions">View All Bank Transactions</a>
         <a href="/budget/new">Add a new Budget</a>
         <a href="/budget/seeAllBudgets/active">View All Budgets</a>
         <a href="/charts/getCharts">View Detailed Charts</a>
@@ -95,14 +96,28 @@
     </tbody>
   </table>
 
+ <button
+      type="button"
+      id="link-account"
+      class="btn btn-primary btn-dark btn-lg"
+      style="
+        border: 1px solid black;
+        border-radius: 5px;
+        background: black;
+        height: 48px;
+        width: 155px;
+        margin-top: 5; 
+        margin-left: 10;
+        color: white;
+        font-size: 18px;
+      "
+    >
+      <strong>Link account</strong>
+    </button>
+   
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+    <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+    <script src="/public/js/plaidLink.js"> </script>  
+</body>
   <!-- Rest of the code goes here -->
-
-  {{!--
-  <script src="https://code.jquery.com/jquery-2.2.4.min.js"
-    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-  <script src="/public/js/deleteTransaction.js"></script> --}}
-
-</body>
-
-
-</body>
+ 
