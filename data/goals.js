@@ -3,8 +3,11 @@ import { ObjectId } from 'mongodb';
 import validation from '../validation.js';
 
 const create = async (user_id, goal_name, goal_amount, target_date, savings_monthly, goal_purpose) => {
-//   validation.checkGoal(goal_name, goal_amount, target_date);
-
+  //   validation.checkGoal(goal_name, goal_amount, target_date);
+  let today = new Date();
+  let numberOfMonths = Math.ceil((new Date(target_date) - today) / (1000 * 60 * 60 * 24 * 30));
+  //console.log
+  let monthlySavings = Math.ceil(goal_amount / numberOfMonths);
   let newGoal = {
     user_id: user_id.trim(),
     goal_purpose: goal_purpose,
@@ -12,11 +15,12 @@ const create = async (user_id, goal_name, goal_amount, target_date, savings_mont
     goal_amount: goal_amount,
     target_date: target_date,
     savings_monthly: savings_monthly,
+    monthlySavings: monthlySavings
   };
 
   const getGoals = await goals();
-//   const found = await getGoals.findOne({ user_id: user_id, goal_name: goal_name });
-//   if (found) { throw "Goal with this name already exists" }
+  //   const found = await getGoals.findOne({ user_id: user_id, goal_name: goal_name });
+  //   if (found) { throw "Goal with this name already exists" }
 
   const insertedGoal = await getGoals.insertOne(newGoal);
   if (!insertedGoal.acknowledged || !insertedGoal.insertedId) { throw "Could not add goal" }
