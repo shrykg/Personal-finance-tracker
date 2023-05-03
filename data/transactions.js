@@ -133,7 +133,7 @@ const exportedMethods = {
         return updatedInfo.value;
     },
 
-    async getTransactionsByDateRange(userId, startDate, endDate) {
+    async getTransactionsByDateRange(userId, startDate, endDate, symbol) {
         userId = validation.checkId(userId, 'User ID');
         console.log("Before");
         const transactionCollections = await transactions();
@@ -144,10 +144,16 @@ const exportedMethods = {
         }).toArray();
 
         const transformedResult = transactions1.map((transaction) => {
+            let amount = transaction.amount;
+            console.log(symbol);
+            console.log(symbol.length);
+            amount = amount.slice(symbol.length);
+            amount = parseInt(amount);
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
             return {
                 ...transaction,
+                amount: amount,
                 transaction_date: formattedDate
             };
         });
