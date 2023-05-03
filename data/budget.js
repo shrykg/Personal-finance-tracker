@@ -1,22 +1,15 @@
 // This data file should export all functions using the ES6 standard as shown in the lecture code
-import { budget } from '../config/mongoCollections.js'
+import { budget,expired} from '../config/mongoCollections.js'
 import { ObjectId } from 'mongodb';
 import { transactionData } from '../data/index.js';
 import { transactions } from '../config/mongoCollections.js';
 import validation from '../validation.js';
+import moment from 'moment';
+
+// create new budget
 
 const create = async (user_id, category, budget_amount, start, end) => {
-
-
 validation.checkBudget(category,budget_amount,start,end);
-  
-//  // start = new Date(start)
-//   start=new Date(start).toISOString().slice(0, 10)
-//   console.log(start)
-//   //end = new Date(end);
-//   end=new Date(end).toISOString().slice(0, 10)
-
-
   let newdata =
   {
     user_id: user_id.trim(),
@@ -33,38 +26,24 @@ validation.checkBudget(category,budget_amount,start,end);
 return {inserted:true}
 };
 
-const getAll = async (user_id) => {
-  const getbudget = await budget();
-  let alldata = await getbudget.find({ user_id: user_id.trim() }).toArray();
-  alldata = alldata.map((ele) => {
-    ele.user_id = ele.user_id.toString();
-    return ele;
-  });
-  return alldata;
-};
-const getAllsort =async(user_id)=>{
-  const getbudget = await budget();
-  let alldata = await getbudget.find({ user_id: user_id.trim() }).sort({start_date:1}).toArray();
-  alldata = alldata.map((ele) => {
-    ele.user_id = ele.user_id.toString();
-    return ele;
-  });
-  return alldata;
-}
+// get all active budget
 
-const get = async (budget_id) => {
-  budget_id = budget_id.trim();
-  const getbudget = await budget();
-  let found = await getbudget.findOne({_id: new ObjectId(budget_id.trim()) });
-  if (found === null) { throw "This id is not present in database" }
-  found._id = found._id.toString();
-  return found
+const get_all_active_users = async (user_id) => {
+  const get_data = await budget();
+  let today = moment().format("YYYY-MM-DD");
+
+  const result = await get_data.find({
+    user_id: user_id,
+    end_date: { $gte: today }
+  }).toArray()
+  return result;
 };
 
-const remove = async (budget_id) => {
+//remove active budget
+
+const removeActive = async (budget_id) => {
   budget_id = budget_id.trim();
   const getbudget = await budget();
-  const ele=await get(budget_id);
   let deldata = await getbudget.findOneAndDelete({_id: new ObjectId(budget_id.trim()) });
   if (deldata.lastErrorObject.n === 0) {
     throw `"No data with id : ${budget_id}"`;
@@ -72,47 +51,58 @@ const remove = async (budget_id) => {
   return { deltedBudget: true }
 };
 
-const update = async (user_id, category, budget_amount, start, end) => {
-  user_id = user_id.trim();
-  category = category.trim()
-  budget_amount = budget_amount.trim()
-  start = start.trim()
+// auto delete budget_end_date < today when hit the dashboard and add it to expired collection
 
-  end = end.trim()
+const archiveExpiredBudgets = async () => {
+  let today = moment().format("YYYY-MM-DD");
 
-  console.log(start)
-  console.log(end);
-  const getbudget = await budget();
-  const getdata = await get(user_id);
-  let upd = {
+  const current = await budget();
+  const expiredBud = await current.find({ end_date: { $lt: today } }).toArray();
 
-    user_id: user_id,
-    category: category,
-    budget_amount: budget_amount,
-    start_date: start,
-    end_date: end
+  const expire=await expired();
+  const insertManyResult = await expire.insertMany(expiredBud);
 
-  };
-  const updatedata = await getbudget.findOneAndUpdate({ user_id: new ObjectId(user_id) }, { $set: upd }, { returnDocument: 'after' });
-  if (updatedata.lastErrorObject.n === 0) {
-    throw 'could not update data';
+  const deleteExpiredResult = await current.deleteMany({ end_date: { $lt: today } });
+
+  return {allok:true};
+}
+
+// get all expired budget
+
+const getAll = async (user_id) => {
+  const getBudget=await expired();
+  let alldata = await getBudget.find({ user_id: user_id.trim() }).toArray();
+  alldata = alldata.map((ele) => {
+    ele.user_id = ele.user_id.toString();
+    return ele;
+  });
+  return alldata;
+};
+
+//get all expired budget, sort by start_date 
+
+const getAllsort =async(user_id)=>{
+  const allBud=await expired();
+  let alldata = await allBud.find({ user_id: user_id.trim() }).sort({start_date:1}).toArray();
+  alldata = alldata.map((ele) => {
+    ele.user_id = ele.user_id.toString();
+    return ele;
+  });
+  return alldata;
+}
+
+//remove expired budget
+
+const removeExpired = async (budget_id) => {
+  budget_id = budget_id.trim();
+  const getbudget = await expired();
+  let deldata = await getbudget.findOneAndDelete({_id: new ObjectId(budget_id.trim()) });
+  if (deldata.lastErrorObject.n === 0) {
+    throw `"No data with id : ${budget_id}"`;
   }
-  updatedata.value.user_id = updatedata.value.user_id.toString();
-  return updatedata.value;
+  return { deltedBudget: true }
 };
 
-const get_all_active_users = async (user_id) => {
-  const get_data = await budget();
-
-  const result = await get_data.find({
-    user_id: user_id,
-    start_date:{ $lte: new Date().toISOString()},
-    end_date: { $gte: new Date().toISOString() }
-  }).toArray()
-
-  return result;
-
-};
 
 const amount_aggregate = async (user_id) => {
   //const data = await get_all_active_users(user_id);
@@ -196,5 +186,5 @@ const amount_remaining = async (user_id) => {
   return final_array;
 };
 
-const budgetDataFunctions = { create, getAll,getAllsort, get, remove, update, get_all_active_users, amount_aggregate, amount_remaining }
+const budgetDataFunctions = { create, getAll,getAllsort,archiveExpiredBudgets,get_all_active_users,removeActive,removeExpired,amount_aggregate, amount_remaining }
 export default budgetDataFunctions;
