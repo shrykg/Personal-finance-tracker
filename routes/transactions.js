@@ -46,7 +46,7 @@ router.route('/new').get(async (req, res) => {
 
     try {
       transactionPostData.amount = validation.checkNumber(transactionPostData.amount, 'Amount');
-      //transactionPostData.amount = session_data.symbol + transactionPostData.amount;
+      transactionPostData.amount = session_data.symbol + transactionPostData.amount;
     } catch (e) {
       errors.push(e);
     }
