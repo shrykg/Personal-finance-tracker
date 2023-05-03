@@ -25,17 +25,16 @@ router
     }
   });
 
-  router.get('/viewall', async (req, res) => {
-    // res.render('allgoals');
-    let user_id = req.session.user.id;
-    try {
-        const data = await goalDataFunctions.getAll (user_id);
-        console.log(data);
-        res.render("allgoals", {data: data});
-    } catch (e) 
-    {
-        console.log(e);
-    }
+router.get('/viewall', async (req, res) => {
+  // res.render('allgoals');
+  let user_id = req.session.user.id;
+  try {
+    const data = await goalDataFunctions.getAll(user_id);
+    console.log(data);
+    res.render("allgoals", { data: data });
+  } catch (e) {
+    console.log(e);
+  }
 
 });
 
