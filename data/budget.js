@@ -1,5 +1,5 @@
 // This data file should export all functions using the ES6 standard as shown in the lecture code
-import { budget,expired} from '../config/mongoCollections.js'
+import { budget, expired } from '../config/mongoCollections.js'
 import { ObjectId } from 'mongodb';
 import { transactionData } from '../data/index.js';
 import { transactions } from '../config/mongoCollections.js';
@@ -9,7 +9,7 @@ import moment from 'moment';
 // create new budget
 
 const create = async (user_id, category, budget_amount, start, end) => {
-validation.checkBudget(category,budget_amount,start,end);
+  //validation.checkBudget(category, start, end);
   let newdata =
   {
     user_id: user_id.trim(),
@@ -23,7 +23,7 @@ validation.checkBudget(category,budget_amount,start,end);
   if (found) { throw "Already Exist category" }
   const Info = await getbudget.insertOne(newdata);
   if (!Info.acknowledged || !Info.insertedId) { throw "Could not add info" }
-return {inserted:true}
+  return { inserted: true }
 };
 
 // get all active budget
@@ -44,7 +44,7 @@ const get_all_active_users = async (user_id) => {
 const removeActive = async (budget_id) => {
   budget_id = budget_id.trim();
   const getbudget = await budget();
-  let deldata = await getbudget.findOneAndDelete({_id: new ObjectId(budget_id.trim()) });
+  let deldata = await getbudget.findOneAndDelete({ _id: new ObjectId(budget_id.trim()) });
   if (deldata.lastErrorObject.n === 0) {
     throw `"No data with id : ${budget_id}"`;
   }
@@ -59,18 +59,18 @@ const archiveExpiredBudgets = async () => {
   const current = await budget();
   const expiredBud = await current.find({ end_date: { $lt: today } }).toArray();
 
-  const expire=await expired();
+  const expire = await expired();
   const insertManyResult = await expire.insertMany(expiredBud);
 
   const deleteExpiredResult = await current.deleteMany({ end_date: { $lt: today } });
 
-  return {allok:true};
+  return { allok: true };
 }
 
 // get all expired budget
 
 const getAll = async (user_id) => {
-  const getBudget=await expired();
+  const getBudget = await expired();
   let alldata = await getBudget.find({ user_id: user_id.trim() }).toArray();
   alldata = alldata.map((ele) => {
     ele.user_id = ele.user_id.toString();
@@ -81,9 +81,9 @@ const getAll = async (user_id) => {
 
 //get all expired budget, sort by start_date 
 
-const getAllsort =async(user_id)=>{
-  const allBud=await expired();
-  let alldata = await allBud.find({ user_id: user_id.trim() }).sort({start_date:1}).toArray();
+const getAllsort = async (user_id) => {
+  const allBud = await expired();
+  let alldata = await allBud.find({ user_id: user_id.trim() }).sort({ start_date: 1 }).toArray();
   alldata = alldata.map((ele) => {
     ele.user_id = ele.user_id.toString();
     return ele;
@@ -96,7 +96,7 @@ const getAllsort =async(user_id)=>{
 const removeExpired = async (budget_id) => {
   budget_id = budget_id.trim();
   const getbudget = await expired();
-  let deldata = await getbudget.findOneAndDelete({_id: new ObjectId(budget_id.trim()) });
+  let deldata = await getbudget.findOneAndDelete({ _id: new ObjectId(budget_id.trim()) });
   if (deldata.lastErrorObject.n === 0) {
     throw `"No data with id : ${budget_id}"`;
   }
@@ -129,6 +129,9 @@ const amount_remaining = async (user_id) => {
   //let budget_array = []
   const transaction_collection = await transactions();
   let budget_data = await get_all_active_users(user_id);
+  // for(let i = 0 ; i  <budget_data.length ; i ++){
+  //   budget_data.amount = 
+  // }
   // console.log(budget_data[0].category);
   // console.log(budget_data.lengh)
   let categories = [];
@@ -186,5 +189,5 @@ const amount_remaining = async (user_id) => {
   return final_array;
 };
 
-const budgetDataFunctions = { create, getAll,getAllsort,archiveExpiredBudgets,get_all_active_users,removeActive,removeExpired,amount_aggregate, amount_remaining }
+const budgetDataFunctions = { create, getAll, getAllsort, archiveExpiredBudgets, get_all_active_users, removeActive, removeExpired, amount_aggregate, amount_remaining }
 export default budgetDataFunctions;

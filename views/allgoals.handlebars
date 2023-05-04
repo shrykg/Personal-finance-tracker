@@ -1,26 +1,28 @@
-  <link rel="stylesheet" href="/public/allgoals.css">
+<link rel="stylesheet" href="/public/allgoals.css">
   <h1>All Goals</h1>
   <h2>Current Goals Set</h2>
   <table>
     <thead>
       <tr>
+        <th>Created Date</th>
         <th>Goal Purpose</th>
         <th>Goal Name</th>
         <th>Target Date</th>
         <th>Goal Amount</th>
-        <th>Monthly Savings</th>
         <th>Minimum Amount to save every month</th>
+        <th>Total Savings recorded till now</th>
       </tr>
     </thead>
     <tbody>
       {{#each data}}
       <tr>
+        <td>{{created_date}}</td>
         <td>{{goal_purpose}}</td>
         <td>{{goal_name}}</td>
         <td>{{target_date}}</td>
         <td>{{goal_amount}}</td>
-        <td>{{savings_monthly}}</td>
         <td>{{monthlySavings}}</td>
+        <td>{{savings}}</td>
       </tr>
       {{/each}}
     </tbody>
