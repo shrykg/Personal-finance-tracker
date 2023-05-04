@@ -135,9 +135,9 @@ const exportedMethods = {
 
     async getTransactionsByDateRange(userId, startDate, endDate, symbol) {
         userId = validation.checkId(userId, 'User ID');
-        console.log("Before");
+        //console.log("Before");
         const transactionCollections = await transactions();
-        console.log("After");
+        //console.log("After");
         const transactions1 = await transactionCollections.find({
             user_id: new ObjectId(userId),
             transaction_date: { $gte: new Date(startDate), $lte: new Date(endDate) },
@@ -145,8 +145,8 @@ const exportedMethods = {
 
         const transformedResult = transactions1.map((transaction) => {
             let amount = transaction.amount;
-            console.log(symbol);
-            console.log(symbol.length);
+            // console.log(symbol);
+            // console.log(symbol.length);
             amount = amount.slice(symbol.length);
             amount = parseInt(amount);
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -158,7 +158,7 @@ const exportedMethods = {
             };
         });
 
-        console.log("Transformed result:", transformedResult); // Add this line
+        // console.log("Transformed result:", transformedResult); // Add this line
 
         return transformedResult;
 
@@ -166,9 +166,9 @@ const exportedMethods = {
 
     async getTransactionsByDateRangeAndCategory(userId, startDate, endDate, category) {
         userId = validation.checkId(userId, 'User ID');
-        console.log("Before");
+        // console.log("Before");
         const transactionCollections = await transactions();
-        console.log("After");
+        // console.log("After");
 
         // Create an object to hold the filter criteria
         const filter = { user_id: new ObjectId(userId) };
@@ -191,7 +191,7 @@ const exportedMethods = {
             };
         });
 
-        console.log("Transformed result:", transformedResult);
+        // console.log("Transformed result:", transformedResult);
         return transformedResult;
     },
 
