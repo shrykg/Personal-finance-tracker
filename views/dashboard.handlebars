@@ -13,7 +13,6 @@
     <div class="dropdown-content">
       <a href="/transactions/new">Add a new Transaction</a>
       <a href="/transactions/seeAllTransaction">View All Transactions</a>
-      <a href="api/transactions">View All Bank Transactions</a>
       <a href="/budget/new">Add a new Budget</a>
       <a href="/budget/seeAllBudgets/active">View All Budgets</a>
       <a href="/charts/getCharts">View Detailed Charts</a>
@@ -22,7 +21,14 @@
     </div>
 
   </div>
-  <div class="dropdown_goals">
+  <div class="dropdown_bank">
+    <button class="dropdown-btn-bank">Bank</button>
+    <div class="dropdown-content-bank">
+      {{!-- <a id="link-account" href="">Link Account</a> --}}
+    </div>
+  </div>
+  
+<div class="dropdown_goals">
     <button class="dropdown-btn-goals">Goals</button>
     <div class="dropdown-content-goals">
       <a href="/goals/viewgoals">Set a Goal</a>
@@ -30,6 +36,11 @@
       <a href="/goals/new">Add savings for a existing goal</a>
     </div>
   </div>
+
+
+
+
+
 </div>
 <div id="transactions-data" style="display:none;">{{json transactions}}</div>
 <h1 style="text-align: center">Welcome {{data.firstname}} {{data.lastname}}</h1>
@@ -93,7 +104,7 @@
     {{/each}}
   </tbody>
 </table>
-<button type="button" id="link-account" class="btn btn-primary btn-dark btn-lg" style="
+{{!-- <button type="button" id="link-account" class="btn btn-primary btn-dark btn-lg" style="
         border: 1px solid black;
         border-radius: 5px;
         background: black;
@@ -105,7 +116,7 @@
         font-size: 18px;
       ">
   <strong>Link account</strong>
-</button>
+</button> --}}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
 <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>

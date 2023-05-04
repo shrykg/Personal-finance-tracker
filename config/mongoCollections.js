@@ -19,3 +19,4 @@ export const transactions  = getCollectionFn('transactions');
 export const budget = getCollectionFn('budget');
 export const expired= getCollectionFn('expired')
 export const goals = getCollectionFn('goals');
+export const plaid = getCollectionFn('plaid')

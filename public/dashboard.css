@@ -171,3 +171,41 @@ h2:last-of-type {
 .dropdown_goals:hover .dropdown-content-goals {
     display: block;
 }
+
+.dropdown-btn-bank {
+    background-color: #f7f2f2;
+    color: #0b0000;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+
+/* Style the dropdown content */
+.dropdown-content-bank {
+    background-color: #f9f9f9;
+    display: none;
+    position: absolute;
+    top: 60px;
+    /* adjust as needed */
+    /* adjust as needed */
+    z-index: 1;
+}
+
+/* Style the links inside the dropdown */
+.dropdown-content-bank a {
+    color: #333;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content-bank a:hover {
+    background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown_bank:hover .dropdown-content-bank {
+    display: block;
+}
