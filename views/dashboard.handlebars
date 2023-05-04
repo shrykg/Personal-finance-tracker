@@ -1,96 +1,113 @@
-  <link rel="stylesheet" type="text/css" href="/public/dashboard.css">
-  <script src="https://www.gstatic.com/charts/loader.js"></script>
-  <script src="/public/charts/chartsDashboard.js"></script>
-  <script>
-    google.charts.load('current', { packages: ['corechart'] });
-    google.charts.setOnLoadCallback(drawCharts);
-  </script>
+<link rel="stylesheet" type="text/css" href="/public/dashboard.css">
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="/public/charts/chartsDashboard.js"></script>
+<script>
+  google.charts.load('current', { packages: ['corechart'] });
+  google.charts.setOnLoadCallback(drawCharts);
+</script>
 
-  <div class="navbar">
-    <div class="navbar-brand">Money Minder</div>
-    <div class="dropdown">
-      <button class="dropdown-btn">Menu</button>
-      <div class="dropdown-content">
-        <a href="/transactions/new">Add a new Transaction</a>
-        <a href="/transactions/seeAllTransaction">View All Transactions</a>
-        <a href="api/transactions">View All Bank Transactions</a>
-        <a href="/budget/new">Add a new Budget</a>
-        <a href="/budget/seeAllBudgets/active">View All Budgets</a>
-        <a href="/charts/getCharts">View Detailed Charts</a>
-        <a href="/settings/profile/">Settings</a>
-        <a href="/logout">Logout</a>
-      </div>
-
+<div class="navbar">
+  <div class="navbar-brand">Money Minder</div>
+  <div class="dropdown">
+    <button class="dropdown-btn">Menu</button>
+    <div class="dropdown-content">
+      <a href="/transactions/new">Add a new Transaction</a>
+      <a href="/transactions/seeAllTransaction">View All Transactions</a>
+      <a href="api/transactions">View All Bank Transactions</a>
+      <a href="/budget/new">Add a new Budget</a>
+      <a href="/budget/seeAllBudgets/active">View All Budgets</a>
+      <a href="/charts/getCharts">View Detailed Charts</a>
+      <a href="/settings/profile/">Settings</a>
+      <a href="/logout">Logout</a>
     </div>
-    <div class="dropdown_goals">
-      <button class="dropdown-btn-goals">Goals</button>
-      <div class="dropdown-content-goals">
-        <a href="/goals/viewgoals">Set a Goal</a>
-        <a href="/goals/viewall">View Existing Goals</a>
-        <a href="/goals/new">Add savings for a existing goal</a>
-      </div>
+
+  </div>
+  <div class="dropdown_goals">
+    <button class="dropdown-btn-goals">Goals</button>
+    <div class="dropdown-content-goals">
+      <a href="/goals/viewgoals">Set a Goal</a>
+      <a href="/goals/viewall">View Existing Goals</a>
+      <a href="/goals/new">Add savings for a existing goal</a>
     </div>
   </div>
-  <div id="transactions-data" style="display:none;">{{json transactions}}</div>
-  <h1 style="text-align: center">Welcome {{data.firstname}} {{data.lastname}}</h1>
-  <div id="chart_wrapper">
-    <div id="piechart" style="width: 900px; height: 500px;">Charts</div>
-    {{!-- <div id="linechart" style="display:none;"></div> --}}
-    <div id="barchart" style="width: 900px; height: 500px;"></div>
-  </div>
-  <h2>Current Budgets Set</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Category</th>
-        <th>Amount Set (in {{data.symbol}})</th>
-        <th>Amount Remaining (in {{data.symbol}})</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each active_budget}}
-      <tr>
-        <td>{{start_date}}</td>
-        <td>{{end_date}}</td>
-        <td>{{category}}</td>
-        <td>{{budget_amount}}</td>
-        <td>{{amount_remaining}}</td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
+</div>
+<div id="transactions-data" style="display:none;">{{json transactions}}</div>
+<h1 style="text-align: center">Welcome {{data.firstname}} {{data.lastname}}</h1>
+<div id="chart_wrapper">
+  <div id="piechart" style="width: 900px; height: 500px;">Charts</div>
+  {{!-- <div id="linechart" style="display:none;"></div> --}}
+  <div id="barchart" style="width: 900px; height: 500px;"></div>
+</div>
+<h2>Current Budgets Set</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Category</th>
+      <th>Amount Set (in {{data.symbol}})</th>
+      <th>Amount Remaining (in {{data.symbol}})</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each active_budget}}
+    <tr>
+      <td>{{start_date}}</td>
+      <td>{{end_date}}</td>
+      <td>{{category}}</td>
+      <td>{{budget_amount}}</td>
+      <td>{{amount_remaining}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
 
-  <h2> Recent Transaction history</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Description</th>
-        <th>Category</th>
-        <th>Amount in {{data.symbol}}</th>
-        <th>Type</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each transactions}}
-      <tr>
-        <td>{{transaction_date}}</td>
-        <td>{{description}}</td>
-        <td>{{category}}</td>
-        <td>{{amount}}</td>
-        <td>{{paymentType}}</td>
+<h2> Recent Transaction history</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Description</th>
+      <th>Category</th>
+      <th>Amount in {{data.symbol}}</th>
+      <th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each transactions}}
+    <tr>
+      <td>{{transaction_date}}</td>
+      <td>{{description}}</td>
+      <td>{{category}}</td>
+      <td>{{amount}}</td>
+      <td>{{paymentType}}</td>
 
 
-        {{!-- <td>
-          <button type="button" onclick="window.location.href='/transactions/{{_id}}'">Edit</button>
+      {{!-- <td>
+        <button type="button" onclick="window.location.href='/transactions/{{_id}}'">Edit</button>
 
-          <button class="del-btn" data-transaction-Id="{{_id}}">Delete</button>
-        </td> --}}
+        <button class="del-btn" data-transaction-Id="{{_id}}">Delete</button>
+      </td> --}}
 
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+<button type="button" id="link-account" class="btn btn-primary btn-dark btn-lg" style="
+        border: 1px solid black;
+        border-radius: 5px;
+        background: black;
+        height: 48px;
+        width: 155px;
+        margin-top: 5; 
+        margin-left: 10;
+        color: white;
+        font-size: 18px;
+      ">
+  <strong>Link account</strong>
+</button>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+<script src="/public/js/plaidLink.js"> </script>
+</body>
