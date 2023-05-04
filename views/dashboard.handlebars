@@ -1,20 +1,10 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <link rel="stylesheet" type="text/css" href="/public/dashboard.css" />
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript" src="/public/charts/chartsDashboard.js"></script>
-  <script type="text/javascript">
+  <link rel="stylesheet" type="text/css" href="/public/dashboard.css">
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="/public/charts/chartsDashboard.js"></script>
+  <script>
     google.charts.load('current', { packages: ['corechart'] });
     google.charts.setOnLoadCallback(drawCharts);
   </script>
-  <style>
-    /* Style the navigation bar */
-  </style>
-</head>
-
-<body>
 
   <div class="navbar">
     <div class="navbar-brand">Money Minder</div>
@@ -100,17 +90,6 @@
       type="button"
       id="link-account"
       class="btn btn-primary btn-dark btn-lg"
-      style="
-        border: 1px solid black;
-        border-radius: 5px;
-        background: black;
-        height: 48px;
-        width: 155px;
-        margin-top: 5; 
-        margin-left: 10;
-        color: white;
-        font-size: 18px;
-      "
     >
       <strong>Link account</strong>
     </button>
@@ -118,6 +97,5 @@
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
     <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
     <script src="/public/js/plaidLink.js"> </script>  
-</body>
-  <!-- Rest of the code goes here -->
+
  
