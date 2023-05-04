@@ -20,7 +20,7 @@ router.route('/new').get(async (req, res) => {
     }
     transactionPostData['user_id'] = global.loggedInUserId
     transactionPostData['amount'] = Number(transactionPostData.amount)
-    console.log(transactionPostData)
+    // console.log(transactionPostData)
 
 
     let errors = [];
@@ -89,7 +89,7 @@ router.route('/new').get(async (req, res) => {
       //console.log('_____________')
 
 
-      console.log(latestTransactions)
+      //console.log(latestTransactions)
 
 
       res.redirect('/dashboard')
@@ -119,8 +119,8 @@ router
 router
   .route('/seeAllTransaction/filters')
   .get(async (req, res) => {
-    console.log('inside filters')
-    console.log(req.query)
+    // console.log('inside filters')
+    // console.log(req.query)
     // try {
     //   let result = await transactionData.getAllTransactions(global.loggedInUserId)
     //   return res.render('seeAllTransaction', {
@@ -147,8 +147,8 @@ router
       const transactions = await transactionData.getTransactionsByDateRangeAndCategory(userId, start, end, category)
 
       // render transactions
-      console.log('-----')
-      console.log(transactions)
+      // console.log('-----')
+      // console.log(transactions)
       res.render('seeAllTransaction', { transactions, start: start_date, end: end_date, cat: category });
     } catch (e) {
       res.status(400).json({ error: e });
@@ -161,7 +161,7 @@ router
 router
   .route('/:id')
   .get(async (req, res) => {
-    console.log('goingggg in getttttt')
+    //console.log('goingggg in getttttt')
     try {
       req.params.id = validation.checkId(req.params.id, 'Id URL Param');
     } catch (e) {
@@ -171,8 +171,8 @@ router
       let transaction = await transactionData.getTransaction(req.params.id)
       transaction.transaction_date = new Date(transaction.transaction_date)
       //   render indivisual transaction
-      console.log('-----')
-      console.log(transaction)
+      // console.log('-----')
+      // console.log(transaction)
 
       res.render('updatetransaction', { transaction })
     } catch (e) {
@@ -181,12 +181,12 @@ router
   })
   .put(async (req, res) => {
     const updatedData = req.body;
-    console.log('updatedData')
-    console.log(req.params.id)
+    // console.log('updatedData')
+    // console.log(req.params.id)
     updatedData['user_id'] = global.loggedInUserId
     updatedData['amount'] = Number(updatedData.amount)
 
-    console.log(updatedData)
+    //console.log(updatedData)
 
     try {
 
@@ -208,7 +208,7 @@ router
     }
 
     try {
-      console.log('now update')
+      // console.log('now update')
       const updatedTransaction = await transactionData.updateTransaction(
         req.params.id,
         updatedData
@@ -259,16 +259,16 @@ router
   //     }
   //   })
   .delete(async (req, res) => {
-    console.log(req.params.id)
+    // console.log(req.params.id)
     try {
       req.params.id = validation.checkId(req.params.id, 'Id URL Param');
     } catch (e) {
-      console.log(e)
+      // console.log(e)
       return res.status(400).json({ error: e });
     }
     try {
       let deletedTransaction = await transactionData.removeTransaction(req.params.id)
-      console.log(deletedTransaction)
+      // console.log(deletedTransaction)
       return res.status(200).json(deletedTransaction);
     } catch (e) {
       console.log(e)
@@ -283,7 +283,7 @@ router.route('/seeAllTransaction/export').get(async (req, res) => {
   // if (!req.session.user) {
   //   res.redirect('/login')
   // }
-  console.log(req.body)
+  // console.log(req.body)
   res.render('addtransaction')
 })
 

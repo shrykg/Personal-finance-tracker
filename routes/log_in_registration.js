@@ -31,7 +31,7 @@ router
     })
 
     .post(async (req, res) => {
-        console.log(req.body);
+        //console.log(req.body);
         let firstname = xss(req.body.firstname);
         let lastname = xss(req.body.lastname);
         let dob = xss(req.body.dob);
@@ -80,19 +80,18 @@ router
         let trans_data = '';
         let active_budget = '';
         let amount_remaining = '';
-        console.log(data);
+        //console.log(data);
         try {
             trans_data = await transactionData.getLatestTransactions(data.id);
         }
         catch (e) {
 
         }
-        try{
-            let check_budget=await budgetData.archiveExpiredBudgets() // checking for budget expiration and adding it into new collection
+        try {
+            let check_budget = await budgetData.archiveExpiredBudgets() // checking for budget expiration and adding it into new collection
         }
-        catch(e)
-        {
-            
+        catch (e) {
+
         }
         try {
             active_budget = await budgetData.get_all_active_users(data.id);
@@ -101,7 +100,7 @@ router
 
         }
 
-        console.log(trans_data);
+        //console.log(trans_data);
 
 
         // try {

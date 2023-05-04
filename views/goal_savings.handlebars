@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="/public/goal_savings.css">
+<h1>Add Goal Savings</h1>
+<form id="goal_saving_form" action="/goals/new" method="POST">
+    {{!-- <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" id="description" name="description" placeholder="Enter description" required>
+    </div> --}}
+    <label for="goal_name">What Goal is this for?</label>
+    <select id="goal_select" name="goal_select">
+        <option value="">--Select from existing goals</option>
+        {{#each data}}
+        <option value="{{goal_name}}">{{goal_name}}</option>
+        {{/each}}
+    </select>
+
+    <div class="form-group">
+        <label for="amount">Amount</label>
+        <input type="number" id="amount" name="amount" placeholder="Enter amount" step="0.01" required>
+    </div>
+
+    <div class="form-group">
+        <label for="goal_saving_date">Date</label>
+        <input type="date" id="goal_saving_date" name="goal_saving_date" required>
+    </div>
+
+    <div class="error" id="error" hidden></div>
+    <button type="submit">Add to Savings !</button>
+
+</form>
