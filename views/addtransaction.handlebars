@@ -1,77 +1,5 @@
 {{!-- <h1> Add Transaction</h1> --}}
-
-<style>
-  form {
-    max-width: 500px;
-    margin: 0 auto;
-    font-family: Arial, sans-serif;
-  }
-
-  label {
-    display: block;
-    margin-bottom: 5px;
-  }
-
-  h1 {
-    text-align: center;
-  }
-
-  input[type="text"],
-  input[type="number"],
-  select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    box-sizing: border-box;
-  }
-
-  button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background-color: #3e8e41;
-  }
-
-  .form-group {
-    margin-bottom: 15px;
-  }
-
-  .form-group:last-child {
-    margin-bottom: 0;
-  }
-
-  .form-group label {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-
-  button[id="add_trans_dashboard"] {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-left: 265px;
-  }
-
-  button[id="add_trans_dashboard"]:hover {
-    background-color: #3e8e41;
-  }
-
-  .error {
-    color: red;
-  }
-</style>
-
+<link rel="stylesheet" href="/public/addtransaction.css">
 <h1> Add Transaction</h1>
 <form id="transaction_form" action="/transactions/new" method="POST">
   <div class="form-group">
@@ -121,4 +49,4 @@
 <script src='/public/validations/transaction.js'></script>
 </form>
 
-<button id="add_trans_dashboard" onclick=window.location.href="/dashboard">Back to Dashboard</button>
+<button id="add_trans_dashboard" onclick="window.location.href='/dashboard'">Back to Dashboard</button>
