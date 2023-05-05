@@ -6,8 +6,13 @@ import { transactions } from '../config/mongoCollections.js';
 import validation from '../validation.js';
 import moment from 'moment';
 
-// create new budget
-
+const checkBudget= async (user_id,category,start,amount)=> {
+  const get_data = await transactions();
+  let today = moment().format("YYYY-MM-DD");
+  const result = await get_data.find({user_id:user_id,
+    transaction_date: { $gte: today },category: category,}).toArray();
+    console.log(result);
+}
 const create = async (user_id, category, budget_amount, start, end) => {
   //validation.checkBudget(category, start, end);
   let newdata =
@@ -189,5 +194,5 @@ const amount_remaining = async (user_id) => {
   return final_array;
 };
 
-const budgetDataFunctions = { create, getAll, getAllsort, archiveExpiredBudgets, get_all_active_users, removeActive, removeExpired, amount_aggregate, amount_remaining }
+const budgetDataFunctions = { create, getAll, getAllsort, archiveExpiredBudgets, get_all_active_users, removeActive, removeExpired, amount_aggregate, amount_remaining,checkBudget }
 export default budgetDataFunctions;
