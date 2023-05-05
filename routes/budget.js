@@ -21,7 +21,7 @@ router.route('/new').get(async (req, res) => {
       return res
         .status(400).render('error', { error_occured: "No data in body part" })
     }
-
+    let user_id = req.session.user.id.trim();
     let category = xss(req.body.category).trim()
     let amount = xss(req.body.amount).trim();
     // (amount)
@@ -38,7 +38,7 @@ router.route('/new').get(async (req, res) => {
     try {
       amount = symbol + amount;
 
-      await budgetDataFunctions.create(global.loggedInUserId, category, amount, start_Date, end_Date)
+      await budgetDataFunctions.create(user_id, category, amount, start_Date, end_Date)
       res.redirect('/dashboard')
     }
     catch (e) {
@@ -48,35 +48,55 @@ router.route('/new').get(async (req, res) => {
 
 
 router.get('/seeAllBudgets/active', async (req, res) => { // to see all active budgets 
+  if (!req.session.user) {
+    res.redirect('/login');
+  }
   try {
-    const active_budgets = await budgetDataFunctions.get_all_active_users(global.loggedInUserId);
+    let user_id = req.session.user.id.trim();
+    const active_budgets = await budgetDataFunctions.get_all_active_users(user_id);
     res.render('seeActiveBudgets', { active_budgets: active_budgets });
   } catch (e) {
     res.render('error', { error_occured: e });
   }
 });
 router.delete('/ActiveRemove/:id', async (req, res) => { // to delete active budget
+  if (!req.session.user) {
+    res.redirect('/login');
+  }
   let budget_id = req.params.id.trim()
   const remove = await budgetDataFunctions.removeActive(budget_id);
   res.redirect('/budget/seeAllBudgets/active');
 
 });
 router.route('/expiredBudgets').get(async (req, res) => { // to see expired budget
-  const result = await budgetDataFunctions.getAll(global.loggedInUserId)
+  if (!req.session.user) {
+    res.redirect('/login');
+  }
+  try{
+  let user_id = req.session.user.id.trim();
+  const result = await budgetDataFunctions.getAll(user_id)
   res.render('expiredBudgets', { budget: result })
-
+  }catch(e){ res.render('error', { error_occured: e });}
 })
 router.route('/expiredBudgets/sort').get(async (req, res) => { //to see expired budget, sort by start_date
-  const result = await budgetDataFunctions.getAllsort(global.loggedInUserId)
-  res.render('expiredBudgets', { budget: result })
-
+  if (!req.session.user) {
+    res.redirect('/login');
+  }try{
+  let user_id = req.session.user.id.trim();
+  const result = await budgetDataFunctions.getAllsort(user_id)
+  res.render('expiredBudgets', { budget: result })}
+  catch(e){ res.render('error', { error_occured: e });}
 })
 
 router.delete('/remove/:id', async (req, res) => { // to remove expired budget 
+  if (!req.session.user) {
+    res.redirect('/login');
+  }
+  try{
   let budget_id = req.params.id.trim()
   const remove1 = await budgetDataFunctions.removeExpired(budget_id);
-  res.redirect('/budget/expiredBudgets');
-
+  res.redirect('/budget/expiredBudgets');}
+  catch(e) {res.render('error', { error_occured: e });}
 });
 
 
