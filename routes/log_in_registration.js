@@ -5,6 +5,7 @@ import bcrypt from "bcrypt"
 import { login_reg_data, transactionData, budgetData } from "../data/index.js";
 import { sendOTP, generateOTP } from "../data/forgot_password.js";
 import nodemailer from 'nodemailer'
+import budgetDataFunctions from "../data/budget.js";
 
 router
     .route('/about')
@@ -99,37 +100,16 @@ router
         catch (e) {
 
         }
-
-        //console.log(trans_data);
-
-
-        // try {
-        //     let amount_remaining = await budgetData.amount_remaining(data.id);
-        //     console.log(amount_remaining)
-        // }
-
-        // catch (e) {
-
-        // }
-        //console.log(active_budget);
-        //needs work
+        console.log(active_budget);
+        let x = ''
         try {
-            amount_remaining = await budgetData.amount_remaining(data.id);
-            for (let j = 0; j < active_budget.length; j++) {
-                active_budget[j].amount_remaining = active_budget[j].budget_amount
-            }
-
-            for (let i = 0; i < amount_remaining.length; i++) {
-                for (let j = 0; j < active_budget.length; j++) {
-                    if (amount_remaining[i].category === active_budget[j].category) {
-                        active_budget[j].amount_remaining = amount_remaining[i].amount_remaining
-                    }
-                }
-            }
+            //x = await budgetDataFunctions.getCategorySums(data.id, active_budget[0].category, active_budget[0].start_date, active_budget[0].end_date);
+            x = await budgetDataFunctions.amount_aggregate(data.id, '2023-05-01', '2023-05-30', active_budget[0].category)
         }
-
-        catch (e) { }
-
+        catch (e) {
+            console.log(e)
+        }
+        console.log(x);
         if (data) {
             try {
                 res.status(200).render('dashboard', { data: data, transactions: trans_data, active_budget: active_budget });
