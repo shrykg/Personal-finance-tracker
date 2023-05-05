@@ -132,11 +132,10 @@
   </div> --}}
   <form id="filter-form" action="/transactions/seeAllTransaction/filters" method="GET">
     <label for="start-date-input">Start Date:</label>
-    <input type="date" id="start-date-input" name="start_date" {{#if start}} value="{{moment start format="
-      YYYY-MM-DD"}}" {{/if}}>
+    <input type="date" id="start-date-input" name="start_date" {{#if start}} value="{{start}}" {{/if}}>
 
     <label for="end-date-input">End Date:</label>
-    <input type="date" id="end-date-input" name="end_date" {{#if end}} value="{{moment end format=" YYYY-MM-DD"}}"
+    <input type="date" id="end-date-input" name="end_date" {{#if end}} value="{{end}}"
       {{/if}}>
 
     <label for="category-input">Category:</label>
