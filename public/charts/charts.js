@@ -101,7 +101,7 @@ function drawPieChart(transactions) {
     const pieChart = new google.visualization.PieChart(document.getElementById('piechart'));
     pieChart.draw(google.visualization.arrayToDataTable(pieChartData),
         {
-            title: 'Expenses by Category'
+            title: '1. Expenses by Category'
         });
 }
 
@@ -110,7 +110,7 @@ function drawLineChart(transactions) {
     const lineChart = new google.visualization.LineChart(document.getElementById('linechart'));
     lineChart.draw(google.visualization.arrayToDataTable(yearlyGrowthData),
         {
-            title: 'Year-on-Year Expenses Growth (Line Chart)'
+            title: '2. Year-on-Year Expenses Growth (Line Chart)'
         });
 }
 
@@ -119,7 +119,7 @@ function drawBarChart(transactions) {
     const barChart = new google.visualization.ColumnChart(document.getElementById('barchart'));
     barChart.draw(google.visualization.arrayToDataTable(monthlyChartData),
         {
-            title: 'Monthly Expenses Trend (Bar Chart)'
+            title: '3. Monthly Expenses Trend (Bar Chart)'
         });
 }
 
@@ -128,7 +128,7 @@ function drawStackedColumnChart(transactions) {
     const stackedColumnChart = new google.visualization.ColumnChart(document.getElementById('stackedColumnChart'));
     stackedColumnChart.draw(google.visualization.arrayToDataTable(quarterlyChartData),
         {
-            title: 'Quarterly Expenses by Category (Stacked Column Chart)',
+            title: '4. Quarterly Expenses by Category (Stacked Column Chart)',
             isStacked: true
         });
 }

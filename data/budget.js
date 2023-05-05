@@ -6,17 +6,39 @@ import { transactions } from '../config/mongoCollections.js';
 import validation from '../validation.js';
 import moment from 'moment';
 
-// create new budget
-
-const create = async (user_id, category, budget_amount, start, end) => {
-  //validation.checkBudget(category, start, end);
+const checkExist= async (user_id,category,start,value)=> {
+  /* checking that user already have done transaction on that perticular category
+   and if yes then it will compare total of that amount with budget amount and allow only if amount<budget */
+  const get_data = await transactions();
+  let today = moment().format("YYYY-MM-DD");
+ if (today.trim()===start.trim()){
+  const result = await get_data.find({user_id:new ObjectId(user_id),
+    transaction_date: { $eq: today },category: category}).toArray();
+    let amounts = result.map(obj => {
+      const amountString = obj.amount.slice(1); // Remove the ₹ symbol
+      return Number(amountString);
+    });
+    let total = 0;
+for (let i = 0; i < amounts.length; i++) {
+  total += amounts[i];
+}
+if(total>=value){throw "You have already spent more amount than budget in this category today , start budget from next day please"}
+}
+}
+//  creating new budget
+const create = async (user_id, category, amount, start, end) => {
+  if(!amount){throw "Please Provide amount"}
+  const symbol = amount.slice(0, 1);
+  let value = Number(amount.slice(1));
+  validation.checkBudget(category,value,start,end);
+  value = symbol + value.toString();
   let newdata =
   {
     user_id: user_id.trim(),
     category: category.trim(),
     budget_amount: budget_amount,
-    start_date: start,
-    end_date: end,
+    start_date: start.trim(),
+    end_date: end.trim(),
     amount_remaining: budget_amount
   }
   const getbudget = await budget();
@@ -146,5 +168,6 @@ const amount_aggregate = async (user_id, start, end, category) => {
 };
 
 
-const budgetDataFunctions = { create, getAll, getAllsort, archiveExpiredBudgets, get_all_active_users, removeActive, removeExpired, amount_aggregate }
+const budgetDataFunctions = { create, getAll, getAllsort, archiveExpiredBudgets, get_all_active_users, removeActive, removeExpired, amount_aggregate,checkExist }
+
 export default budgetDataFunctions;

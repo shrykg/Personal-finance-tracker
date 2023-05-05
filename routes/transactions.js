@@ -134,21 +134,28 @@ router
       const { start_date, end_date, category } = req.query;
       const userId = global.loggedInUserId
 
-      if (!start_date || !end_date) {
-        throw 'Start date and end date are required query parameters';
-      }
-      const start = new Date(start_date);
-      const end = new Date(end_date);
-      if (start > end) {
-        throw 'Start date must be before end date';
+      // if (!start_date || !end_date) {
+      //   throw 'Start date and end date are required query parameters';
+      // }
+      // const start = new Date(start_date);
+      // const end = new Date(end_date);
+      // if (start > end) {
+      //   throw 'Start date must be before end date';
+      // }
+      let start, end;
+  
+      // validate start and end dates
+      if (start_date && end_date) {
+        start = new Date(start_date);
+        end = new Date(end_date);
+        if (start > end) {
+          throw 'Start date must be before end date';
+        }
       }
 
       // get transactions with given category and date range
-      const transactions = await transactionData.getTransactionsByDateRangeAndCategory(userId, start, end, category)
+      const transactions = await transactionData.getTransactionsByDateRangeAndCategory(userId, start_date, end_date, category)
 
-      // render transactions
-      // console.log('-----')
-      // console.log(transactions)
       res.render('seeAllTransaction', { transactions, start: start_date, end: end_date, cat: category });
     } catch (e) {
       res.status(400).json({ error: e });
@@ -170,10 +177,8 @@ router
     try {
       let transaction = await transactionData.getTransaction(req.params.id)
       transaction.transaction_date = new Date(transaction.transaction_date)
-      //   render indivisual transaction
-      // console.log('-----')
-      // console.log(transaction)
-
+      const amountInNum = Number(transaction.amount.slice(1));
+      transaction.amount = amountInNum
       res.render('updatetransaction', { transaction })
     } catch (e) {
       res.status(404).json({ error: e });
@@ -181,19 +186,23 @@ router
   })
   .put(async (req, res) => {
     const updatedData = req.body;
+
+    console.log('updated data in put route')
+    console.log(updatedData)
+
     // console.log('updatedData')
     // console.log(req.params.id)
     updatedData['user_id'] = global.loggedInUserId
     updatedData['amount'] = Number(updatedData.amount)
 
     //console.log(updatedData)
-
+    
     try {
 
       req.params.id = validation.checkId(req.params.id, 'ID url param');
       updatedData.description = validation.checkString(updatedData.description, 'Description');
       updatedData.category = validation.checkString(updatedData.category, 'category');
-      updatedData.amount = validation.checkNumber(updatedData.amount, 'Amount')
+      // updatedData.amount = validation.checkNumber(updatedData.amount, 'Amount')
       // change this to validate date
       updatedData.transaction_date = validation.checkString(updatedData.transaction_date, 'Transaction Date')
       updatedData.paymentType = validation.checkString(updatedData.paymentType, 'Payment Type')
@@ -201,9 +210,8 @@ router
         updatedData.user_id,
         'User ID'
       );
-
+      updatedData.amount = `${req.session.user.symbol}${updatedData.amount}`
     } catch (e) {
-
       return res.status(400).json({ error: e });
     }
 
@@ -218,7 +226,8 @@ router
       return res.json({ "update": true })
 
     } catch (e) {
-
+      console.log('eroorjknjknjkn')
+      console.log(e)
       let status = e[0];
       let message = e[1];
       return res.status(status).json({ error: message });
