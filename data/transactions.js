@@ -107,13 +107,16 @@ const exportedMethods = {
     },
 
     async updateTransaction(transactionId, updatedTransaction) {
+        console.log('updatedTransaction::::::::')
+        console.log(updatedTransaction)
         transactionId = validation.checkId(transactionId)
         updatedTransaction.user_id = validation.checkId(updatedTransaction.user_id, 'User ID')
         // Check date validations
-        updatedTransaction.amount = validation.checkNumber(updatedTransaction.amount, 'Amount')
+        let amountInNum = Number(updatedTransaction.amount.slice(1));
+        // amountInNum = validation.checkNumber(updatedTransaction.amount, 'Amount')
         updatedTransaction.description = validation.checkString(updatedTransaction.description, 'Description')
         updatedTransaction.category = validation.checkString(updatedTransaction.category)
-
+        
         let updatedTransactionData = {
             user_id: new ObjectId(updatedTransaction.user_id),
             transaction_date: updatedTransaction.transaction_date,
