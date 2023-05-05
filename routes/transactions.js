@@ -46,7 +46,6 @@ router.route('/new').get(async (req, res) => {
 
     try {
       transactionPostData.amount = validation.checkNumber(transactionPostData.amount, 'Amount');
-      transactionPostData.amount = session_data.symbol + transactionPostData.amount;
     } catch (e) {
       errors.push(e);
     }
@@ -177,8 +176,8 @@ router
     try {
       let transaction = await transactionData.getTransaction(req.params.id)
       transaction.transaction_date = new Date(transaction.transaction_date)
-      const amountInNum = Number(transaction.amount.slice(1));
-      transaction.amount = amountInNum
+      // const amountInNum = Number(transaction.amount.slice(1));
+      // transaction.amount = amountInNum
       res.render('updatetransaction', { transaction })
     } catch (e) {
       res.status(404).json({ error: e });
@@ -210,7 +209,7 @@ router
         updatedData.user_id,
         'User ID'
       );
-      updatedData.amount = `${req.session.user.symbol}${updatedData.amount}`
+      
     } catch (e) {
       return res.status(400).json({ error: e });
     }
