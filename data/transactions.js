@@ -112,8 +112,7 @@ const exportedMethods = {
         transactionId = validation.checkId(transactionId)
         updatedTransaction.user_id = validation.checkId(updatedTransaction.user_id, 'User ID')
         // Check date validations
-        let amountInNum = Number(updatedTransaction.amount.slice(1));
-        // amountInNum = validation.checkNumber(updatedTransaction.amount, 'Amount')
+        updatedTransaction.amount = validation.checkNumber(updatedTransaction.amount, 'Amount')
         updatedTransaction.description = validation.checkString(updatedTransaction.description, 'Description')
         updatedTransaction.category = validation.checkString(updatedTransaction.category)
         
