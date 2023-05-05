@@ -1,0 +1,25 @@
+<div id="transactions-data" style="display:none;">{{json transactions}}</div>
+<h1>Here are all your notifications</h1>
+<h2>Current Budgets Set</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Category</th>
+            <th>Amount Set (in {{data.symbol}})</th>
+            <th>Amount Remaining (in {{data.symbol}})</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each active_budget}}
+        <tr>
+            <td>{{start_date}}</td>
+            <td>{{end_date}}</td>
+            <td>{{category}}</td>
+            <td>{{budget_amount}}</td>
+            <td>{{amount_remaining}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
