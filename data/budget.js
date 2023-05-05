@@ -6,22 +6,39 @@ import { transactions } from '../config/mongoCollections.js';
 import validation from '../validation.js';
 import moment from 'moment';
 
-const checkBudget= async (user_id,category,start,amount)=> {
+const checkExist= async (user_id,category,start,value)=> {
+  /* checking that user already have done transaction on that perticular category
+   and if yes then it will compare total of that amount with budget amount and allow only if amount<budget */
   const get_data = await transactions();
   let today = moment().format("YYYY-MM-DD");
-  const result = await get_data.find({user_id:user_id,
-    transaction_date: { $gte: today },category: category,}).toArray();
-    console.log(result);
+ if (today.trim()===start.trim()){
+  const result = await get_data.find({user_id:new ObjectId(user_id),
+    transaction_date: { $eq: today },category: category}).toArray();
+    let amounts = result.map(obj => {
+      const amountString = obj.amount.slice(1); // Remove the ₹ symbol
+      return Number(amountString);
+    });
+    let total = 0;
+for (let i = 0; i < amounts.length; i++) {
+  total += amounts[i];
 }
-const create = async (user_id, category, budget_amount, start, end) => {
-  //validation.checkBudget(category, start, end);
+if(total>=value){throw "You have already spent more amount than budget in this category today , start budget from next day please"}
+}
+}
+//  creating new budget
+const create = async (user_id, category, amount, start, end) => {
+  if(!amount){throw "Please Provide amount"}
+  const symbol = amount.slice(0, 1);
+  let value = Number(amount.slice(1));
+  validation.checkBudget(category,value,start,end);
+  value = symbol + value.toString();
   let newdata =
   {
     user_id: user_id.trim(),
     category: category.trim(),
-    budget_amount: budget_amount,
-    start_date: start,
-    end_date: end
+    budget_amount: amount.trim(),
+    start_date: start.trim(),
+    end_date: end.trim()
   }
   const getbudget = await budget();
   const found = await getbudget.findOne({ user_id: user_id, category: category });
@@ -194,5 +211,5 @@ const amount_remaining = async (user_id) => {
   return final_array;
 };
 
-const budgetDataFunctions = { create, getAll, getAllsort, archiveExpiredBudgets, get_all_active_users, removeActive, removeExpired, amount_aggregate, amount_remaining,checkBudget }
+const budgetDataFunctions = { create, getAll, getAllsort, archiveExpiredBudgets, get_all_active_users, removeActive, removeExpired, amount_aggregate, amount_remaining,checkExist }
 export default budgetDataFunctions;

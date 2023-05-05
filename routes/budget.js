@@ -9,11 +9,14 @@ router.route('/new').get(async (req, res) => {
   // Render add new transcation HTML form
 
   if (!req.session.user) {
-    res.redirect('/login');
+    return res.redirect('/login');
   }
-  res.render('addbudget')
+ return res.render('addbudget')
 })
   .post(async (req, res) => { // adding new budget 
+    if (!req.session.user) {
+      return res.redirect('/login');
+    }
     let session_data = req.session.user;
     //(session_data)
     const budget = req.body;
@@ -34,69 +37,70 @@ router.route('/new').get(async (req, res) => {
       amount = Number(amount);
       validation.checkBudget(category, amount, start_Date, end_Date);
     }
-    catch (e) { res.render('error', { error_occured: e }) }
+    catch (e) { return res.render('error', { error_occured: e }) }
+    try{let result=await budgetDataFunctions.checkExist(user_id,category,start_Date,amount)}
+    catch(e){ return res.render('error', { error_occured: e }) }
     try {
       amount = symbol + amount;
-
       await budgetDataFunctions.create(user_id, category, amount, start_Date, end_Date)
-      res.redirect('/dashboard')
+      return res.redirect('/dashboard')
     }
     catch (e) {
-      res.render('error', { error_occured: e })
+      return res.render('error', { error_occured: e })
     }
   })
 
 
 router.get('/seeAllBudgets/active', async (req, res) => { // to see all active budgets 
   if (!req.session.user) {
-    res.redirect('/login');
+    return res.redirect('/login');
   }
   try {
     let user_id = req.session.user.id.trim();
     const active_budgets = await budgetDataFunctions.get_all_active_users(user_id);
-    res.render('seeActiveBudgets', { active_budgets: active_budgets });
+    return res.render('seeActiveBudgets', { active_budgets: active_budgets });
   } catch (e) {
-    res.render('error', { error_occured: e });
+    return res.render('error', { error_occured: e });
   }
 });
 router.delete('/ActiveRemove/:id', async (req, res) => { // to delete active budget
   if (!req.session.user) {
-    res.redirect('/login');
+    return res.redirect('/login');
   }
   let budget_id = req.params.id.trim()
   const remove = await budgetDataFunctions.removeActive(budget_id);
-  res.redirect('/budget/seeAllBudgets/active');
+  return res.redirect('/budget/seeAllBudgets/active');
 
 });
 router.route('/expiredBudgets').get(async (req, res) => { // to see expired budget
   if (!req.session.user) {
-    res.redirect('/login');
+    return res.redirect('/login');
   }
   try{
   let user_id = req.session.user.id.trim();
   const result = await budgetDataFunctions.getAll(user_id)
-  res.render('expiredBudgets', { budget: result })
-  }catch(e){ res.render('error', { error_occured: e });}
+  return res.render('expiredBudgets', { budget: result })
+  }catch(e){ return res.render('error', { error_occured: e });}
 })
 router.route('/expiredBudgets/sort').get(async (req, res) => { //to see expired budget, sort by start_date
   if (!req.session.user) {
-    res.redirect('/login');
+    return res.redirect('/login');
   }try{
   let user_id = req.session.user.id.trim();
   const result = await budgetDataFunctions.getAllsort(user_id)
-  res.render('expiredBudgets', { budget: result })}
-  catch(e){ res.render('error', { error_occured: e });}
+  return res.render('expiredBudgets', { budget: result })}
+  catch(e){return res.render('error', { error_occured: e });}
 })
 
 router.delete('/remove/:id', async (req, res) => { // to remove expired budget 
   if (!req.session.user) {
-    res.redirect('/login');
+    return res.redirect('/login');
   }
   try{
   let budget_id = req.params.id.trim()
   const remove1 = await budgetDataFunctions.removeExpired(budget_id);
-  res.redirect('/budget/expiredBudgets');}
-  catch(e) {res.render('error', { error_occured: e });}
+  return res.redirect('/budget/expiredBudgets');}
+  catch(e) {return res.render('error', { error_occured: e });}
 });
 
 
