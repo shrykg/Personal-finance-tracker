@@ -170,10 +170,11 @@ const exportedMethods = {
         const transactionCollections = await transactions();
         // console.log("After");
 
+        
         // Create an object to hold the filter criteria
         const filter = { user_id: new ObjectId(userId) };
         if (startDate && endDate) {
-            filter.transaction_date = { $gte: new Date(startDate), $lte: new Date(endDate) };
+            filter.transaction_date = { $gte: startDate, $lte: endDate };
         }
         if (category) {
             filter.category = category;
@@ -181,6 +182,8 @@ const exportedMethods = {
 
         // Use the filter object to find transactions that match the criteria
         const transactions1 = await transactionCollections.find(filter).toArray();
+        console.log('filtered transactions')
+        console.log(transactions1)
 
         // const transformedResult = transactions1.map((transaction) => {
         //     const options = { year: 'numeric', month: 'long', day: 'numeric' };
