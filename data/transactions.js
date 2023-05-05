@@ -15,16 +15,16 @@ const exportedMethods = {
             .limit(10)
             .toArray();
 
-        const transformedResult = result.map((transaction) => {
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
-            return {
-                ...transaction,
-                transaction_date: formattedDate
-            };
-        });
+        // const transformedResult = result.map((transaction) => {
+        //     const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        //     const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
+        //     return {
+        //         ...transaction,
+        //         transaction_date: formattedDate
+        //     };
+        // });
 
-        return transformedResult;
+        return result;
     },
 
     async getAllTransactions(userId) {
@@ -33,15 +33,15 @@ const exportedMethods = {
         var result = await transactionCollections
             .find({ user_id: new ObjectId(userId) })
             .toArray();
-        var transformedResult = result.map((transaction) => {
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
-            return {
-                ...transaction,
-                transaction_date: formattedDate
-            };
-        })
-        return transformedResult
+        // var transformedResult = result.map((transaction) => {
+        //     const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        //     const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
+        //     return {
+        //         ...transaction,
+        //         transaction_date: formattedDate
+        //     };
+        // })
+        return result
     },
 
 
@@ -52,9 +52,9 @@ const exportedMethods = {
         if (!transaction) {
             throw 'Error: Transaction not found'
         }
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
-        transaction.transaction_date = formattedDate
+        // const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        // const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
+        // transaction.transaction_date = formattedDate
         return transaction
     },
 
@@ -76,7 +76,7 @@ const exportedMethods = {
         //console.log('beforeeeee')
         let newTransaction = {
             user_id: new ObjectId(userId),
-            transaction_date: new Date(date),
+            transaction_date: date,
             amount: amount,
             description: description,
             category: category,
@@ -116,7 +116,7 @@ const exportedMethods = {
 
         let updatedTransactionData = {
             user_id: new ObjectId(updatedTransaction.user_id),
-            transaction_date: new Date(updatedTransaction.transaction_date),
+            transaction_date: updatedTransaction.transaction_date,
             amount: updatedTransaction.amount,
             description: updatedTransaction.description,
             category: updatedTransaction.category,
@@ -143,24 +143,24 @@ const exportedMethods = {
             transaction_date: { $gte: new Date(startDate), $lte: new Date(endDate) },
         }).toArray();
 
-        const transformedResult = transactions1.map((transaction) => {
-            let amount = transaction.amount;
-            // console.log(symbol);
-            // console.log(symbol.length);
-            amount = amount.slice(symbol.length);
-            amount = parseInt(amount);
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
-            return {
-                ...transaction,
-                amount: amount,
-                transaction_date: formattedDate
-            };
-        });
+        // const transformedResult = transactions1.map((transaction) => {
+        //     let amount = transaction.amount;
+        //     // console.log(symbol);
+        //     // console.log(symbol.length);
+        //     amount = amount.slice(symbol.length);
+        //     amount = parseInt(amount);
+        //     const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        //     const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
+        //     return {
+        //         ...transaction,
+        //         amount: amount,
+        //         transaction_date: formattedDate
+        //     };
+        // });
 
         // console.log("Transformed result:", transformedResult); // Add this line
 
-        return transformedResult;
+        return transactions1;
 
     },
 
@@ -182,24 +182,24 @@ const exportedMethods = {
         // Use the filter object to find transactions that match the criteria
         const transactions1 = await transactionCollections.find(filter).toArray();
 
-        const transformedResult = transactions1.map((transaction) => {
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
-            return {
-                ...transaction,
-                transaction_date: formattedDate
-            };
-        });
+        // const transformedResult = transactions1.map((transaction) => {
+        //     const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        //     const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
+        //     return {
+        //         ...transaction,
+        //         transaction_date: formattedDate
+        //     };
+        // });
 
         // console.log("Transformed result:", transformedResult);
-        return transformedResult;
+        return transactions1;
     },
 
     // export_to_excel = (transactions, col_names, filePath) => {
 
     // }
 
-
+    
 
 }
 
