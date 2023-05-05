@@ -27,12 +27,8 @@ router.route('/new').get(async (req, res) => {
     let user_id = req.session.user.id.trim();
     let category = xss(req.body.category).trim()
     let amount = xss(req.body.amount).trim();
-    // (amount)
     let start_Date = xss(req.body.start_Date).trim()
     let end_Date = xss(req.body.end_Date).trim()
-    let symbol = session_data.symbol
-    // (symbol)
-    // amount = symbol + amount;
     try {
       amount = Number(amount);
       validation.checkBudget(category, amount, start_Date, end_Date);
@@ -41,7 +37,6 @@ router.route('/new').get(async (req, res) => {
     try{let result=await budgetDataFunctions.checkExist(user_id,category,start_Date,amount)}
     catch(e){ return res.render('error', { error_occured: e }) }
     try {
-      amount = symbol + amount;
       await budgetDataFunctions.create(user_id, category, amount, start_Date, end_Date)
       return res.redirect('/dashboard')
     }
