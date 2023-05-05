@@ -201,9 +201,8 @@ router
         updatedData.user_id,
         'User ID'
       );
-
+      updatedData.amount = `${req.session.user.symbol}${req.session.user.amount}`
     } catch (e) {
-
       return res.status(400).json({ error: e });
     }
 

@@ -85,7 +85,7 @@ router
             trans_data = await transactionData.getLatestTransactions(data.id);
         }
         catch (e) {
-
+            console.log(e)
         }
         try {
             let check_budget = await budgetData.archiveExpiredBudgets() // checking for budget expiration and adding it into new collection
