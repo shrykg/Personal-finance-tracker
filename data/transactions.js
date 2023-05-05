@@ -146,24 +146,24 @@ const exportedMethods = {
             transaction_date: { $gte: new Date(startDate), $lte: new Date(endDate) },
         }).toArray();
 
-        // const transformedResult = transactions1.map((transaction) => {
-        //     let amount = transaction.amount;
-        //     // console.log(symbol);
-        //     // console.log(symbol.length);
-        //     amount = amount.slice(symbol.length);
-        //     amount = parseInt(amount);
-        //     const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        //     const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
-        //     return {
-        //         ...transaction,
-        //         amount: amount,
-        //         transaction_date: formattedDate
-        //     };
-        // });
+        const transformedResult = transactions1.map((transaction) => {
+            let amount = transaction.amount;
+            // console.log(symbol);
+            // console.log(symbol.length);
+            amount = amount.slice(symbol.length);
+            amount = parseInt(amount);
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
+            return {
+                ...transaction,
+                amount: amount,
+                transaction_date: formattedDate
+            };
+        });
 
-        // console.log("Transformed result:", transformedResult); // Add this line
+        console.log("Transformed result:", transformedResult); // Add this line
 
-        return transactions1;
+        return transformedResult;
 
     },
 
@@ -188,17 +188,18 @@ const exportedMethods = {
         console.log('filtered transactions')
         console.log(transactions1)
 
-        // const transformedResult = transactions1.map((transaction) => {
-        //     const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        //     const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
-        //     return {
-        //         ...transaction,
-        //         transaction_date: formattedDate
-        //     };
-        // });
+        const transformedResult = transactions1.map((transaction) => {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
+            return {
+                ...transaction,
+                transaction_date: formattedDate
+            };
+        });
 
         // console.log("Transformed result:", transformedResult);
-        return transactions1;
+
+        return transformedResult;
     },
 
     // export_to_excel = (transactions, col_names, filePath) => {
