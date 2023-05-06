@@ -76,7 +76,7 @@ if(budget)
         }
         if(err.length>0)
         {
-            errorDiv.hidden=false
+            errorDiv.hidden=false;
             for(let i=0;i<err.length;i++)
             {
                 errorDiv.innerHTML+= err[i] + "</br>"
@@ -84,7 +84,11 @@ if(budget)
         }
         else
         {
+            errorDiv.hidden=true;
+            
             budget.submit();
+            budget.reset();
+
         }
     })
 }
