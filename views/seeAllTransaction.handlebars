@@ -14,8 +14,7 @@
     <input type="date" id="start-date-input" name="start_date" {{#if start}} value="{{start}}" {{/if}}>
 
     <label for="end-date-input">End Date:</label>
-    <input type="date" id="end-date-input" name="end_date" {{#if end}} value="{{end}}"
-      {{/if}}>
+    <input type="date" id="end-date-input" name="end_date" {{#if end}} value="{{end}}" {{/if}}>
 
     <label for="category-input">Category:</label>
     <select id="category-input" name="category">
@@ -68,10 +67,13 @@
 
   <button onclick="window.location.href='/dashboard'">Back to Dashboard</button>
 
-  <button onclick="window.location.href='/export'">Export</button>
+  <button onclick="window.location.href='/transactions/seeAllTransaction/export'">Export all Transactions</button>
 
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
   <script src="/public/js/deleteTransaction.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
   <script src='/public/validations/allTransaction.js'></script>
+  <script src="/public/js/deleteTransaction.js"></script>
+
