@@ -3,7 +3,11 @@ import { ObjectId } from 'mongodb';
 const router = Router();
 import { transactionData } from '../data/index.js';
 import validation from '../validation.js';
+
+import moment from 'moment';
+
 import { exportToExcel } from '../data/excel.js';
+
 
 router.route('/new').get(async (req, res) => {
   // Render add new transcation HTML form
@@ -119,39 +123,28 @@ router
 router
   .route('/seeAllTransaction/filters')
   .get(async (req, res) => {
-    // console.log('inside filters')
-    // console.log(req.query)
-    // try {
-    //   let result = await transactionData.getAllTransactions(global.loggedInUserId)
-    //   return res.render('seeAllTransaction', {
-    //     transactions: result.reverse()
-    //   })
-    // } catch (e) {
-    //   res.status(404).json({ error: e });
-    // }
     try {
       // validate start date and end date
-      const { start_date, end_date, category } = req.query;
-      const userId = global.loggedInUserId
 
-      // if (!start_date || !end_date) {
-      //   throw 'Start date and end date are required query parameters';
-      // }
-      // const start = new Date(start_date);
-      // const end = new Date(end_date);
-      // if (start > end) {
-      //   throw 'Start date must be before end date';
-      // }
-      let start, end;
+      let { start_date, end_date, category } = req.query;
+      let userId = req.session.user.id
+
+      if (!start_date) {
+        start_date = moment('2021-01-01', 'YYYY-MM-DD').format('YYYY-MM-DD');
+      }
+      if (!end_date) {
+        end_date = moment().format('YYYY-MM-DD')
+      }
+
 
       // validate start and end dates
-      if (start_date && end_date) {
-        start = new Date(start_date);
-        end = new Date(end_date);
+      
+        let start = new Date(start_date);
+        let end = new Date(end_date);
         if (start > end) {
           throw 'Start date must be before end date';
         }
-      }
+      
 
       // get transactions with given category and date range
       const transactions = await transactionData.getTransactionsByDateRangeAndCategoryWithoutDateFormat(userId, start_date, end_date, category)

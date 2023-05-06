@@ -1,135 +1,10 @@
 <h1>Transaction</h1>
 
-{{!--
 
-<body>
-  <style>
-    html,
-    body,
-    table {
-      margin: 0;
-      padding: 0;
-      border: 0;
-      font-size: 100%;
-      font-family: sans-serif;
-      vertical-align: baseline;
-    }
-
-    --
-    }
-    }
-
-      {
-        {
-        !--
-
-        /* Style the table */
-        table {
-          border-collapse: collapse;
-          width: 100%;
-          max-width: 800px;
-          margin: 0 auto;
-        }
-
-        /* Style the table headers */
-        th {
-          background-color: #df2626;
-          font-weight: bold;
-          text-align: left;
-          padding: 8px;
-        }
-
-        /* Style the table cells */
-        td {
-          padding: 8px;
-          border-bottom: 1px solid #ddd;
-        }
-
-        /* Style alternating rows */
-        tbody tr:nth-child(even) {
-          background-color: #f5f5f5;
-        }
-
-        /* Style the page title */
-        h1 {
-          text-align: center;
-          margin-top: 24px;
-          margin-bottom: 16px;
-        }
-
-        /* Style the page wrapper */
-        body {
-          padding: 16px;
-        }
-
-        button {
-          background-color: #4CAF50;
-          color: white;
-          padding: 10px 20px;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-        }
-
-        button:hover {
-          background-color: #3e8e41;
-        }
-  </style> --}}
-
-  {{!-- <table>
-    <thead>
-      <tr>
-        <th>Transaction_Date</th>
-        <th>Amount</th>
-        <th>Category</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each transactions}}
-      <tr>
-        <td>{{transaction_date}}</td>
-        <td>{{amount}}</td>
-        <td>{{category}}</td>
-        <td>{{paymentType}}</td>
-        <td>
-          <form method="POST" action="/transaction/remove/{{_id}}">
-            <button type="submit">Remove</button>
-          </form>
-        </td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table> --}}
   <link rel="stylesheet" type="text/css" href="/public/dashboard.css">
-  {{!-- <h2>Recent Transaction history</h2> --}}
+  
+  <div id="error-message" style="display:none;"></div>
 
-  <h2>Recent Transaction history</h2>
-
-  {{!-- <div class="filters">
-    <label>Start Date:</label>
-    <input type="date" id="start-date">
-
-    <label>End Date:</label>
-    <input type="date" id="end-date">
-
-    <label>Category:</label>
-    <select id="category">
-      <option value="">Select category</option>
-      <option value="groceries">Groceries</option>
-      <option value="shopping">Shopping</option>
-      <option value="eating_out">Eating Out</option>
-      <option value="bills">Bills</option>
-      <option value="transportation">Transportation</option>
-      <option value="entertainment">Entertainment</option>
-      <option value="travel">Travel</option>
-      <option value="healthcare">Healthcare</option>
-      <option value="education">Education</option>
-      <option value="miscellaneous">Miscellaneous</option>
-    </select>
-
-    <button id="apply-filters">Apply Filters</button>
-  </div> --}}
   <form id="filter-form" action="/transactions/seeAllTransaction/filters" method="GET">
     <label for="start-date-input">Start Date:</label>
     <input type="date" id="start-date-input" name="start_date" {{#if start}} value="{{start}}" {{/if}}>
@@ -192,4 +67,9 @@
 
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
   <script src="/public/js/deleteTransaction.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src='/public/validations/allTransaction.js'></script>
+  <script src="/public/js/deleteTransaction.js"></script>
+
