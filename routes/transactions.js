@@ -153,7 +153,7 @@ router
       }
 
       // get transactions with given category and date range
-      const transactions = await transactionData.getTransactionsByDateRangeAndCategory(userId, start_date, end_date, category)
+      const transactions = await transactionData.getTransactionsByDateRangeAndCategoryWithoutDateFormat(userId, start_date, end_date, category)
 
       res.render('seeAllTransaction', { transactions, start: start_date, end: end_date, cat: category });
     } catch (e) {

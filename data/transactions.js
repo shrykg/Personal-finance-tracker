@@ -201,9 +201,32 @@ const exportedMethods = {
         return transformedResult;
     },
 
-    // export_to_excel = (transactions, col_names, filePath) => {
+    async getTransactionsByDateRangeAndCategoryWithoutDateFormat(userId, startDate, endDate, category) {
+        userId = validation.checkId(userId, 'User ID');
+        // console.log("Before");
+        const transactionCollections = await transactions();
+        // console.log("After");
 
-    // }
+        
+        // Create an object to hold the filter criteria
+        const filter = { user_id: new ObjectId(userId) };
+        if (startDate && endDate) {
+            filter.transaction_date = { $gte: startDate, $lte: endDate };
+        }
+        if (category) {
+            filter.category = category;
+        }
+
+        // Use the filter object to find transactions that match the criteria
+        const transactions1 = await transactionCollections.find(filter).toArray();
+        console.log('filtered transactions')
+        console.log(transactions1)
+
+
+        // console.log("Transformed result:", transformedResult);
+
+        return transactions1;
+    }
 
     
 
