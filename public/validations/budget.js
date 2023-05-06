@@ -1,4 +1,6 @@
 let budget=document.getElementById("budget_form")
+let remove =document.getElementById("remove_form");
+let expired=document.getElementById("delete_form");
 
 if(budget)
 {
@@ -91,4 +93,25 @@ if(budget)
 
         }
     })
+}
+
+if(remove)
+{
+    remove.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (confirm("Are you sure you want to delete this active budget?")) 
+    {   
+        remove.submit();
+    }
+    });
+}
+if(expired)
+{
+    expired.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (confirm("Are you sure you want to delete this expired budget?")) 
+    {   
+        expired.submit();
+    }
+    });
 }
