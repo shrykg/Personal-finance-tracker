@@ -74,6 +74,9 @@ const exportedMethods = {
         // category = validation.checkString(category,'Category')
         // date = validation.checkString(date,'Date')
         //console.log('beforeeeee')
+        //const date_new = new Date(date);
+        // const iso_date = date_new.toISOString();
+        // const final_date = iso_date.slice(0, 10);
         let newTransaction = {
             user_id: new ObjectId(userId),
             transaction_date: date,
@@ -115,7 +118,7 @@ const exportedMethods = {
         updatedTransaction.amount = validation.checkNumber(updatedTransaction.amount, 'Amount')
         updatedTransaction.description = validation.checkString(updatedTransaction.description, 'Description')
         updatedTransaction.category = validation.checkString(updatedTransaction.category)
-        
+
         let updatedTransactionData = {
             user_id: new ObjectId(updatedTransaction.user_id),
             transaction_date: updatedTransaction.transaction_date,
@@ -172,7 +175,7 @@ const exportedMethods = {
         const transactionCollections = await transactions();
         // console.log("After");
 
-        
+
         // Create an object to hold the filter criteria
         const filter = { user_id: new ObjectId(userId) };
         if (startDate && endDate) {
@@ -205,7 +208,7 @@ const exportedMethods = {
 
     // }
 
-    
+
 
 }
 

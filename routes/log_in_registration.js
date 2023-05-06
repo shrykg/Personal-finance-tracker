@@ -100,16 +100,17 @@ router
         catch (e) {
 
         }
-        console.log(active_budget);
-        let x = ''
+
         try {
-            //x = await budgetDataFunctions.getCategorySums(data.id, active_budget[0].category, active_budget[0].start_date, active_budget[0].end_date);
-            x = await budgetDataFunctions.amount_aggregate(data.id, '2023-05-01', '2023-05-30', active_budget[0].category)
+            for (let i = 0; i < active_budget.length; i++) {
+                await budgetDataFunctions.amount_remaining(data.id, active_budget[i].category);
+            }
+
         }
         catch (e) {
-            console.log(e)
+            console.log(e);
         }
-        console.log(x);
+
         if (data) {
             try {
                 res.status(200).render('dashboard', { data: data, transactions: trans_data, active_budget: active_budget });
