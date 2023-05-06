@@ -5,10 +5,18 @@ import goalDataFunctions from "../data/goals.js"
 router
   .route('/viewgoals')
   .get(async (req, res) => {
+    if (!req.session.user) {
+      return res.redirect('/login');
+    }
     res.render('goals')
   })
 
   .post(async (req, res) => {
+
+    if (!req.session.user) {
+      return res.redirect('/login');
+    }
+
     let user_id = req.session.user.id;
     let goal_purpose = req.body.goal_select;
     let goal_name = req.body.goal_name;
@@ -26,6 +34,11 @@ router
   });
 
 router.get('/viewall', async (req, res) => {
+
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+
   // res.render('allgoals');
   let user_id = req.session.user.id;
   try {
@@ -39,6 +52,12 @@ router.get('/viewall', async (req, res) => {
 });
 
 router.get('/new', async (req, res) => {
+
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+
+
   // res.render('allgoals');
   let user_id = req.session.user.id;
   try {
@@ -51,6 +70,11 @@ router.get('/new', async (req, res) => {
 
 })
   .post('/new', async (req, res) => {
+
+    if (!req.session.user) {
+      return res.redirect('/login');
+    }
+
     let user_id = req.session.user.id;
     let goal_name = req.body.goal_select;
     let savings = req.body.amount;

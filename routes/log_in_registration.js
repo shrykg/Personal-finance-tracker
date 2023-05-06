@@ -5,6 +5,17 @@ import { login_reg_data, transactionData, budgetData } from "../data/index.js";
 import budgetDataFunctions from "../data/budget.js";
 import validation from '../validation.js'
 
+
+router.
+    route('/').get(async (req, res) => {
+        try {
+            res.redirect('/login')
+        }
+        catch (e) {
+            res.status(400).render('error', { error_occured: e })
+        }
+    })
+
 router
     .route('/about')
     .get(async (req, res) => {
@@ -28,7 +39,6 @@ router
             res.status(500).json({ error: e });
         }
     })
-
     .post(async (req, res) => {
         //console.log(req.body);
         let firstname = xss(req.body.firstname);
@@ -77,20 +87,14 @@ router
     })
 
 
-
-router.
-    route('/').get(async (req, res) => {
-        try {
-            res.render('login');
-        }
-        catch (e) {
-            res.status(400).render('error', { error_occured: e })
-        }
-    })
-
 router
     .route('/dashboard')
     .get(async (req, res) => {
+
+        if (!req.session.user) {
+            return res.redirect('/login');
+          }
+
         let data = req.session.user;
         let trans_data = '';
         let active_budget = '';
@@ -140,15 +144,28 @@ router
         }
 
     })
-router.route('/logout').get(async (req, res) => {
-    //code here for GET
-    if (req.session.user) {
-        req.session.destroy();
-        res.redirect('/login')
-    } else {
-        res.status(403).render('logout');
-    }
-});
+
+
+
+router
+    .route('/logout')
+    .get(async (req, res) => {
+
+        if (!req.session.user) {
+            return res.redirect('/login');
+          }
+
+        //code here for GET
+        if (req.session.user) {
+            req.session.destroy();
+            res.redirect('/login')
+        } else {
+            res.status(403).render('login');
+        }
+    });
+
+
+
 router.
     route('/login')
     .get(async (req, res) => {
@@ -158,9 +175,7 @@ router.
         catch (e) {
             res.status.json({ error: e })
         }
-    });
-router.
-    route('/login')
+    })
     .post(async (req, res) => {
 
         let username = xss(req.body.username);
@@ -179,6 +194,8 @@ router.
             res.status(400).render('login', { error: "Invalid credentials used to log in" })
         }
         else {
+
+
             let symbol = login_reg_data.check_currency_symbol(data.region)
             req.session.user = { id: data._id.toString(), firstname: data.firstname, lastname: data.lastname, email: data.email, dob: data.dob, created_at: new Date(data.created_at).toISOString().slice(0, 10), symbol: symbol }
             if (req.session.user) {
@@ -189,6 +206,7 @@ router.
             }
         }
     });
+
 
 
 export default router; 
