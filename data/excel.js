@@ -12,6 +12,7 @@ async function exportToExcel(user_id) {
         const headers = ['Transaction Date', 'Amount', 'Description', 'Category', 'Payment Type'];
         // Retrieve all the transactions from the database
         //const transactions = await transaction_collection.find({}).toArray();
+
         const transactions = await transactionData.getAllTransactions(user_id);
 
         // Convert the transactions data to a format that can be written to an Excel sheet
@@ -28,8 +29,8 @@ async function exportToExcel(user_id) {
 
         console.log('Export to Excel complete.');
 
+        return true;
         // Close the database connection
-        //await client.close();
     } catch (err) {
         console.error(err);
     }
