@@ -194,6 +194,8 @@ router.
             res.status(400).render('login', { error: "Invalid credentials used to log in" })
         }
         else {
+
+
             let symbol = login_reg_data.check_currency_symbol(data.region)
             req.session.user = { id: data._id.toString(), firstname: data.firstname, lastname: data.lastname, email: data.email, dob: data.dob, created_at: new Date(data.created_at).toISOString().slice(0, 10), symbol: symbol }
             if (req.session.user) {

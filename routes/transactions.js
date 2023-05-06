@@ -92,7 +92,7 @@ router.route('/new').get(async (req, res) => {
 
       const newTransaction = await transactionData.addTransaction(user_id, paymentType, amount, description, category, transaction_date)
 
-      const latestTransactions = await transactionData.getLatestTransactions(global.loggedInUserId)
+      const latestTransactions = await transactionData.getLatestTransactions(session_data.id)
       
       res.redirect('/dashboard')
     } catch (e) {
@@ -110,9 +110,9 @@ router
     if (!req.session.user) {
       return res.redirect('/login')
     }
-
+    let userId = req.session.user.id
     try {
-      let result = await transactionData.getAllTransactions(global.loggedInUserId)
+      let result = await transactionData.getAllTransactions(userId)
       return res.render('seeAllTransaction', {
         transactions: result.reverse()
       })
