@@ -4,46 +4,50 @@
 <form id="transaction_form" action="/transactions/new" method="POST">
   <div class="form-group">
     <label for="description">Description</label>
-    <input type="text" id="description" name="description" placeholder="Enter description" required>
+    <input type="text" id="description" name="description" placeholder="Enter description" value="{{transaction.description}}" required>
   </div>
 
   <div class="form-group">
     <label for="category">Category</label>
     <select id="category" name="category" required>
       <option value="">Select category</option>
-      <option value="groceries">Groceries</option>
-      <option value="shopping">Shopping</option>
-      <option value="eating_out">Eating Out</option>
-      <option value="bills">Bills</option>
-      <option value="transportation">Transportation</option>
-      <option value="entertainment">Entertainment</option>
-      <option value="travel">Travel</option>
-      <option value="healthcare">Healthcare</option>
-      <option value="education">Education</option>
-      <option value="miscellaneous">Miscellaneous</option>
+      <option value="groceries" {{#ifEqual transaction.category "groceries"}}selected{{/ifEqual}}>Groceries</option>
+      <option value="shopping" {{#ifEqual transaction.category "shopping"}}selected{{/ifEqual}}>Shopping</option>
+      <option value="eating_out" {{#ifEqual transaction.category "eating_out"}}selected{{/ifEqual}}>Eating Out</option>
+      <option value="bills" {{#ifEqual transaction.category "bills"}}selected{{/ifEqual}}>Bills</option>
+      <option value="transportation" {{#ifEqual transaction.category "transportation"}}selected{{/ifEqual}}>Transportation</option>
+      <option value="entertainment" {{#ifEqual transaction.category "entertainment"}}selected{{/ifEqual}}>Entertainment</option>
+      <option value="travel" {{#ifEqual transaction.category "travel"}}selected{{/ifEqual}}>Travel</option>
+      <option value="healthcare" {{#ifEqual transaction.category "healthcare"}}selected{{/ifEqual}}>Healthcare</option>
+      <option value="education" {{#ifEqual transaction.category "education"}}selected{{/ifEqual}}>Education</option>
+      <option value="miscellaneous" {{#ifEqual transaction.category "miscellaneous"}}selected{{/ifEqual}}>Miscellaneous</option>
     </select>
   </div>
 
   <div class="form-group">
     <label for="amount">Amount</label>
-    <input type="number" id="amount" name="amount" placeholder="Enter amount" step="0.01" required>
+    <input type="number" id="amount" name="amount" placeholder="Enter amount" step="1" value="{{transaction.amount}}" required>
   </div>
 
   <div class="form-group">
     <label for="transaction_date">Date</label>
-    <input type="date" id="transaction_date" name="transaction_date" required>
+    <input type="date" id="transaction_date" name="transaction_date" value="{{moment transaction.transaction_date format="YYYY-MM-DD"}}" required>
   </div>
 
   <div class="form-group">
     <label for="paymentType">Type</label>
     <select id="paymentType" name="paymentType" required>
       <option value="">Select Type</option>
-      <option value="Cash">Cash</option>
-      <option value="Checking">Checking</option>
-      <option value="Pending">Pending</option>
+      <option value="Cash" {{#ifEqual transaction.paymentType "Cash"}}selected{{/ifEqual}}>Cash</option>
+      <option value="Checking" {{#ifEqual transaction.paymentType "Checking"}}selected{{/ifEqual}}>Checking</option>
+      <option value="Pending" {{#ifEqual transaction.paymentType "Pending"}}selected{{/ifEqual}}>Pending</option>
     </select>
   </div>
-  <div class="error" id="error" hidden></div>
+  <div class="error" id="error" hidden>
+    {{#each errors}}
+      <p>{{this}}</p>
+    {{/each}}
+  </div>
   <button type="submit">Add Transaction</button>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src='/public/validations/transaction.js'></script>

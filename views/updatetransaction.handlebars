@@ -1,6 +1,10 @@
 <link rel="stylesheet" href="/public/updatetransaction.css">
 <h1> Update Transaction</h1>
-<div id="error-div"></div> <!-- Error div -->
+<div id="error-div">
+      {{#each errors}}
+          <p>{{this}}</p>
+      {{/each}}
+</div> <!-- Error div -->
 <form id="edit-transaction-form" >
   <div class="form-group">
     <label for="description">Description</label>
@@ -26,12 +30,12 @@
 
   <div class="form-group">
     <label for="amount">Amount</label>
-    <input type="number" id="amount" name="amount" placeholder="Enter amount" step="0.01" value="{{transaction.amount}}" required>
+    <input type="number" id="amount" name="amount" placeholder="Enter amount" step="1" value="{{transaction.amount}}" required>
   </div>
 
   <div class="form-group">
     <label for="transaction_date">Date</label>
-    <input type="date" id="transaction_date" name="transaction_date" value="{{moment transaction.transaction_date format="YYYY-MM-DD"}}" required>
+    <input type="date" id="transaction_date" name="transaction_date" {{#if transaction}} value="{{moment transaction.transaction_date format="YYYY-MM-DD"}}" {{/if}} required>
   </div>
 
   <div class="form-group">

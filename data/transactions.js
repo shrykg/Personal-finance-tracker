@@ -14,16 +14,6 @@ const exportedMethods = {
             .sort({ transaction_date: -1 })
             .limit(10)
             .toArray();
-
-        // const transformedResult = result.map((transaction) => {
-        //     const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        //     const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
-        //     return {
-        //         ...transaction,
-        //         transaction_date: formattedDate
-        //     };
-        // });
-
         return result;
     },
 
@@ -33,14 +23,6 @@ const exportedMethods = {
         var result = await transactionCollections
             .find({ user_id: new ObjectId(userId) })
             .toArray();
-        // var transformedResult = result.map((transaction) => {
-        //     const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        //     const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
-        //     return {
-        //         ...transaction,
-        //         transaction_date: formattedDate
-        //     };
-        // })
         return result
     },
 
@@ -52,31 +34,18 @@ const exportedMethods = {
         if (!transaction) {
             throw 'Error: Transaction not found'
         }
-        // const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        // const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
-        // transaction.transaction_date = formattedDate
         return transaction
     },
 
     async addTransaction(userId, paymentType, amount, description, category, date) {
 
-        //console.log('start')
-        //console.log(userId)
-        //console.log(paymentType)
-        //console.log(amount)
-        //console.log(description)
-        //console.log(category)
-        //console.log(date)
-        // userId = validation.checkId(userId,'User ID')
-        // paymentType = validation.checkString(paymentType,'Payment Type')
-        // amount = validation.checkNumber(amount,'Amount')
-        // description = validation.checkString(description,'Description')
-        // category = validation.checkString(category,'Category')
-        // date = validation.checkString(date,'Date')
-        //console.log('beforeeeee')
-        //const date_new = new Date(date);
-        // const iso_date = date_new.toISOString();
-        // const final_date = iso_date.slice(0, 10);
+        userId = validation.checkId(userId,'User ID')
+        paymentType = validation.checkString(paymentType,'Payment Type')
+        amount = validation.checkNumber(amount,'Amount')
+        description = validation.checkString(description,'Description')
+        category = validation.checkString(category,'Category')
+        date = validation.checkDate(date,'Date')
+       
         let newTransaction = {
             user_id: new ObjectId(userId),
             transaction_date: date,
@@ -85,19 +54,19 @@ const exportedMethods = {
             category: category,
             paymentType: paymentType,
         }
-        //console.log('afterrrrrr')
+        
         const transactionCollections = await transactions()
         const newInsertInformation = await transactionCollections.insertOne(newTransaction)
+        if (!newInsertInformation) {
+            throw 'Could not add transaction'
+        }
         const newId = newInsertInformation.insertedId;
-        //console.log(newId)
-        //console.log(newId.toString())
         return await this.getTransaction(newId.toString())
     },
 
 
     async removeTransaction(transactionId) {
         transactionId = validation.checkId(transactionId, 'Transaction ID')
-
         const transactionCollections = await transactions()
         const deletionInfo = await transactionCollections.findOneAndDelete({
             _id: new ObjectId(transactionId)
@@ -110,11 +79,11 @@ const exportedMethods = {
     },
 
     async updateTransaction(transactionId, updatedTransaction) {
-        console.log('updatedTransaction::::::::')
-        console.log(updatedTransaction)
+        
         transactionId = validation.checkId(transactionId)
         updatedTransaction.user_id = validation.checkId(updatedTransaction.user_id, 'User ID')
         // Check date validations
+        updatedTransaction.transaction_date = validation.checkDate(updatedTransaction.transaction_date, 'Transaction Date')
         updatedTransaction.amount = validation.checkNumber(updatedTransaction.amount, 'Amount')
         updatedTransaction.description = validation.checkString(updatedTransaction.description, 'Description')
         updatedTransaction.category = validation.checkString(updatedTransaction.category)
@@ -140,20 +109,13 @@ const exportedMethods = {
 
     async getTransactionsByDateRange(userId, startDate, endDate) {
         userId = validation.checkId(userId, 'User ID');
-        //console.log("Before");
         const transactionCollections = await transactions();
-        //console.log("After");
         const transactions1 = await transactionCollections.find({
             user_id: new ObjectId(userId),
             transaction_date: { $gte: startDate, $lte: endDate },
         }).toArray();
 
         const transformedResult = transactions1.map((transaction) => {
-            // let amount = transaction.amount;
-            // console.log(symbol);
-            // console.log(symbol.length);
-            // amount = amount.slice(symbol.length);
-            // amount = parseInt(amount);
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             const date1 = new Date(transaction.transaction_date);
             const formattedDate = date1.toISOString(options);

@@ -23,6 +23,20 @@ const exportedMethods = {
     return strVal;
   },
 
+  checkDate(dateString, varName) {
+    if (!dateString) throw `Error: You must supply a ${varName}!`;
+    if (typeof dateString !== 'string') throw `Error: ${varName} must be a string!`;
+    dateString = dateString.trim();
+    if (dateString.length !== 10) throw `Error: ${varName} must be in the format YYYY-MM-DD!`;
+    if (!moment(dateString, 'YYYY-MM-DD', true).isValid()) throw `Error: ${varName} must be in the format YYYY-MM-DD!`;
+    const minDate = moment('2021-01-01', 'YYYY-MM-DD');
+    const maxDate = moment();
+    const date = moment(dateString, 'YYYY-MM-DD');
+    if (date.isBefore(minDate)) throw `Error: ${varName} cannot be before January 1, 2021!`;
+    if (date.isAfter(maxDate)) throw `Error: ${varName} cannot be after the present date!`;
+    return date.format('YYYY-MM-DD');
+  },
+
   checkNumber(numVal, varName) {
     if (!numVal) throw `Error: You must supply a ${varName}!`;
     if (typeof numVal !== 'number') throw `Error: ${varName} must be a number!`;

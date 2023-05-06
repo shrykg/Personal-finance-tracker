@@ -3,7 +3,11 @@
 
   <link rel="stylesheet" type="text/css" href="/public/dashboard.css">
   
-  <div id="error-message" style="display:none;"></div>
+  <div id="error-message" style="display:none;">
+      {{#each errors}}
+          <p>{{this}}</p>
+      {{/each}}
+  </div>
 
   <form id="filter-form" action="/transactions/seeAllTransaction/filters" method="GET">
     <label for="start-date-input">Start Date:</label>
