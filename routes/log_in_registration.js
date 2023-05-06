@@ -7,6 +7,17 @@ import { sendOTP, generateOTP } from "../data/forgot_password.js";
 import nodemailer from 'nodemailer'
 import budgetDataFunctions from "../data/budget.js";
 
+
+router.
+    route('/').get(async (req, res) => {
+        try {
+            res.redirect('/login')
+        }
+        catch (e) {
+            res.status(400).render('error', { error_occured: e })
+        }
+    })
+
 router
     .route('/about')
     .get(async (req, res) => {
@@ -30,7 +41,6 @@ router
             res.status(500).json({ error: e });
         }
     })
-
     .post(async (req, res) => {
         //console.log(req.body);
         let firstname = xss(req.body.firstname);
@@ -63,20 +73,14 @@ router
     })
 
 
-
-router.
-    route('/').get(async (req, res) => {
-        try {
-            res.render('login');
-        }
-        catch (e) {
-            res.status(400).render('error', { error_occured: e })
-        }
-    })
-
 router
     .route('/dashboard')
     .get(async (req, res) => {
+
+        if (!req.session.user) {
+            return res.redirect('/login');
+          }
+
         let data = req.session.user;
         let trans_data = '';
         let active_budget = '';
@@ -126,8 +130,16 @@ router
         }
 
     })
+
+
 router
-    .route('/logout').get(async (req, res) => {
+    .route('/logout')
+    .get(async (req, res) => {
+
+        if (!req.session.user) {
+            return res.redirect('/login');
+          }
+
         //code here for GET
         if (req.session.user) {
             req.session.destroy();
@@ -136,6 +148,8 @@ router
             res.status(403).render('login');
         }
     });
+
+
 router.
     route('/login')
     .get(async (req, res) => {
@@ -145,9 +159,7 @@ router.
         catch (e) {
             res.status.json({ error: e })
         }
-    });
-router.
-    route('/login')
+    })
     .post(async (req, res) => {
 
         let username = xss(req.body.username);
@@ -188,9 +200,7 @@ router
         catch (e) {
             res.status(500).json({ error: e });
         }
-    });
-router
-    .route('/forgot')
+    })
     .post(async (req, res) => {
         //let testAccount = await nodemailer.createTestAccount();
         let otp = generateOTP();
@@ -229,7 +239,6 @@ router
         }
     });
 router
-    .route('/otp_validation')
     .post(async (req, res) => {
         if (req.body.otp === otp) {
             res.redirect('/set_password');

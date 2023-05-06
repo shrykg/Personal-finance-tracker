@@ -5,6 +5,9 @@ import { transactionData } from '../data/index.js';
 router.route('/getCharts').get(async (req, res) => {
   // let session_data = req.session.user;
   // let symbol = session_data.symbol;
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
   const userId = req.session.user.id;
   const startDate = req.query.startDate || '1970-01-01';
   const endDate = req.query.endDate || new Date().toISOString().split('T')[0];

@@ -8,11 +8,16 @@ import moment from 'moment';
 router.route('/new').get(async (req, res) => {
   // Render add new transcation HTML form
   if (!req.session.user) {
-    res.redirect('/login')
+    return res.redirect('/login')
   }
   res.render('addtransaction')
 })
   .post(async (req, res) => {
+
+    if (!req.session.user) {
+      return res.redirect('/login')
+    }
+
     let session_data = req.session.user;
     const transactionPostData = req.body;
     if (!transactionData || Object.keys(transactionPostData).length === 0) {
@@ -97,6 +102,11 @@ router.route('/new').get(async (req, res) => {
 router
   .route('/seeAllTransaction')
   .get(async (req, res) => {
+
+    if (!req.session.user) {
+      return res.redirect('/login')
+    }
+
     try {
       let result = await transactionData.getAllTransactions(global.loggedInUserId)
       return res.render('seeAllTransaction', {
@@ -110,6 +120,11 @@ router
 router
   .route('/seeAllTransaction/filters')
   .get(async (req, res) => {
+
+    if (!req.session.user) {
+      return res.redirect('/login')
+    }
+
     let errors = []
     try {
       let { start_date, end_date, category } = req.query;
@@ -167,6 +182,11 @@ router
 router
   .route('/:id')
   .get(async (req, res) => {
+
+    if (!req.session.user) {
+      return res.redirect('/login')
+    }
+
     //console.log('goingggg in getttttt')
     try {
       req.params.id = validation.checkId(req.params.id, 'Id URL Param');
@@ -182,6 +202,11 @@ router
     }
   })
   .put(async (req, res) => {
+   
+    if (!req.session.user) {
+      return res.redirect('/login')
+    }
+
     const updatedData = req.body;
 
     updatedData['user_id'] = req.session.user.id
@@ -265,6 +290,11 @@ router
   })
   .delete(async (req, res) => {
     // console.log(req.params.id)
+
+    if (!req.session.user) {
+      return res.redirect('/login')
+    }
+
     try {
       req.params.id = validation.checkId(req.params.id, 'Id URL Param');
     } catch (e) {
@@ -284,6 +314,10 @@ router
   });
 
 router.route('/seeAllTransaction/export').get(async (req, res) => {
+
+  if (!req.session.user) {
+    return res.redirect('/login')
+  }
   // Render add new transcation HTML form
   // if (!req.session.user) {
   //   res.redirect('/login')
