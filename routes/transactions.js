@@ -101,8 +101,9 @@ router.route('/new').get(async (req, res) => {
 router
   .route('/seeAllTransaction')
   .get(async (req, res) => {
+    let userId = req.session.user.id
     try {
-      let result = await transactionData.getAllTransactions(global.loggedInUserId)
+      let result = await transactionData.getAllTransactions(userId);
       return res.render('seeAllTransaction', {
         transactions: result.reverse()
       })
@@ -301,9 +302,10 @@ router.route('/seeAllTransaction/export').get(async (req, res) => {
   let user_id = session.id
   console.log(user_id);
   let result = '';
+  let result1 = await transactionData.getAllTransactions(user_id);
   try {
     result = exportToExcel(user_id)
-    res.render('seeAllTransaction', { success: result });
+    res.render('seeAllTransaction', { success: result, transactions: result1.reverse() });
   }
   catch (e) {
     console.log(e);
