@@ -12,6 +12,10 @@ $('.del-btn').click(function() {
         // If the transaction was deleted successfully, remove the row from the table
         //  {{!-- window.location.href = '/dashboard'; --}}
          $('button[data-transaction-Id="' + transactionId + '"]').closest('tr').remove();
+         if ($('.transaction-row').length == 0) {
+          // Hide the filter form
+          $('#filter-form').css('display', 'none');
+        }
       },
       error: function(error) {
              console.log(error);
