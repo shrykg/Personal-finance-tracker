@@ -48,7 +48,9 @@ form {
 
   .error {
     color: red;
-  }body,
+  }
+  
+  body,
   table {
     margin: 0;
     padding: 0;
