@@ -212,7 +212,7 @@ const exportedMethods = {
         const transactionCollections = await transactions();
         // console.log("After");
 
-        
+
         // Create an object to hold the filter criteria
         const filter = { user_id: new ObjectId(userId) };
         if (startDate && endDate) {

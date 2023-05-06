@@ -189,7 +189,11 @@
   <button onclick="window.location.href='/dashboard'">Back to Dashboard</button>
 
   <button onclick="window.location.href='/transactions/seeAllTransaction/export'">Export all Transactions</button>
-
+  {{#if success}}
+  <div class="alert">
+    Excel exported successfully !
+  </div>
+  {{/if}}
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
   <script src="/public/js/deleteTransaction.js"></script>

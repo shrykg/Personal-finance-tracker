@@ -296,8 +296,10 @@ router.route('/seeAllTransaction/export').get(async (req, res) => {
   //console.log()
   let user_id = session.id
   console.log(user_id);
+  let result = '';
   try {
-    exportToExcel(user_id)
+    result = exportToExcel(user_id)
+    res.render('seeAllTransaction', { success: result });
   }
   catch (e) {
     console.log(e);
