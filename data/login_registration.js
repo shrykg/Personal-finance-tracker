@@ -22,33 +22,29 @@ const exportedMethods = {
 
     async add_user(firstname, lastname, dob, email, new_password, region) {
         //console.log("I am in the function")
+        firstname = firstname.trim();
         firstname = validation.checkString(firstname, 'firstname');
+        lastname = lastname.trim()
         lastname = validation.checkString(lastname, 'lastname');
+        email = email.trim();
+        email = email.toLowerCase();
         email = validation.checkString(email, 'email');
-        firstname = validation.checkString(firstname, 'firstname');
+
+        let age = validation.validateDOB(dob);
+        if (age < 13) {
+            throw ('You must be more than 13 years old to register !')
+        }
+
+        try {
+            validation.validatePassword(new_password);
+        }
+        catch (e) {
+            console.log(e);
+        }
+
         const saltRounds = 10;
 
         let hashed_password = await bcrypt.hash(new_password, saltRounds);
-        //let valid_pwd = validation.validatePassword(new_password);
-
-        // if (!valid_pwd) {
-        //     throw ('Error: password must be 8 characters or long')
-        // }
-
-        // const passwordInput = document.querySelector('#password_confirm');
-        // const submitButton = document.querySelector('#register_button');
-        // const errorLabel = document.querySelector('#error-label');
-
-        // submitButton.addEventListener('click', function () {
-        //     const password = passwordInput.value;
-        //     if (!validatePassword(password)) {
-        //         errorLabel.textContent = 'Password must be at least 8 characters long and contain an uppercase letter, a lowercase letter, and a number.';
-        //         errorLabel.style.display = 'block';
-        //     } else {
-        //         errorLabel.style.display = 'none';
-        //         // submit the form or perform other actions
-        //     }
-        // });
         const data = {
             "firstname": firstname,
             "lastname": lastname,
@@ -60,31 +56,17 @@ const exportedMethods = {
         }
         const user_collection = await users();
 
-        await user_collection.insertOne(data);
+        try {
+            await user_collection.insertOne(data);
+        }
+        catch (e) {
+            console.log(e);
+        }
 
-        //console.log('Data added')
 
     },
 
     async checkUser(emailAddress, password) {
-        // if (!emailAddress || !password || ) {
-        //   throw ("Error: You must provide both email address and password");
-        // }
-        // console.log(emailAddress);
-        // console.log(password);
-        // try {
-        //     validation.validateEmail(emailAddress);
-        // }
-        // catch (e) {
-        //     console.log(e);
-        // }
-        // try {
-        //     validation.validatePassword(password);
-        // }
-        // catch (e) {
-        //     console.log(e);
-        // }
-
         const user_collection = await users();
 
         try {
@@ -163,6 +145,9 @@ const exportedMethods = {
 
         let symbol = currencyMap[region];
 
+        if (!symbol) {
+            throw ('Invalid region entered , please select from dropdown');
+        }
         return symbol;
 
     }
