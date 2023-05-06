@@ -3,6 +3,7 @@ const router = Router();
 import xss from "xss"
 import { login_reg_data, transactionData, budgetData } from "../data/index.js";
 import budgetDataFunctions from "../data/budget.js";
+import validation from '../validation.js'
 
 router
     .route('/about')
@@ -40,14 +41,14 @@ router
         if (!firstname || !lastname || !dob || !email || !password || !password_1 || !region) {
             res.status(400).render('registration', { error: 'All fields are required' })
         }
-        if (validateDOB(dob) < 13) {
+        if (validation.validateDOB(dob) < 13) {
             res.status(400).render('registration', { error: 'You must be 13 years or older to register !', firstname: firstname, lastname: lastname, dob: dob, email: email, region: region })
         }
         if (password !== password_1) {
             res.status(400).render('registration', { error: 'Passwords do not match ! Please try again', firstname: firstname, lastname: lastname, dob: dob, email: email, region: region })
         }
         try {
-            validateEmail(email);
+            validation.validateEmail(email);
         }
         catch (e) {
             res.status(400).render('registration', { error: e })
