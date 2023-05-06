@@ -20,7 +20,7 @@ const constructorMethod = (app) => {
     app.use('/settings', settingRoutes)
     app.use('/goals', goalRoutes)
     app.use('/api', plaidRoutes)
-    app.use('/notifications', plaidRoutes)
+    app.use('/notifications', notificationRoutes)
 
     app.use('*', (req, res) => {
         res.status(404).render("error", { error_occured: "The URL Passed is invalid" });

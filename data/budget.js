@@ -37,7 +37,8 @@ const create = async (user_id, category, amount, start, end) => {
     budget_amount: amount,
     start_date: start.trim(),
     end_date: end.trim(),
-    amount_remaining: amount
+    amount_remaining: amount,
+    notifications: ''
   }
   const getbudget = await budget();
   const found = await getbudget.findOne({ user_id: user_id, category: category });
@@ -156,8 +157,50 @@ async function amount_remaining(user_id, category) {
   );
 }
 
+async function checkBudgetNotifications(user_id) {
+  // Get all budgets for the user
+  const budget_data = await budget();
+  const budgets = await budget_data.find({ user_id }).toArray();
+  console.log(budgets);
+  let notifications = [];
+  for (let i = 0; i < budgets.length; i++) {
+    if (budgets[i].amount_remaining < 0.1 * budgets[i].budget_amount || budgets[i].amount_remaining < 0) {
+      const notification = `Your budget remaining for ${budgets[i].category} is depleting, you have only ${budgets[i].amount_remaining}, please plan accordingly`;
+      notifications.push(notification);
+    }
+  }
+
+  return notifications;
+}
+// Iterate over all the budgets
+// for (const budget of budgets) {
+//   // Get the start and end dates of the budget
+
+//   // If the remaining budget is less than 10% of the total budget, push a notification
+//   if (budget.amount_remaining < 0.1 * budget.budget_amount || budget.amount_remaining < 0) {
+//     const notification = `Your budget remaining for ${budget.category} is depleting, you have only ${budget.amount_remaining}, please plan accordingly`;
+
+//     // Add the notification to the budget object and update the database
+
+//     notifications = budget.notifications || [];
+//     notifications.push(notification);
+
+//     // Keep only the last 10 notifications
+//     if (notifications.length > 10) {
+//       notifications.shift();
+//     }
+
+//     await budget_data.updateOne(
+//       { _id: budget._id },
+//       { $set: { notifications: notifications } }
+//     );
+//   }
+
+// }
 
 
-const budgetDataFunctions = { create, getAll, getAllsort, archiveExpiredBudgets, get_all_active_users, removeActive, removeExpired, checkExist, amount_remaining }
+
+
+const budgetDataFunctions = { create, getAll, getAllsort, archiveExpiredBudgets, get_all_active_users, removeActive, removeExpired, checkExist, amount_remaining, checkBudgetNotifications }
 
 export default budgetDataFunctions;
