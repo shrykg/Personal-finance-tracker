@@ -4,6 +4,11 @@ import { login_reg_data, transactionData, budgetData } from "../data/index.js";
 router
     .route('/view')
     .get(async (req, res) => {
+
+        if (!req.session.user) {
+            return res.redirect('/login');
+          }
+
         let session = req.session.user;
         let user_id = session.id;
         let notification_data = '';

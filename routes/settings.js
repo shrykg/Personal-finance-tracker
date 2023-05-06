@@ -7,10 +7,15 @@ router.route('/profile').get(async (req, res) => {
   let data = req.session.user;
   console.log(data);
   if (!req.session.user) {
-    res.redirect('/login');
+    return res.redirect('/login');
   }
   res.render('settings', { data: data })
 }).post(async (req, res) => {
+
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+
   let data = req.session.user;
   let user_name = req.body.firstname;
   let last_name = req.body.lastname;
@@ -38,10 +43,15 @@ router.route('/changepassword').get(async (req, res) => {
   let data = req.session.user;
   //console.log(data);
   if (!req.session.user) {
-    res.redirect('/login');
+    return res.redirect('/login');
   }
   res.render('changepassword', { data: data })
 }).post(async (req, res) => {
+
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+
   let data = req.session.user;
   console.log(data)
   let old_password = req.body.current_pwd;
