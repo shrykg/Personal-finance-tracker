@@ -126,16 +126,15 @@ router
         }
 
     })
-router
-    .route('/logout').get(async (req, res) => {
-        //code here for GET
-        if (req.session.user) {
-            req.session.destroy();
-            res.redirect('/login')
-        } else {
-            res.status(403).render('login');
-        }
-    });
+router.route('/logout').get(async (req, res) => {
+    //code here for GET
+    if (req.session.user) {
+        req.session.destroy();
+        res.redirect('/login')
+    } else {
+        res.status(403).render('logout');
+    }
+});
 router.
     route('/login')
     .get(async (req, res) => {
