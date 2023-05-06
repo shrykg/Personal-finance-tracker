@@ -75,17 +75,18 @@ function drawBarChart(transactions)
 function drawCharts() 
 {
     let transactions = JSON.parse(document.getElementById('transactions-data').textContent);
-    const regex = /[0-9]+/g;
+    // const regex = /[0-9]+/g;
     const transformedResult = transactions.map((transaction) => {
-        let amount = transaction.amount;
-        amount = amount.match(regex);
-        amount = parseInt(amount);
-        // const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        // const formattedDate = transaction.transaction_date.toLocaleDateString("en-US", options);
+        // let amount = transaction.amount;
+        // amount = amount.match(regex);
+        // amount = parseInt(amount);
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const date3 = new Date(transaction.transaction_date);
+        const formattedDate = date3.toISOString(options);
         return {
             ...transaction,
-            amount: amount,
-            // transaction_date: formattedDate
+            // amount: amount,
+            transaction_date: formattedDate
     }});
     // let x = transactions[0].amount.match(regex);
     // console.log(x);
