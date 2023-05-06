@@ -13,8 +13,10 @@ const constructorMethod = (app) => {
     // app.use('/registration', log_in_routes)
     // app.use('/dashboard', log_in_routes)
     app.use('/transactions', transactionRoutes)
+
     // app.use('/forgot', log_in_routes)
     // app.use('/otp_validation', log_in_routes)
+
     app.use('/budget', budgetRoutes)
     app.use('/charts', chartRoutes)
     app.use('/settings', settingRoutes)
@@ -23,7 +25,7 @@ const constructorMethod = (app) => {
     app.use('/notifications', notificationRoutes)
 
     app.use('*', (req, res) => {
-        res.status(404).render("error", { error_occured: "The URL Passed is invalid" });
+        res.redirect("/login");
     });
 };
 

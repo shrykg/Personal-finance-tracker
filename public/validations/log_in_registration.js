@@ -4,14 +4,11 @@
 
 const form = document.getElementById('registration-form');
 const login_form = document.getElementById('login-form');
-console.log('script is being called !')
-console.log(form)
-console.log(login_form)
 if (form) {
     form.addEventListener('submit', function (event) {
         let errorContainer = document.querySelector('#error-container');
         errorContainer.innerHTML = '';
-        errorContainer.hidden=true;
+        errorContainer.hidden = true;
         console.log('in form')
         // Prevent the form from being submitted
         event.preventDefault();
@@ -76,7 +73,7 @@ if (form) {
 
         // Display error messages if there are any
         if (errors.length > 0) {
-            errorContainer.hidden=false;
+            errorContainer.hidden = false;
             errors.forEach(function (error) {
                 const errorElement = document.createElement('div');
                 errorElement.classList.add('error');
@@ -112,7 +109,7 @@ if (login_form) {
 
         if (passwordInput === '') {
             errors.push('Password is required');
-        } 
+        }
 
         // Display error messages if there are any
         if (errors.length > 0) {

@@ -1,11 +1,9 @@
 import { Router } from "express";
 const router = Router();
 import xss from "xss"
-import bcrypt from "bcrypt"
 import { login_reg_data, transactionData, budgetData } from "../data/index.js";
-import { sendOTP, generateOTP } from "../data/forgot_password.js";
-import nodemailer from 'nodemailer'
 import budgetDataFunctions from "../data/budget.js";
+import validation from '../validation.js'
 
 
 router.
@@ -50,12 +48,29 @@ router
         let password = xss(req.body.password_confirm);
         let password_1 = xss(req.body.password_initial);
         let region = xss(req.body.region)
-
-        //console.log(new_password);
-
+        if (!firstname || !lastname || !dob || !email || !password || !password_1 || !region) {
+            res.status(400).render('registration', { error: 'All fields are required' })
+        }
+        if (validation.validateDOB(dob) < 13) {
+            res.status(400).render('registration', { error: 'You must be 13 years or older to register !', firstname: firstname, lastname: lastname, dob: dob, email: email, region: region })
+        }
+        if (password !== password_1) {
+            res.status(400).render('registration', { error: 'Passwords do not match ! Please try again', firstname: firstname, lastname: lastname, dob: dob, email: email, region: region })
+        }
+        try {
+            validation.validateEmail(email);
+        }
+        catch (e) {
+            res.status(400).render('registration', { error: e })
+        }
         //checking if the user with the same email already exists
         let check = '';
-        check = await login_reg_data.get_user_by_email(email);
+        try {
+            check = await login_reg_data.get_user_by_email(email);
+        }
+        catch (e) {
+            res.status(400).json({ error: e });
+        }
         if (!check) {
             try {
                 await login_reg_data.add_user(firstname, lastname, dob, email, password, region);
@@ -69,7 +84,6 @@ router
             res.status(400).render('registration', { error: 'User already exists', firstname: firstname, lastname: lastname, dob: dob, email: email, region: region })
         }
 
-        //res.status(400).render('register', { error: 'Unable to register please try again !', firstname: firstname, lastname: lastname, dob: dob, email: email })
     })
 
 
@@ -132,6 +146,7 @@ router
     })
 
 
+
 router
     .route('/logout')
     .get(async (req, res) => {
@@ -150,6 +165,7 @@ router
     });
 
 
+
 router.
     route('/login')
     .get(async (req, res) => {
@@ -164,7 +180,7 @@ router.
 
         let username = xss(req.body.username);
         username = username.toLowerCase()
-
+        username = username.trim();
         const password = xss(req.body.password);
         let data = ''
         try {
@@ -178,7 +194,6 @@ router.
             res.status(400).render('login', { error: "Invalid credentials used to log in" })
         }
         else {
-            global.loggedInUserId = data._id.toString()
             let symbol = login_reg_data.check_currency_symbol(data.region)
             req.session.user = { id: data._id.toString(), firstname: data.firstname, lastname: data.lastname, email: data.email, dob: data.dob, created_at: new Date(data.created_at).toISOString().slice(0, 10), symbol: symbol }
             if (req.session.user) {
@@ -190,61 +205,6 @@ router.
         }
     });
 
-router
-    .route('/forgot')
-    .get(async (req, res) => {
-        try {
-            res.render('forgotpassword');
-        }
 
-        catch (e) {
-            res.status(500).json({ error: e });
-        }
-    })
-    .post(async (req, res) => {
-        //let testAccount = await nodemailer.createTestAccount();
-        let otp = generateOTP();
-        console.log(otp);
 
-        let transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'moneyminder.yasd@gmail.com', // generated ethereal user
-                pass: 'mwwcnbpjgmrfoczo' // generated ethereal password
-            }
-        });
-
-        // send mail with defined transport object
-        let info = await transporter.sendMail({
-            from: 'moneyminder.yasd@gmail.com', // sender address
-            to: req.body.email, // list of receivers
-            subject: "OTP for forgot password", // Subject line
-            text: "Hello ! Your OTP to restore your password is:" + " " + otp, // plain text body
-        });
-
-        console.log("Message sent: %s", info.messageId);
-        // create reusable transporter object using the default SMTP transport
-        res.render('enter_otp', otp);
-    });
-
-router
-    .route('/otp_validation')
-    .get(async (req, res) => {
-        try {
-            res.render('enter_otp');
-        }
-
-        catch (e) {
-            res.status(500).json({ error: e });
-        }
-    });
-router
-    .post(async (req, res) => {
-        if (req.body.otp === otp) {
-            res.redirect('/set_password');
-        }
-        else {
-            console.log('incorrect password entered');
-        }
-    });
 export default router; 

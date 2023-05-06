@@ -72,3 +72,9 @@ img {
     height: 50px;
     margin-right: 20px;
 }
+
+#error-container {
+    color: red;
+    text-align: center;
+    margin-top: 20px;
+}
