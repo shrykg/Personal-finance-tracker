@@ -62,11 +62,6 @@ const exportedMethods = {
     return arr;
   },
 
-  validatePassword(new_password) {
-    const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
-    return regex.test(new_password);
-  },
-
   validateFirstName(firstName) {
     const regex = /^[a-zA-Z]{2,25}$/;
     if (!regex.test(firstName)) {
@@ -82,6 +77,8 @@ const exportedMethods = {
   },
 
   validateEmail(email) {
+    email = email.trim();
+    email = email.toLowerCase();
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i;
     if (!regex.test(email)) {
       throw ("Invalid email address.");
@@ -100,6 +97,21 @@ const exportedMethods = {
       throw ("Role must be either 'admin' or 'user'");
     }
   },
+
+  validateDOB(dob) {
+    const birthdate = new Date(dob);
+    // calculate the age
+    const ageInMilliseconds = Date.now() - birthdate.getTime();
+    const ageDate = new Date(ageInMilliseconds);
+    const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+    // display the age
+    return age;
+  },
+  // trim_lowercase(input) {
+  //   input = input.trim();
+  //   input = input
+  // }
 
   getTime() {
     let today = new Date();

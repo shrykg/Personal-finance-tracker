@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="/public/budget.css">
 <h1>Let's get started with a budget!</h1>
 <h2>Answer a few questions</h2>
-<form id="budget_form" action="/budget/new" method="POST">
+<form id="budget_form" action="/budget/new" method="POST" autocomplete="off">
 {{#if success}}
   <div class="alert">
     {{success}}

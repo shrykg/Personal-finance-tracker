@@ -1,7 +1,6 @@
 // This data file should export all functions using the ES6 standard as shown in the lecture code
 import { budget, expired } from '../config/mongoCollections.js'
 import { ObjectId } from 'mongodb';
-import { transactionData } from '../data/index.js';
 import { transactions } from '../config/mongoCollections.js';
 import validation from '../validation.js';
 import moment from 'moment';

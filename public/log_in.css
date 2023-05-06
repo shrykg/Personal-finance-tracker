@@ -90,13 +90,8 @@ input[type="submit"] {
     margin-top: 20px;
 }
 
-.forgot-password {
+#error-container-login {
+    color: red;
     text-align: center;
     margin-top: 20px;
-}
-
-.forgot-password button {
-    color: rgb(120, 117, 117);
-    border: none;
-    cursor: pointer;
 }
