@@ -6,39 +6,38 @@ import { transactions } from '../config/mongoCollections.js';
 import validation from '../validation.js';
 import moment from 'moment';
 
-const checkExist= async (user_id,category,start,value)=> 
-{
+const checkExist = async (user_id, category, start, value) => {
   /* checking that user already have done transaction on that perticular category
    and if yes then it will compare total of that amount with budget amount and allow only if amount<budget */
   const get_data = await transactions();
   let today = moment().format("YYYY-MM-DD");
-  if (today.trim()===start.trim())
-  {
-  const result = await get_data.find({user_id:new ObjectId(user_id),
-    transaction_date: { $eq: today },category: category}).toArray();
+  if (today.trim() === start.trim()) {
+    const result = await get_data.find({
+      user_id: new ObjectId(user_id),
+      transaction_date: { $eq: today }, category: category
+    }).toArray();
     let total = 0;
 
-    for (let i = 0; i < result.length; i++) 
-    {
+    for (let i = 0; i < result.length; i++) {
       total += result[i].amount;
     }
 
-    if (total >= value) 
-    {
+    if (total >= value) {
       throw "You have already spent more amount than budget in this category today, start budget from next day please";
     }
   }
 }
 //  creating new budget
 const create = async (user_id, category, amount, start, end) => {
-  validation.checkBudget(category,amount,start,end);
+  validation.checkBudget(category, amount, start, end);
   let newdata =
   {
     user_id: user_id.trim(),
     category: category.trim(),
     budget_amount: amount,
     start_date: start.trim(),
-    end_date: end.trim()
+    end_date: end.trim(),
+    amount_remaining: amount
   }
   const getbudget = await budget();
   const found = await getbudget.findOne({ user_id: user_id, category: category });
@@ -126,47 +125,39 @@ const removeExpired = async (budget_id) => {
 };
 
 
-const amount_aggregate = async (user_id, start, end, category) => {
+
+async function amount_remaining(user_id, category) {
+  // Find the budget for the given category
   const transactions_data = await transactions();
-  const data = await get_all_active_users(user_id);
-  const transactions_1 = await transactions_data.find({
-    user_id: new ObjectId(user_id),
-    transaction_date: { $gte: new Date(start), $lte: new Date(end) },
-    category: category
-  }).toArray();
-
-  const result = data.reduce((acc, obj) => {
-    const key = obj.category;
-    const value = obj.value;
-    const filteredTransactions = transactions_1.filter(t => t.category === key);
-    const sum = filteredTransactions.reduce((total, t) => {
-      const amountString = t.amount.slice(1); // Remove the currency symbol
-      const amount = Number(amountString);
-      return total + amount;
-    }, 0);
-
-    if (!acc[key]) {
-      acc[key] = { category: key, aggregate: 0 };
-    }
-    acc[key].aggregate += sum;
-    return acc;
-  }, {});
-
-  // Update amount_remaining in budget collection
-  const budgets_data = await budget();
-  for (const key in result) {
-    const budget = await budgets_data.findOne({ user_id: user_id, category: key });
-    console.log(budget)
-    const amountString = budget.budget_amount.slice(1); // Remove the currency symbol
-    const budget_amount = Number(amountString);
-    const remainingAmount = budget_amount - result[key].aggregate;
-    await budgets_data.updateOne({ _id: budget._id }, { $set: { amount_remaining: remainingAmount } });
+  const budget_data = await budget();
+  const budget_req = await budget_data.findOne({ user_id, category });
+  console.log(budget_req)
+  // If the budget does not exist, return early
+  if (!budget_req) {
+    throw ('Some problem occured')
   }
 
-  return Object.values(result).filter(obj => obj.category === category);
-};
+
+  // Find all transactions that match the user ID, category, and fall between the budget dates
+  const transactions_req = await transactions_data.find({
+    user_id: new ObjectId(user_id),
+    category: category,
+    transaction_date: { $gte: budget_req.start_date, $lte: budget_req.end_date }
+  }).toArray();
+
+  console.log(transactions_req);
+  // Calculate the total amount spent
+  const totalSpent = transactions_req.reduce((acc, curr) => acc + curr.amount, 0);
+  console.log(totalSpent);
+  // Update the budget with the amount spent
+  await budget_data.updateOne(
+    { _id: new ObjectId(budget_req._id) },
+    { $set: { amount_remaining: budget_req.budget_amount - totalSpent } }
+  );
+}
 
 
-const budgetDataFunctions = { create, getAll, getAllsort, archiveExpiredBudgets, get_all_active_users, removeActive, removeExpired, amount_aggregate,checkExist }
+
+const budgetDataFunctions = { create, getAll, getAllsort, archiveExpiredBudgets, get_all_active_users, removeActive, removeExpired, checkExist, amount_remaining }
 
 export default budgetDataFunctions;
