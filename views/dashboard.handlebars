@@ -45,11 +45,21 @@
 </div>
 <div id="transactions-data" style="display:none;">{{json transactions}}</div>
 <h1 style="text-align: center">Welcome {{data.firstname}} {{data.lastname}}</h1>
+
+{{#if transactions}}
 <div id="chart_wrapper">
   <div id="piechart" style="width: 900px; height: 500px;">Charts</div>
   {{!-- <div id="linechart" style="display:none;"></div> --}}
   <div id="barchart" style="width: 900px; height: 500px;"></div>
 </div>
+
+{{else}}
+  <div class="error-message">
+    <h2>Error: No transaction data available</h2>
+    <p>Please make sure you have entered transactions</p>
+  </div>
+{{/if}}
+
 <h2>Current Budgets Set</h2>
 <table>
   <thead>

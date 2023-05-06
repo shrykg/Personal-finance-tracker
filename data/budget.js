@@ -132,7 +132,7 @@ async function amount_remaining(user_id, category) {
   const transactions_data = await transactions();
   const budget_data = await budget();
   const budget_req = await budget_data.findOne({ user_id, category });
-  console.log(budget_req)
+  // console.log(budget_req)
   // If the budget does not exist, return early
   if (!budget_req) {
     throw ('Some problem occured')
@@ -149,7 +149,7 @@ async function amount_remaining(user_id, category) {
   console.log(transactions_req);
   // Calculate the total amount spent
   const totalSpent = transactions_req.reduce((acc, curr) => acc + curr.amount, 0);
-  console.log(totalSpent);
+  // console.log(totalSpent);
   // Update the budget with the amount spent
   await budget_data.updateOne(
     { _id: new ObjectId(budget_req._id) },
