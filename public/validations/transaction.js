@@ -40,6 +40,7 @@ if(transaction)
         let amount = document.getElementById("amount").value.trim();
         if(!amount){err.push("Please Provide amount")}
         amount = Number(amount);
+        amount = Number(amount.tofixed(2))
         if (isNaN(amount) || amount<=0 ) { err.push("Please Enter a valid amount.") }
         if(amount>999999999){err.push("Enter amount under 9 digits only")}  
 
@@ -53,7 +54,7 @@ if(transaction)
         
         transaction_date= moment(transaction_date).format("YYYY-MM-DD");
         let today = moment().format("YYYY-MM-DD");
-        let minDate = moment().subtract(2, 'years').format("YYYY-MM-DD");
+        let minDate = moment("2021-01-01").format("YYYY-MM-DD");
         if(moment(transaction_date).isAfter(today)){
             err.push("Transaction date must be today or before today.");
         }
