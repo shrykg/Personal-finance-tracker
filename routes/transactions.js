@@ -3,7 +3,11 @@ import { ObjectId } from 'mongodb';
 const router = Router();
 import { transactionData } from '../data/index.js';
 import validation from '../validation.js';
+
 import moment from 'moment';
+
+import { exportToExcel } from '../data/excel.js';
+
 
 router.route('/new').get(async (req, res) => {
   // Render add new transcation HTML form
@@ -121,6 +125,7 @@ router
   .get(async (req, res) => {
     try {
       // validate start date and end date
+
       let { start_date, end_date, category } = req.query;
       let userId = req.session.user.id
 
@@ -130,6 +135,7 @@ router
       if (!end_date) {
         end_date = moment().format('YYYY-MM-DD')
       }
+
 
       // validate start and end dates
       
@@ -183,7 +189,7 @@ router
     updatedData['amount'] = Number(updatedData.amount)
 
     //console.log(updatedData)
-    
+
     try {
 
       req.params.id = validation.checkId(req.params.id, 'ID url param');
@@ -197,7 +203,7 @@ router
         updatedData.user_id,
         'User ID'
       );
-      
+
     } catch (e) {
       return res.status(400).json({ error: e });
     }
@@ -275,12 +281,21 @@ router
   });
 
 router.route('/seeAllTransaction/export').get(async (req, res) => {
-  // Render add new transcation HTML form
-  // if (!req.session.user) {
-  //   res.redirect('/login')
-  // }
-  // console.log(req.body)
-  res.render('addtransaction')
+  //Render add new transcation HTML form
+  if (!req.session.user) {
+    res.redirect('/login')
+  }
+  let session = req.session.user;
+  //console.log()
+  let user_id = session.id
+  console.log(user_id);
+  try {
+    exportToExcel(user_id)
+  }
+  catch (e) {
+    console.log(e);
+  }
+
 })
 
 export default router
