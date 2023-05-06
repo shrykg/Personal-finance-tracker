@@ -40,7 +40,7 @@ if(transaction)
         let amount = document.getElementById("amount").value.trim();
         if(!amount){err.push("Please Provide amount")}
         amount = Number(amount);
-        amount = Number(amount.tofixed(2))
+        amount = Number(amount.toFixed(2))
         if (isNaN(amount) || amount<=0 ) { err.push("Please Enter a valid amount.") }
         if(amount>999999999){err.push("Enter amount under 9 digits only")}  
 

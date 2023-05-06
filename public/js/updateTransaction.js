@@ -1,23 +1,30 @@
+// $("#edit-transaction-form").submit(function(event){
+//     event.preventDefault()
+//     console.log('Edit transaction tapped')
+//     // submitData()
+
+// })
+
+function submitData() {
+   const transactionId = $("#edit-transaction-button").data('transaction-id');
+   console.log(transactionId)
+   console.log($('#edit-transaction-form').serialize())
+   $.ajax({
+       url: '/transactions/' + transactionId,
+       type: 'PUT',
+       data: $('#edit-transaction-form').serialize(),
+       success: function (result) {
+           // Do something with the result
+           console.log('success in request yo')
+           window.location.href = '/transactions/seeAllTransaction';
+       },
+       error: function(error) {
+           console.log(error);
+       }
+   });
+}
 
 $(document).ready(function() {
-
-    function submitData() {
-        const transactionId = $("#edit-transaction-button").data('transaction-id');
-        console.log(transactionId)
-        console.log($('#edit-transaction-form').serialize())
-        $.ajax({
-            url: '/transactions/' + transactionId,
-            type: 'PUT',
-            data: $('#edit-transaction-form').serialize(),
-            success: function (result) {
-                // Do something with the result
-                window.location.href = '/transactions/seeAllTransaction';
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });
-     }
 
     // Handle form submission
     $('#edit-transaction-form').submit(function(event) {
@@ -46,24 +53,7 @@ $(document).ready(function() {
         });
         $('#error-div').append(errorList);
       } else {
-        // Submit form data
-        // const transactionId = $('#edit-transaction-button').data('transaction-id');
-        // const url = `/api/transactions/${transactionId}`;
-  
-        // $.ajax({
-        //   url: url,
-        //   type: 'PUT',
-        //   contentType: 'application/json',
-        //   data: JSON.stringify(formData),
-        //   success: function(result) {
-        //     window.location.href = '/dashboard';
-        //   },
-        //   error: function(jqXHR, textStatus, errorThrown) {
-        //     console.log(jqXHR);
-        //     console.log(textStatus);
-        //     console.log(errorThrown);
-        //   }
-        // });
+        
         submitData()
       }
     });
@@ -108,7 +98,7 @@ $(document).ready(function() {
         let amount = formData.amount
         if(!amount){errors.push("Please Provide amount")}
         amount = Number(amount);
-        amount = Number(amount.tofixed(2))
+        amount = Number(amount.toFixed(2))
         if (isNaN(amount) || amount<=0 ) { errors.push("Please Enter a valid amount.") }  
         if(amount>999999999){errors.push("Enter amount under 9 digits only")}  
   
