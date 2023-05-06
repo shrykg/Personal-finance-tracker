@@ -19,16 +19,16 @@ router.route('/new').get(async (req, res) => {
       return res
         .status(400).render('error', { error_occured: "No data in body part" })
     }
-    transactionPostData['user_id'] = global.loggedInUserId
+    transactionPostData['user_id'] = session_data.id
     transactionPostData['amount'] = Number(transactionPostData.amount)
-    // console.log(transactionPostData)
+    
 
 
     let errors = [];
 
     // To do: validate for date
     try {
-      transactionPostData.transaction_date = validation.checkString(transactionPostData.transaction_date, 'Transaction Date')
+      transactionPostData.transaction_date = validation.checkDate(transactionPostData.transaction_date, 'Transaction Date')
     } catch (e) {
       errors.push(e)
     }
@@ -72,34 +72,25 @@ router.route('/new').get(async (req, res) => {
       //     post: blogPostData,
       //     users: users
       //   });
-      // render error with prefilled data
-      //console.log('errorssss')
-      //console.log(errors)
+      res.render('addtransaction', { transaction, errors })
       return;
     }
 
     try {
-      //console.log('inside bitch')
+      
 
       const { user_id, paymentType, amount, description, category, transaction_date } = transactionPostData;
 
       const newTransaction = await transactionData.addTransaction(user_id, paymentType, amount, description, category, transaction_date)
 
       const latestTransactions = await transactionData.getLatestTransactions(global.loggedInUserId)
-      //console.log('_____________')
-
-
-      //console.log(latestTransactions)
-
-
+      
       res.redirect('/dashboard')
     } catch (e) {
       res.status(500).json({ error: e });
     }
   })
-//   .put(async (req, res) => {
-//     res.send('ROUTED TO PUT ROUTE');
-//   }); 
+
 
 // route for indivisual transactions to view, edit, delete
 
@@ -119,8 +110,8 @@ router
 router
   .route('/seeAllTransaction/filters')
   .get(async (req, res) => {
+    let errors = []
     try {
-      // validate start date and end date
       let { start_date, end_date, category } = req.query;
       let userId = req.session.user.id
 
@@ -139,7 +130,28 @@ router
           throw 'Start date must be before end date';
         }
       
+    } catch (error) {
+      errors.push(error)
+    }
 
+    try {
+      if (errors.length > 0) {
+        //   const users = await userData.getAllUsers();
+        //   res.render('posts/new', {
+        //     errors: errors,
+        //     hasErrors: true,
+        //     post: blogPostData,
+        //     users: users
+        //   });
+        const transactions = await transactionData.getTransactionsByDateRangeAndCategoryWithoutDateFormat(userId, start_date, end_date, category)
+        res.render('seeAllTransaction', { transactions, start: start_date, end: end_date, cat: category,errors })
+        return;
+      }
+    }catch(e) {
+      res.status(400).json({ error: e });
+    }
+    try {
+      
       // get transactions with given category and date range
       const transactions = await transactionData.getTransactionsByDateRangeAndCategoryWithoutDateFormat(userId, start_date, end_date, category)
 
@@ -164,8 +176,6 @@ router
     try {
       let transaction = await transactionData.getTransaction(req.params.id)
       transaction.transaction_date = new Date(transaction.transaction_date)
-      // const amountInNum = Number(transaction.amount.slice(1));
-      // transaction.amount = amountInNum
       res.render('updatetransaction', { transaction })
     } catch (e) {
       res.status(404).json({ error: e });
@@ -174,33 +184,66 @@ router
   .put(async (req, res) => {
     const updatedData = req.body;
 
-    console.log('updated data in put route')
-    console.log(updatedData)
-
-    // console.log('updatedData')
-    // console.log(req.params.id)
-    updatedData['user_id'] = global.loggedInUserId
+    updatedData['user_id'] = req.session.user.id
     updatedData['amount'] = Number(updatedData.amount)
+    let errors = []
+   try {
+    req.params.id = validation.checkId(req.params.id, 'ID url param');
+   } catch (error) {
+    errors.push(error)
+   }
 
-    //console.log(updatedData)
+   try {
+    updatedData.description = validation.checkString(updatedData.description, 'Description');
+   } catch (error) {
+    errors.push(error)
+   }
+
+   try {
+    updatedData.category = validation.checkString(updatedData.category, 'category');
+   } catch (error) {
+    errors.push(error)
+   }
+
+   try {
+    updatedData.amount = validation.checkNumber(updatedData.amount, 'Amount')
+   } catch (error) {
+    errors.push(error)
+   }
+
+   try {
+    updatedData.transaction_date = validation.checkDate(updatedData.transaction_date, 'Transaction Date')
+   } catch (error) {
+    errors.push(error)
+   }
+
+   try {
+    updatedData.paymentType = validation.checkString(updatedData.paymentType, 'Payment Type')
+   } catch (error) {
+    errors.push(error)
+   }
+
+   try {
+    updatedData.user_id = validation.checkId(
+      updatedData.user_id,
+      'User ID'
+    );
+   } catch (error) {
+    errors.push(error)
+   }
     
-    try {
-
-      req.params.id = validation.checkId(req.params.id, 'ID url param');
-      updatedData.description = validation.checkString(updatedData.description, 'Description');
-      updatedData.category = validation.checkString(updatedData.category, 'category');
-      // updatedData.amount = validation.checkNumber(updatedData.amount, 'Amount')
-      // change this to validate date
-      updatedData.transaction_date = validation.checkString(updatedData.transaction_date, 'Transaction Date')
-      updatedData.paymentType = validation.checkString(updatedData.paymentType, 'Payment Type')
-      updatedData.user_id = validation.checkId(
-        updatedData.user_id,
-        'User ID'
+   try {
+    if (errors.length > 0) {
+      const transaction = await transactionData.updateTransaction(
+        req.params.id,
+        updatedData
       );
-      
-    } catch (e) {
-      return res.status(400).json({ error: e });
-    }
+      res.render(res.render('updatetransaction', { transaction,errors }))
+   }
+   } catch (error) {
+    return res.status(400).json({ error: error });
+   }
+   
 
     try {
       // console.log('now update')
@@ -220,40 +263,6 @@ router
       return res.status(status).json({ error: message });
     }
   })
-  //   .patch(async (req, res) => {
-  //     const requestBody = req.body;
-  //     try {
-  //       req.params.id = validation.checkId(req.params.id, 'Post ID');
-  //       if (requestBody.title)
-  //         requestBody.title = validation.checkString(requestBody.title, 'Title');
-  //       if (requestBody.body)
-  //         requestBody.body = validation.checkString(requestBody.body, 'Body');
-  //       if (requestBody.posterId)
-  //         requestBody.posterId = validation.checkId(
-  //           requestBody.posterId,
-  //           'Poster ID'
-  //         );
-  //       if (requestBody.tags)
-  //         requestBody.tags = validation.checkStringArray(
-  //           requestBody.tags,
-  //           'Tags'
-  //         );
-  //     } catch (e) {
-  //       return res.status(400).json({error: e});
-  //     }
-
-  //     try {
-  //       const updatedPost = await postData.updatePostPatch(
-  //         req.params.id,
-  //         requestBody
-  //       );
-  //       res.json(updatedPost);
-  //     } catch (e) {
-  //       let status = e[0];
-  //       let message = e[1];
-  //       res.status(status).json({error: message});
-  //     }
-  //   })
   .delete(async (req, res) => {
     // console.log(req.params.id)
     try {
