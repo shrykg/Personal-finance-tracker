@@ -27,4 +27,7 @@
       {{/each}}
     </tbody>
   </table>
-
+{{#if error}}
+<div class="error"> {{error}}</div>
+{{/if}}
+<button onclick="window.location.href='/dashboard'">Back to Dashboard</button>

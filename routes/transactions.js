@@ -3,7 +3,7 @@ import { ObjectId } from 'mongodb';
 const router = Router();
 import { transactionData } from '../data/index.js';
 import validation from '../validation.js';
-
+import xss from "xss"
 import moment from 'moment';
 
 import { exportToExcel } from '../data/excel.js';
@@ -21,53 +21,55 @@ router.route('/new').get(async (req, res) => {
     if (!req.session.user) {
       return res.redirect('/login')
     }
-
     let session_data = req.session.user;
     const transactionPostData = req.body;
     if (!transactionData || Object.keys(transactionPostData).length === 0) {
       return res
         .status(400).render('error', { error_occured: "No data in body part" })
     }
-    transactionPostData['user_id'] = session_data.id
-    transactionPostData['amount'] = Number(transactionPostData.amount)
+    let user_id = req.session.user.id.trim();
+    let description=  xss(req.body.description).trim()
+    let category= xss(req.body.category).trim()
+    let amount = xss(req.body.amount).trim();
+    let transaction_date=xss(req.body.transaction_date).trim();
+    let paymentType=xss(req.body.paymentType).trim()
     
-
-
     let errors = [];
 
     // To do: validate for date
     try {
-      transactionPostData.transaction_date = validation.checkDate(transactionPostData.transaction_date, 'Transaction Date')
+      transaction_date = validation.checkDate(transaction_date, 'Transaction Date')
     } catch (e) {
       errors.push(e)
     }
 
     try {
-      transactionPostData.paymentType = validation.checkString(transactionPostData.paymentType, 'Payment Type');
+      paymentType = validation.checkString(paymentType, 'Payment Type');
     } catch (e) {
       errors.push(e);
     }
 
     try {
-      transactionPostData.description = validation.checkString(transactionPostData.description, 'Description');
+      description = validation.checkString(description, 'Description');
     } catch (e) {
       errors.push(e);
     }
 
     try {
-      transactionPostData.amount = validation.checkNumber(transactionPostData.amount, 'Amount');
+      amount= Number(amount);
+      transactionPostData.amount = validation.checkNumber(amount, 'Amount');
     } catch (e) {
       errors.push(e);
     }
 
     try {
-      transactionPostData.category = validation.checkString(transactionPostData.category, 'Category');
+      category = validation.checkString(category, 'Category');
     } catch (e) {
       errors.push(e);
     }
 
     try {
-      transactionPostData.user_id = validation.checkId(transactionPostData.user_id, 'User ID');
+      user_id = validation.checkId(user_id, 'User ID');
     } catch (e) {
       errors.push(e);
     }
@@ -87,9 +89,6 @@ router.route('/new').get(async (req, res) => {
 
     try {
       
-
-      const { user_id, paymentType, amount, description, category, transaction_date } = transactionPostData;
-
       const newTransaction = await transactionData.addTransaction(user_id, paymentType, amount, description, category, transaction_date)
 
       const latestTransactions = await transactionData.getLatestTransactions(session_data.id)

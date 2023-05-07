@@ -16,10 +16,10 @@ router
             notification_data = await budgetData.checkBudgetNotifications(user_id);
         }
         catch (e) {
-
+            return res.status(400).render('notifications', { notifications:e })
         }
         //console.log(notification_data);
-        res.render('notifications', { notifications: notification_data })
+        return res.render('notifications', { notifications: notification_data })
     })
 
 export default router; 

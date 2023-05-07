@@ -9,10 +9,10 @@ import validation from '../validation.js'
 router.
     route('/').get(async (req, res) => {
         try {
-            res.redirect('/login')
+           return res.redirect('/login')
         }
         catch (e) {
-            res.status(400).render('error', { error_occured: e })
+            return res.status(500).render('error', { error_occured: e })
         }
     })
 
@@ -20,11 +20,11 @@ router
     .route('/about')
     .get(async (req, res) => {
         try {
-            res.render('about');
+            return res.render('about');
         }
 
         catch (e) {
-            res.status(500).json({ error: e });
+           return  res.status(500).render('error',{ error_occured: e });
         }
     })
 
@@ -32,11 +32,11 @@ router
     .route('/registration')
     .get(async (req, res) => {
         try {
-            res.render('registration');
+            return  res.render('registration');
         }
 
         catch (e) {
-            res.status(500).json({ error: e });
+            return  res.status(500).render('error',{ error_occured: e });
         }
     })
     .post(async (req, res) => {
@@ -49,19 +49,19 @@ router
         let password_1 = xss(req.body.password_initial);
         let region = xss(req.body.region)
         if (!firstname || !lastname || !dob || !email || !password || !password_1 || !region) {
-            res.status(400).render('registration', { error: 'All fields are required' })
+            return  res.status(400).render('registration', { error: 'All fields are required' })
         }
         if (validation.validateDOB(dob) < 13) {
-            res.status(400).render('registration', { error: 'You must be 13 years or older to register !', firstname: firstname, lastname: lastname, dob: dob, email: email, region: region })
+            return  res.status(400).render('registration', { error: 'You must be 13 years or older to register !', firstname: firstname, lastname: lastname, dob: dob, email: email, region: region })
         }
         if (password !== password_1) {
-            res.status(400).render('registration', { error: 'Passwords do not match ! Please try again', firstname: firstname, lastname: lastname, dob: dob, email: email, region: region })
+            return  res.status(400).render('registration', { error: 'Passwords do not match ! Please try again', firstname: firstname, lastname: lastname, dob: dob, email: email, region: region })
         }
         try {
             validation.validateEmail(email);
         }
         catch (e) {
-            res.status(400).render('registration', { error: e })
+            return   res.status(400).render('registration', { error: e })
         }
         //checking if the user with the same email already exists
         let check = '';
@@ -69,19 +69,19 @@ router
             check = await login_reg_data.get_user_by_email(email);
         }
         catch (e) {
-            res.status(400).json({ error: e });
+            return  res.status(400).json({ error: e });
         }
         if (!check) {
             try {
                 await login_reg_data.add_user(firstname, lastname, dob, email, password, region);
-                res.status(200).redirect('/login');
+                return  res.status(200).redirect('/login');
             }
             catch (e) {
-                res.status(400).render('registration', { error: 'Something went wrong , please try again !', firstname: firstname, lastname: lastname, dob: dob, email: email, region: region })
+                return res.status(400).render('registration', { error: 'Something went wrong , please try again !', firstname: firstname, lastname: lastname, dob: dob, email: email, region: region })
             }
         }
         else {
-            res.status(400).render('registration', { error: 'User already exists', firstname: firstname, lastname: lastname, dob: dob, email: email, region: region })
+            return  res.status(400).render('registration', { error: 'User already exists', firstname: firstname, lastname: lastname, dob: dob, email: email, region: region })
         }
 
     })
@@ -131,16 +131,16 @@ router
 
         if (data) {
             try {
-                res.status(200).render('dashboard', { data: data, transactions: trans_data, active_budget: active_budget });
+               return  res.status(200).render('dashboard', { data: data, transactions: trans_data, active_budget: active_budget });
             }
 
             catch (e) {
-                res.status(500).json({ error: e });
+                return  res.status(400).render('error',{ error_occured: e });
             }
         }
 
         else {
-            res.redirect('/login');
+            return  res.redirect('/login');
         }
 
     })
@@ -151,29 +151,22 @@ router
     .route('/logout')
     .get(async (req, res) => {
 
-        if (!req.session.user) {
-            return res.redirect('/login');
-          }
-
         //code here for GET
         if (req.session.user) {
             req.session.destroy();
-            res.redirect('/login')
+            return res.status(200).render('logout');
         } else {
-            res.status(403).render('login');
-        }
+          return   res.status(403).redirect('/login')        }
     });
-
-
 
 router.
     route('/login')
     .get(async (req, res) => {
         try {
-            res.status(200).render('login');
+            return res.status(200).render('login');
         }
         catch (e) {
-            res.status.json({ error: e })
+            return  res.status(400).render('error',{ error_occured: e });
         }
     })
     .post(async (req, res) => {
@@ -187,11 +180,11 @@ router.
             data = await login_reg_data.checkUser(username, password);
         }
         catch (e) {
-            res.status(400).render('error', { error_occured: e });
+           return  res.status(400).render('error', { error_occured: e });
         }
         //storing user session data
         if (!data) {
-            res.status(400).render('login', { error: "Invalid credentials used to log in" })
+            return res.status(400).render('login', { error: "Invalid credentials used to log in" })
         }
         else {
 
@@ -199,10 +192,10 @@ router.
             let symbol = login_reg_data.check_currency_symbol(data.region)
             req.session.user = { id: data._id.toString(), firstname: data.firstname, lastname: data.lastname, email: data.email, dob: data.dob, created_at: new Date(data.created_at).toISOString().slice(0, 10), symbol: symbol }
             if (req.session.user) {
-                res.redirect('/dashboard');
+              return  res.redirect('/dashboard');
             }
             else {
-                res.status(400).render('login', { error: "Invalid credentials used to log in" })
+               return res.status(400).render('login', { error: "Invalid credentials used to log in" })
             }
         }
     });

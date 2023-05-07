@@ -31,26 +31,6 @@ const rewriteUnsupportedBrowserMethods = (req, res, next) => {
   next();
 };
 
-app.get('/login', async (req, res, next) => {
-  if (req.session.user) {
-    res.redirect('/dashboard');
-  }
-  else {
-    res.render('login');
-  }
-  next();
-})
-
-app.get('/logout', async (req, res, next) => {
-  if (!req.session.user) {
-    res.redirect('/login')
-  }
-  else {
-    next();
-  }
-
-})
-
 app.use(async (req, res, next) => {
   let date = new Date().toUTCString();
   let method = req.method;
@@ -67,6 +47,36 @@ app.use(async (req, res, next) => {
   console.log(date + ":" + " " + method + " " + url + " " + auth);
   next();
 })
+app.use('/dashboard', async (req, res, next) => {
+  if (!req.session.user) {
+    res.redirect('/login')
+  }
+  else {
+    next();
+  }
+
+})
+app.use('/login',async(req,res,next)=>{
+  if(req.session.user){
+    return res.redirect('/dashboard');
+    }
+    next()
+})
+
+app.use('/registration', async (req, res, next) => {
+  if (req.session.user) 
+  {
+    return res.redirect('/dashboard');
+  } 
+  next();
+});
+app.use("/logout", async (req, res, next) => {
+  if (!req.session.user) 
+  {
+    return res.redirect("/login");
+  }
+  next()
+});
 
 const handlebarsInstance = exphbs.create({
   defaultLayout: 'main',

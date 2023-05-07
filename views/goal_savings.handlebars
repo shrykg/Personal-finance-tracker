@@ -24,6 +24,8 @@
     </div>
 
     <div class="error" id="error" hidden></div>
+   {{#if error}} <div class="err">{{error}}</div>{{/if}}
     <button type="submit">Add to Savings !</button>
 
 </form>
+<button onclick="window.location.href='/dashboard'">Back to Dashboard</button>

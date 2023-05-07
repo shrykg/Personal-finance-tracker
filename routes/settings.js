@@ -9,7 +9,7 @@ router.route('/profile').get(async (req, res) => {
   if (!req.session.user) {
     return res.redirect('/login');
   }
-  res.render('settings', { data: data })
+  return res.render('settings', { data: data })
 }).post(async (req, res) => {
 
   if (!req.session.user) {

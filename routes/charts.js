@@ -19,9 +19,9 @@ router.route('/getCharts').get(async (req, res) => {
   try {
     const transactions1 = await transactionData.getTransactionsByDateRange(userId, startDate, endDate);
     // console.log(transactions1);
-    res.render('charts', { transactions1, startDate, endDate });
+    return res.render('charts', { transactions1, startDate, endDate });
   } catch (e) {
-    res.status(400).render('error', { error_occured: e });
+    return res.status(400).render('error', { error_occured: e });
   }
 });
 

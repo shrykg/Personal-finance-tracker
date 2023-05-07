@@ -8,7 +8,7 @@ router
     if (!req.session.user) {
       return res.redirect('/login');
     }
-    res.render('goals')
+    return res.render('goals')
   })
 
   .post(async (req, res) => {
@@ -26,10 +26,10 @@ router
     try {
       const newGoal = await goalDataFunctions.create(user_id, goal_name, goal_amount, target_date, goal_purpose);
       //res.status(200).json(newGoal);
-      res.redirect('/goals/viewall')
+      return res.redirect('/goals/viewall')
     } catch (e) {
       //console.log(e);
-      res.status(500).render('goals', { error: e });
+      return res.status(500).render('goals', { error: e });
     }
   });
 
@@ -46,7 +46,7 @@ router.get('/viewall', async (req, res) => {
     //console.log(data);
     res.render("allgoals", { data: data });
   } catch (e) {
-    console.log(e);
+    return res.status(500).render('allgoals', { error: e });
   }
 
 });
@@ -56,16 +56,12 @@ router.get('/new', async (req, res) => {
   if (!req.session.user) {
     return res.redirect('/login');
   }
-
-
-  // res.render('allgoals');
   let user_id = req.session.user.id;
   try {
     const data = await goalDataFunctions.getAll(user_id);
-    //console.log(data);
-    res.render("goal_savings", { data: data });
+    return res.render("goal_savings", { data: data });
   } catch (e) {
-    console.log(e);
+    return res.status(500).render('goal_savings', { error: e });
   }
 
 })
@@ -83,7 +79,7 @@ router.get('/new', async (req, res) => {
       const updated_data = await goalDataFunctions.update_savings(user_id, goal_name, savings);
     }
     catch (e) {
-      console.log(e);
+      return res.status(500).render('goal_savings', { error: e });
     }
 
   })
