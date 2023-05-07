@@ -90,6 +90,8 @@ router
 router
     .route('/dashboard')
     .get(async (req, res) => {
+         
+        console.log('in dashboard bitch')
 
         if (!req.session.user) {
             return res.redirect('/login');
@@ -154,6 +156,7 @@ router
         //code here for GET
         if (req.session.user) {
             req.session.destroy();
+            res.clearCookie()
             return res.status(200).render('logout');
         } else {
           return   res.status(403).redirect('/login')        }
