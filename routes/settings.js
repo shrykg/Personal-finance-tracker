@@ -17,9 +17,11 @@ router.route('/profile').get(async (req, res) => {
   }
 
   let data = req.session.user;
-  let user_name = req.body.firstname;
-  let last_name = req.body.lastname;
-  let dob = req.body.dob;
+  let user_name = xss(req.body.firstname);
+  user_name = user_name.strip();
+  let last_name = xss(req.body.lastname);
+  last_name = last_name.strip();
+  let dob = xss(req.body.dob);
 
   if (data.firstname !== user_name) {
     data.firstname = user_name;
@@ -41,6 +43,7 @@ router.route('/profile').get(async (req, res) => {
 router.route('/changepassword').get(async (req, res) => {
   // Render add new transcation HTML form
   let data = req.session.user;
+  let success = '';
   //console.log(data);
   if (!req.session.user) {
     return res.redirect('/login');
@@ -53,19 +56,19 @@ router.route('/changepassword').get(async (req, res) => {
   }
 
   let data = req.session.user;
-  console.log(data)
   let old_password = req.body.current_pwd;
   let new_password = req.body.new_pwd;
-  console.log(old_password);
-  console.log(new_password);
+  let confirm_new_password = req.body.confirm_new_pwd;
+
+  if (new_password !== confirm_new_password) {
+    return res.render('changepassword', { error: "New passwords must match" });
+  }
   try {
     await update_password(data.id, old_password, new_password);
-    console.log('Password updated !')
-
+    return res.render('settings');
   }
-
   catch (e) {
-
+    return res.status(400).render('changepassword', { error: e });
   }
 
 
