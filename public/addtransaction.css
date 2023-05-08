@@ -24,19 +24,6 @@
     box-sizing: border-box;
   }
 
-  button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background-color: #3e8e41;
-  }
-
   .form-group {
     margin-bottom: 15px;
   }
@@ -50,8 +37,8 @@
     margin-bottom: 5px;
   }
 
-  button[id="add_trans_dashboard"] {
-    background-color: #4CAF50;
+  button {
+    background-color: #1e7132;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -60,7 +47,7 @@
     margin-left: 265px;
   }
 
-  button[id="add_trans_dashboard"]:hover {
+  button:hover {
     background-color: #3e8e41;
   }
 

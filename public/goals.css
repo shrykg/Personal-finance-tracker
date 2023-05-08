@@ -45,7 +45,7 @@ select {
 }
 
 input[type="submit"] {
-    background-color: #4CAF50;
+    background-color: #1e7132;
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -66,7 +66,7 @@ input[type="submit"]:hover {
 }
 
 button {
-    background-color: #008CBA;
+    background-color: #1e7132;
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -76,5 +76,5 @@ button {
 }
 
 button:hover {
-    background-color: #0077aa;
+    background-color: #3e8e41;
 }
