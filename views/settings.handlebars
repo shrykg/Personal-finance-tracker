@@ -22,6 +22,9 @@
 </div>
 
 <div id="error-container-settings">{{error}}</div>
+{{#if error_server}}
+<div id="error-server">{{error_server}}</div>
+{{/if}}
 <script src='/public/validations/settings.js'></script>
 {{!--
 <script src='/public/validations/log_in_registration.js'></script> --}}

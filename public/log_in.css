@@ -89,9 +89,3 @@ input[type="submit"] {
     text-align: center;
     margin-top: 20px;
 }
-
-#error-container-login {
-    color: red;
-    text-align: center;
-    margin-top: 20px;
-}
