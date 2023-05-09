@@ -7,6 +7,9 @@
     {{success}}
   </div>
   {{/if}}
+  {{#if error_server}}
+<div class="error">{{error_server}}</div>
+{{/if}}
   <div class="form-group">
     <label for="amount">1. How much do you want to save?</label>
     <input type="number" id="amount" name="amount" {{#if amount}} value={{amount}} {{/if}}placeholder="Enter amount" step="0.01" required>
@@ -45,7 +48,5 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
   <script src='/public/validations/budget.js'></script>
 </form>
-{{#if error_server}}
-<div class="error">{{error_server}}</div>
-{{/if}}
+
 <button name="back" onclick="window.location.href='/dashboard'">Back to Dashboard</button>
