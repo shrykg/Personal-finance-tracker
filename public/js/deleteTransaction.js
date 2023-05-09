@@ -1,6 +1,6 @@
 $('.del-btn').click(function() {
     // Get the transaction ID from the data-transactionId attribute
-    var transactionId = $('.del-btn').data('transaction-Id');
+    let transactionId = $('.del-btn').data('transaction-Id');
     console.log(transactionId)
 
     if (confirm("Are you sure you want to delete this transaction?")) {
