@@ -27,10 +27,10 @@ $(document).ready(function () {
       }
       let start = moment(startDate).format("YYYY-MM-DD");
       if (moment(startDate).isAfter(today)) {
-        errors.push("Transaction date must be today or before today.");
+        errors.push("Start date must be today or before today.");
       }
       if (moment(startDate).isBefore(minDate)) {
-        errors.push("Transaction date must be within the last 2 years from today.");
+        errors.push("Start date must be within the last 2 years from today.");
       }
     }
     if (endDate) {
@@ -40,10 +40,10 @@ $(document).ready(function () {
       }
       let end = moment(endDate).format("YYYY-MM-DD");
       if (moment(endDate).isAfter(today)) {
-        errors.push("Transaction date must be today or before today.");
+        errors.push("End date must be today or before today.");
       }
       if (moment(endDate).isBefore(minDate)) {
-        errors.push("Transaction date must be within the last 2 years from today.");
+        errors.push("End date must be within the last 2 years from today.");
       }
     }
 
@@ -60,8 +60,14 @@ $(document).ready(function () {
     // Display errors or submit the form
     if (errors.length > 0) {
       // Display error messages
-      const errorMessage = errors.join("<br>");
-      $("#error-message").html(errorMessage).show();
+      // const errorMessage = errors.join("<br>");
+      // $("#error-message").html(errorMessage).show();
+      const errorList = $('<ol></ol>');
+        errors.forEach(function(error) {
+          errorList.append($('<li></li>').text(error));
+        });
+        $('#error-message').append(errorList);
+        $("#error-message").show()
     } else {
       // Submit the form
       $("#filter-form")[0].submit();

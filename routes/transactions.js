@@ -76,13 +76,6 @@ router.route('/new').get(async (req, res) => {
 
 
     if (errors.length > 0) {
-      //   const users = await userData.getAllUsers();
-      //   res.render('posts/new', {
-      //     errors: errors,
-      //     hasErrors: true,
-      //     post: blogPostData,
-      //     users: users
-      //   });
       res.render('addtransaction', { transaction, errors })
       return;
     }
@@ -93,9 +86,13 @@ router.route('/new').get(async (req, res) => {
 
       const latestTransactions = await transactionData.getLatestTransactions(session_data.id)
 
-      res.redirect('/dashboard')
+      if (newTransaction) {
+        return res.render('addtransaction', {successMessage: "Transaction added successfully!"})
+      }
+
+      
     } catch (e) {
-      res.status(500).json({ error: e });
+      return res.status(500).json({ error: e });
     }
   })
 
@@ -117,7 +114,7 @@ router
         transactions: result.reverse()
       })
     } catch (e) {
-      res.status(404).json({ error: e });
+      return res.status(404).json({ error: e });
     }
   })
 
@@ -168,17 +165,16 @@ router
       }
     } catch (e) {
       console.log(e)
-      res.status(400).json({ error: e });
+      return res.status(400).json({ error: e });
     }
     try {
-      console.log('inside tryyyy')
       // get transactions with given category and date range
       const transactions = await transactionData.getTransactionsByDateRangeAndCategoryWithoutDateFormat(userId, start_date, end_date, category)
 
-      res.render('seeAllTransaction', { transactions, start: start_date, end: end_date, cat: category });
+      return res.render('seeAllTransaction', { transactions, start: start_date, end: end_date, cat: category });
     } catch (e) {
       console.log(e)
-      res.status(400).json({ error: e });
+      return res.status(400).json({ error: e });
     }
   })
 
@@ -201,10 +197,10 @@ router
     }
     try {
       let transaction = await transactionData.getTransaction(req.params.id)
-      transaction.transaction_date = new Date(transaction.transaction_date)
-      res.render('updatetransaction', { transaction })
+      // transaction.transaction_date = new Date(transaction.transaction_date)
+      return res.render('updatetransaction', { transaction })
     } catch (e) {
-      res.status(404).json({ error: e });
+      return res.status(404).json({ error: e });
     }
   })
   .put(async (req, res) => {
@@ -289,7 +285,7 @@ router
       return res.json({ "update": true })
 
     } catch (e) {
-      console.log('eroorjknjknjkn')
+      
       console.log(e)
       let status = e[0];
       let message = e[1];
@@ -336,7 +332,7 @@ router.route('/seeAllTransaction/export').get(async (req, res) => {
   let result1 = await transactionData.getAllTransactions(user_id);
   try {
     result = exportToExcel(user_id)
-    res.render('seeAllTransaction', { success: result, transactions: result1.reverse() });
+    return res.render('seeAllTransaction', { success: result, transactions: result1.reverse() });
   }
   catch (e) {
     console.log(e);

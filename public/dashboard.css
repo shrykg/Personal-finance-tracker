@@ -273,3 +273,7 @@ button:hover {
     color: red;
     text-align: center;
 }
+
+#error-message {
+    color: red; 
+}

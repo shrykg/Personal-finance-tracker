@@ -26,15 +26,9 @@
     <option value="miscellaneous" {{#ifEqual cat "miscellaneous" }}selected{{/ifEqual}}>Miscellaneous</option>
   </select>
 
-<<<<<<< HEAD
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-  <script src='/public/validations/allTransaction.js'></script>
-  <script src="/public/js/deleteTransaction.js"></script>
-=======
   <button type="submit">Filter Transactions</button>
   <button type="button" onclick="window.location.href='/transactions/seeAllTransaction'">Clear Filters</button>
->>>>>>> 5b4d69c66629fa2fa64acde081222a47f046ed91
+
 
 </form>
 
@@ -68,11 +62,11 @@
 </table>
 
 <div id="error-message" style="display:none;">
-  <li>
+  <ol>
     {{#each errors}}
-    {{this}}
+    <li>{{this}}</li>
     {{/each}}
-  </li>
+  </ol>
 </div>
 <button onclick="window.location.href='/dashboard'">Back to Dashboard</button>
 
@@ -85,7 +79,7 @@
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 
-<script src="/public/js/deleteTransaction.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src='/public/validations/allTransaction.js'></script>
 <script src="/public/js/deleteTransaction.js"></script>

@@ -49,3 +49,7 @@
     font-weight: bold;
     margin-bottom: 5px;
   }
+
+  #error-div {
+    color: red
+  }
