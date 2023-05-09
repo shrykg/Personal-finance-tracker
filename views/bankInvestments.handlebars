@@ -1,43 +1,44 @@
-<link rel="stylesheet" type="text/css" href="/public/dashboard.css">
+<link rel="stylesheet" type="text/css" href="/public/css/dashboard.css">
 <table>
-  <thead>
-    <tr>
-      <th>Account Name</th>
-      <th>Holdings</th>
-      {{!-- <th>Quantity</th>
-      <th>Cost Basis</th>
-      <th>Institution Price</th>
-      <th>Institution Value</th> --}}
-    </tr>
-  </thead>
-  <tbody>
-    {{#each accounts}}
-    <tr>
-      <td>{{this.name}}</td>
-      <td>
-        <table>
-          <tbody>
-            {{#each this.holdings}}
-            <thead>
-            <tr>
-            <th>Quantity</th>
-            <th>Cost Basis</th>
-            <th>Institution Price</th>
-            <th>Institution Value</th>
-            </tr>
-            </thead>  
-              {{!-- <td>{{this.name}}</td> --}}
-              <td>{{this.quantity}}</td>
-              <td>{{this.cost_basis}}</td>
-              <td>{{this.institution_price}}</td>
-              <td>{{this.institution_value}}</td>
-            </tr>
-            {{/each}}
-          </tbody>
-        </table>
-      </td>
-    </tr>
-    {{/each}}
-  </tbody>
-</table>
+      <thead>
+        <tr>
+          <th>Account Name</th>
+          <th>Holdings</th>
+          <!-- <th>Quantity</th>
+          <th>Cost Basis</th>
+          <th>Institution Price</th>
+          <th>Institution Value</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        {{#each accounts}}
+        <tr>
+          <td>{{this.name}}</td>
+          <td>
+            <table>
+              <thead>
+                <tr>
+                  <th>Quantity</th>
+                  <th>Cost Basis</th>
+                  <th>Institution Price</th>
+                  <th>Institution Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each this.holdings}}
+                <tr>
+                  <!-- <td>{{this.name}}</td> -->
+                  <td>{{this.quantity}}</td>
+                  <td>{{this.cost_basis}}</td>
+                  <td>{{this.institution_price}}</td>
+                  <td>{{this.institution_value}}</td>
+                </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
 
