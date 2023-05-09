@@ -87,15 +87,15 @@ const update_savings = async (user_id, goal_name, savings) => {
     user_id=user_id.trim();
     user_id= validation.checkId(user_id)
     goal_name=goal_name.trim().toLowerCase();
-    let getGoals = await goals();
-    let temp=getGoals.findOne({user_id:user_id.trim(),goal_name:goal_name.trim()})
-    if(!temp)
-    {
-      throw "This goal is not exist"
-    }
     user_id = user_id.trim();
     goal_name = goal_name.trim();
     savings = Number(savings);
+
+    let getGoals = await goals();
+    let result;
+    result = await getGoals.findOne({ user_id:user_id,goal_name:goal_name });
+    if(!result){throw "Cannot find goal"}
+    if(result.goal_amount<savings){throw "Savings amount cannot be greater than goal amount"}
 
     let updatedGoalData = await getGoals.findOneAndUpdate(
       { user_id: user_id, goal_name: goal_name },
@@ -105,7 +105,7 @@ const update_savings = async (user_id, goal_name, savings) => {
     if(updatedGoalData.lastErrorObject.n===0) {
       throw 'could not update data';
     }
-  return{updated:true}
+  return {updated:true}
 };
 
 const goalDataFunctions = { create, getAll, get, remove,update_savings };

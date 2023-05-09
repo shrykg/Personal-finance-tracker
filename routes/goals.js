@@ -81,7 +81,6 @@ router.get('/new', async (req, res) => {
     if (!req.session.user) {
       return res.redirect('/login');
     }
-
     let user_id = req.session.user.id;
     let goal_name = xss(req.body.goal_select);
     let savings = xss(req.body.amount);
