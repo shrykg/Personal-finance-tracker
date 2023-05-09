@@ -1,4 +1,6 @@
 <h1>Edit Goal</h1>
+<link rel="stylesheet" type="text/css" href="/public/goals.css">
+
     <form action="/goals/edit/{{goal._id}}" method="POST">
         <label for="goal_name">Goal Name:</label>
         <input type="text" id="goal_name" name="goal_name" value="{{goal.goal_name}}" required>
@@ -19,10 +21,4 @@
         <button type="submit">Update Goal</button>
     </form>
     <button onclick="window.location.href='/goals/viewall'">Back to All Goals</button>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
-    <script>
-        Handlebars.registerHelper('eq', function(a, b) {
-            return a === b;
-        });
-    </script>

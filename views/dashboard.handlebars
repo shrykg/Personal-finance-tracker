@@ -107,31 +107,10 @@
       <td>{{amount}}</td>
       <td>{{paymentType}}</td>
 
-
-      {{!-- <td>
-        <button type="button" onclick="window.location.href='/transactions/{{_id}}'">Edit</button>
-
-        <button class="del-btn" data-transaction-Id="{{_id}}">Delete</button>
-      </td> --}}
-
     </tr>
     {{/each}}
   </tbody>
 </table>
-{{!-- <button type="button" id="link-account" class="btn btn-primary btn-dark btn-lg" style="
-        border: 1px solid black;
-        border-radius: 5px;
-        background: black;
-        height: 48px;
-        width: 155px;
-        margin-top: 5; 
-        margin-left: 10;
-        color: white;
-        font-size: 18px;
-      ">
-  <strong>Link account</strong>
-</button> --}}
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
 <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
 <script src="/public/js/plaidLink.js"> </script>

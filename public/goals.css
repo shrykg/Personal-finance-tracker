@@ -15,11 +15,10 @@ h1 {
 }
 
 form {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-}
-
+    max-width: 500px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+  }
 label {
     font-size: 18px;
     font-weight: bold;
