@@ -187,8 +187,8 @@ const exportedMethods = {
 
     if (!start_Date) { throw "Please select start_date" }
     if (!end_Date) { throw "Please select end_date" }
-    if (start_Date.trim().length == 0) { err.push("Please Enter start_Date") }
-    if (end_Date.trim().length == 0) { err.push("Please Enter end_Date") }
+    if (start_Date.trim().length == 0) { throw "Please Enter start_Date" }
+    if (end_Date.trim().length == 0) { throw "Please Enter end_Date" }
     if (!typeof start_Date === 'string' || !typeof end_Date === 'string') { throw "Enter date in only YYYY-MM-DD string format" }
 
     let isValidDate = moment(start_Date, "YYYY-MM-DD", true).isValid();
@@ -217,6 +217,64 @@ const exportedMethods = {
     if(moment(end_Date).isAfter(maxEndDate))
     {
       throw "End date cannot be more than 1 year from today.";
+    }
+  },
+  checkGoals(goal_purpose,goal_name,goal_amount,target_date)
+  {
+    if (!goal_purpose) {
+      throw "Please select a goal purpose";
+    }
+    if (typeof goal_purpose !== "string") { throw "Please enter a valid goal purpose" }
+    if(goal_purpose.trim().length===0){throw "Goal Purpose cannot be empty string"}
+    let validOptions = ["crush_credit_card_debt", "wipe_out_my_loans", "save_for_a_rainy_day", "prepare_for_retirement", "buy_a_home", "buy_a_car", "save_for_college", "take_a_trip", "improve_my_home", "something_else"];
+    let lowerGoalPurpose = goal_purpose.toLowerCase();
+    if (!validOptions.includes(lowerGoalPurpose)) {
+      throw "Please select a valid goal purpose";
+    }
+  
+    if (!goal_name) {
+      throw "Please provide a name for your goal";
+    }
+    if (typeof goal_name !== "string") { throw "Please enter a valid goal name" }
+    if(goal_name.trim().length===0){throw "Goal name cannot be empty string"}
+    let nameRegex = /^[a-zA-Z\s]*$/;
+    if (!nameRegex.test(goal_name)) {
+      throw "Please enter a valid goal name";
+    }
+  
+    if (!goal_amount) {
+      throw "Please provide an amount for your goal";
+    }
+    goal_amount = Number(goal_amount);
+    if (isNaN(goal_amount) || goal_amount <= 0) {
+      throw "Please enter a valid amount.";
+    }
+    if (goal_amount > 999999999) {
+      throw "Enter amount under 9 digits only";
+    }
+  
+    if (!target_date) {
+      throw "Please provide a deadline for your goal";
+    }
+    if (!typeof target_date === 'string') { throw "Enter date in only YYYY-MM-DD string format" }
+
+    if (target_date.trim().length == 0) { throw "Please Enter start_Date" }
+    let isValidDate = moment(target_date, "YYYY-MM-DD", true).isValid();
+    if (isValidDate === false) {
+      throw "Please enter the deadline in YYYY-MM-DD format";
+    }
+    target_date = moment(target_date).format("YYYY-MM-DD");
+    let today = moment().format("YYYY-MM-DD");
+    if (moment(target_date).isBefore(today)) {
+      throw "Goal deadline cannot be earlier than today.";
+    }
+    let minDate = moment(today).add(6, 'months').format("YYYY-MM-DD");
+    let maxDate = moment(today).add(20, 'years').format("YYYY-MM-DD");
+    if (moment(target_date).isBefore(minDate)) {
+      throw "Goal deadline must be at least 6 months from today.";
+    }
+    if (moment(target_date).isAfter(maxDate)) {
+      throw "Goal deadline cannot be more than 20 years from today.";
     }
   }
 }

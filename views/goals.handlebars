@@ -3,6 +3,14 @@
 <div class="container">
     <h1>Let's get started</h1>
     <form id="goal-form" action="/goals/viewgoals" method="POST">
+    {{#if success}}
+  <div class="alert">
+    {{success}}
+  </div>
+  {{/if}}
+    {{#if error_server}}
+    <div class="error">{{error_server}}</div>
+    {{/if}}
         <label for="goal-select">What is this Goal for?</label>
         <select id="goal-select" name="goal_select">
             <option value="">--Select Goal Purpose--</option>
@@ -28,11 +36,11 @@
         <input type="date" id="goal_date" name="goal_date" required>
 
         <button type="submit" value="Submit">Submit</button>
+        <div class="error" id="error" hidden></div>
+
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+         <script src='/public/validations/goals.js'></script>
     </form>
-    {{#if error}}
-    <div class="error">
-        {{error}}
-    </div>
-    {{/if}}
+  
     <button id="dashboard" onclick="window.location.href='/dashboard'">Back to Dashboard</button>
 </div>
