@@ -145,7 +145,7 @@ async function amount_remaining(user_id, category) {
     transaction_date: { $gte: budget_req.start_date, $lte: budget_req.end_date }
   }).toArray();
 
-  console.log(transactions_req);
+  // console.log(transactions_req);
   // Calculate the total amount spent
   const totalSpent = transactions_req.reduce((acc, curr) => acc + curr.amount, 0);
   // console.log(totalSpent);
@@ -160,7 +160,7 @@ async function checkBudgetNotifications(user_id) {
   // Get all budgets for the user
   const budget_data = await budget();
   const budgets = await budget_data.find({ user_id }).toArray();
-  console.log(budgets);
+  // console.log(budgets);
   let notifications = [];
   for (let i = 0; i < budgets.length; i++) {
     if (budgets[i].amount_remaining < 0.1 * budgets[i].budget_amount || budgets[i].amount_remaining < 0) {
