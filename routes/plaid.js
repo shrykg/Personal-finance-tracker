@@ -57,16 +57,21 @@ router.route("/exchange_public_token")
 
 router.route("/data")
   .get(async (req, res, next) => {
+    let accessToken
     try {
     let plaidCredentials = await plaidData.getPlaidCredentials(req.session.user.id)
     const access_token = plaidCredentials.accessToken;
-    const balanceResponse = await client.accountsBalanceGet({ access_token });
-    // return res.json({
-    //   Balance: balanceResponse.data,
-    // });
-    return res.render('viewBalance', {accounts: balanceResponse.data.accounts})
+    } catch (e) {
+      return res.redirect('/dashboard')
+    }
+
+    try {
+      const balanceResponse = await client.accountsBalanceGet({ access_token });
+      // return res.json({
+      //   Balance: balanceResponse.data,
+      // });
+      return res.render('viewBalance', {accounts: balanceResponse.data.accounts})
     } catch (error) {
-    console.error(error);
     return res.status(500).send('Error fetching plaid credentials');
     }
     
@@ -95,7 +100,7 @@ router.route("/transactions")
     let plaidCredentials = await plaidData.getPlaidCredentials(req.session.user.id)
     access_token = plaidCredentials.accessToken;
   } catch (e) {
-    return res.status(500).send('Error fetching bank credentials');
+    return res.redirect('/dashboard')
   }
   const request = {
     access_token,
@@ -146,7 +151,7 @@ router.
     let plaidCredentials = await plaidData.getPlaidCredentials(req.session.user.id)
     access_token = plaidCredentials.accessToken;
   } catch (error) {
-    return res.status(500).send('Error getting bank credentials');
+    return res.redirect('/dashboard')
   }
     const request = {
       access_token: access_token,
@@ -167,16 +172,14 @@ router.
     route('/investments')
     .get(async (req,res) => {
       // Pull Holdings for an Item
-    console.log('inside investments get')
+   
   let access_token  
   try {
-    console.log(req.session.user.id)
     let plaidCredentials = await plaidData.getPlaidCredentials(req.session.user.id)
-    console.log(plaidCredentials)
     access_token = plaidCredentials.accessToken;
   } catch (error) {
-    console.log(error)
-    return res.status(500).send('Error getting investments');
+    
+    return res.redirect('/dashboard')
   }
   const request = {
     access_token: access_token,

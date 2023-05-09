@@ -2,7 +2,7 @@ $('.del-btn').click(function() {
   const goalId = $(this).data('goal-id');
   const goalElement = $(this).closest('.goal-entry'); // Select the table row with the "goal-entry" class
 
-  if (confirm("Are you sure you want to delete this transaction?")) {
+  if (confirm("Are you sure you want to delete this Goal?")) {
     $.ajax({
       url: `/goals/remove/${goalId}`,
       type: 'GET',

@@ -152,13 +152,6 @@ router
 
     try {
       if (errors.length > 0) {
-        //   const users = await userData.getAllUsers();
-        //   res.render('posts/new', {
-        //     errors: errors,
-        //     hasErrors: true,
-        //     post: blogPostData,
-        //     users: users
-        //   });
         const transactions = await transactionData.getTransactionsByDateRangeAndCategoryWithoutDateFormat(userId, start_date, end_date, category)
         res.render('seeAllTransaction', { transactions, start: start_date, end: end_date, cat: category, errors })
         return;
@@ -189,7 +182,7 @@ router
       return res.redirect('/login')
     }
 
-    //console.log('goingggg in getttttt')
+    
     try {
       req.params.id = validation.checkId(req.params.id, 'Id URL Param');
     } catch (e) {
@@ -197,7 +190,6 @@ router
     }
     try {
       let transaction = await transactionData.getTransaction(req.params.id)
-      // transaction.transaction_date = new Date(transaction.transaction_date)
       return res.render('updatetransaction', { transaction })
     } catch (e) {
       return res.status(404).json({ error: e });
@@ -275,7 +267,6 @@ router
 
 
     try {
-      // console.log('now update')
       const updatedTransaction = await transactionData.updateTransaction(
         req.params.id,
         updatedData
@@ -286,14 +277,12 @@ router
 
     } catch (e) {
       
-      console.log(e)
       let status = e[0];
       let message = e[1];
       return res.status(status).json({ error: message });
     }
   })
   .delete(async (req, res) => {
-    // console.log(req.params.id)
 
     if (!req.session.user) {
       return res.redirect('/login')
@@ -302,12 +291,11 @@ router
     try {
       req.params.id = validation.checkId(req.params.id, 'Id URL Param');
     } catch (e) {
-      // console.log(e)
+      
       return res.status(400).json({ error: e });
     }
     try {
       let deletedTransaction = await transactionData.removeTransaction(req.params.id)
-      // console.log(deletedTransaction)
       return res.status(200).json(deletedTransaction);
     } catch (e) {
       console.log(e)

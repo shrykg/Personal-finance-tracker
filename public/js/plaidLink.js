@@ -32,13 +32,6 @@
       },
     });
 
-  //   $("#link-account").on("click", function(event) {
-  //     event.preventDefault(); // prevent the link from navigating to a different page
-  //     // your code to handle the click event goes here
-  //     console.log('to handle the on click event')
-  //     handler.open();
-  //     // $(this).remove()
-  // });
 
   const removeLink = function() {
     $("#link-account").remove()
@@ -114,13 +107,7 @@
         method: "GET",
       });
       const data = await response.json();
-      console.log('balance data------')
-      console.log(data)
   
-      //Render response data
-      // const pre = document.getElementById("response");
-      // pre.textContent = JSON.stringify(data, null, 2);
-      // pre.style.background = "#F6F6F6";
     };
   
     // Retrieves balance information
