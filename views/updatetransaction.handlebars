@@ -1,58 +1,65 @@
 <link rel="stylesheet" href="/public/updatetransaction.css">
 <h1> Update Transaction</h1>
-<div id="error-div">
-      {{#each errors}}
-          <p>{{this}}</p>
-      {{/each}}
-</div> <!-- Error div -->
-<form id="edit-transaction-form" >
+<!-- Error div -->
+<form id="edit-transaction-form">
   <div class="form-group">
     <label for="description">Description</label>
-    <input type="text" id="description" name="description" placeholder="Enter description" value="{{transaction.description}}" required>
+    <input type="text" id="description" name="description" placeholder="Enter description"
+      value="{{transaction.description}}" required>
   </div>
 
   <div class="form-group">
     <label for="category">Category</label>
     <select id="category" name="category" required>
       <option value="">Select category</option>
-      <option value="groceries" {{#ifEqual transaction.category "groceries"}}selected{{/ifEqual}}>Groceries</option>
-      <option value="shopping" {{#ifEqual transaction.category "shopping"}}selected{{/ifEqual}}>Shopping</option>
-      <option value="eating_out" {{#ifEqual transaction.category "eating_out"}}selected{{/ifEqual}}>Eating Out</option>
-      <option value="bills" {{#ifEqual transaction.category "bills"}}selected{{/ifEqual}}>Bills</option>
-      <option value="transportation" {{#ifEqual transaction.category "transportation"}}selected{{/ifEqual}}>Transportation</option>
-      <option value="entertainment" {{#ifEqual transaction.category "entertainment"}}selected{{/ifEqual}}>Entertainment</option>
-      <option value="travel" {{#ifEqual transaction.category "travel"}}selected{{/ifEqual}}>Travel</option>
-      <option value="healthcare" {{#ifEqual transaction.category "healthcare"}}selected{{/ifEqual}}>Healthcare</option>
-      <option value="education" {{#ifEqual transaction.category "education"}}selected{{/ifEqual}}>Education</option>
-      <option value="miscellaneous" {{#ifEqual transaction.category "miscellaneous"}}selected{{/ifEqual}}>Miscellaneous</option>
+      <option value="groceries" {{#ifEqual transaction.category "groceries" }}selected{{/ifEqual}}>Groceries</option>
+      <option value="shopping" {{#ifEqual transaction.category "shopping" }}selected{{/ifEqual}}>Shopping</option>
+      <option value="eating_out" {{#ifEqual transaction.category "eating_out" }}selected{{/ifEqual}}>Eating Out</option>
+      <option value="bills" {{#ifEqual transaction.category "bills" }}selected{{/ifEqual}}>Bills</option>
+      <option value="transportation" {{#ifEqual transaction.category "transportation" }}selected{{/ifEqual}}>
+        Transportation</option>
+      <option value="entertainment" {{#ifEqual transaction.category "entertainment" }}selected{{/ifEqual}}>Entertainment
+      </option>
+      <option value="travel" {{#ifEqual transaction.category "travel" }}selected{{/ifEqual}}>Travel</option>
+      <option value="healthcare" {{#ifEqual transaction.category "healthcare" }}selected{{/ifEqual}}>Healthcare</option>
+      <option value="education" {{#ifEqual transaction.category "education" }}selected{{/ifEqual}}>Education</option>
+      <option value="miscellaneous" {{#ifEqual transaction.category "miscellaneous" }}selected{{/ifEqual}}>Miscellaneous
+      </option>
     </select>
   </div>
 
   <div class="form-group">
     <label for="amount">Amount</label>
-    <input type="number" id="amount" name="amount" placeholder="Enter amount" step="1" value="{{transaction.amount}}" required>
+    <input type="number" id="amount" name="amount" placeholder="Enter amount" step="0.01" value="{{transaction.amount}}"
+      required>
   </div>
 
   <div class="form-group">
     <label for="transaction_date">Date</label>
-    <input type="date" id="transaction_date" name="transaction_date" {{#if transaction}} value="{{moment transaction.transaction_date format="YYYY-MM-DD"}}" {{/if}} required>
+    <input type="date" id="transaction_date" name="transaction_date" {{#if transaction}}
+      value="{{moment transaction.transaction_date format=" YYYY-MM-DD"}}" {{/if}} required>
   </div>
 
   <div class="form-group">
     <label for="paymentType">Type</label>
     <select id="paymentType" name="paymentType" required>
       <option value="">Select Type</option>
-      <option value="Cash" {{#ifEqual transaction.paymentType "Cash"}}selected{{/ifEqual}}>Cash</option>
-      <option value="Checking" {{#ifEqual transaction.paymentType "Checking"}}selected{{/ifEqual}}>Checking</option>
-      <option value="Pending" {{#ifEqual transaction.paymentType "Pending"}}selected{{/ifEqual}}>Pending</option>
+      <option value="Cash" {{#ifEqual transaction.paymentType "Cash" }}selected{{/ifEqual}}>Cash</option>
+      <option value="Checking" {{#ifEqual transaction.paymentType "Checking" }}selected{{/ifEqual}}>Checking</option>
+      <option value="Pending" {{#ifEqual transaction.paymentType "Pending" }}selected{{/ifEqual}}>Pending</option>
     </select>
   </div>
 
   <button id="edit-transaction-button" type="submit" data-transaction-id="{{transaction._id}}">Edit Transaction</button>
-  <button onclick="window.location.href='/dashboard'">Back to Dashboard</button>  
+  <button onclick="window.location.href='/dashboard'">Back to Dashboard</button>
 </form>
-<script src="https://code.jquery.com/jquery-2.2.4.min.js"
-        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-<script src="/public/js/updateTransaction.js"> </script> 
 
-        
+<div id="error-div">
+  {{#each errors}}
+  <p>{{this}}</p>
+  {{/each}}
+</div>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script src="/public/js/updateTransaction.js"> </script>
