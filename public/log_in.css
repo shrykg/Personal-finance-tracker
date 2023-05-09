@@ -72,13 +72,20 @@ input {
     font-size: 16px;
 }
 
-input[type="submit"] {
+button[type="submit"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    font-size: 16px;
     background-color: #1e7132;
     color: white;
     border: none;
     cursor: pointer;
 }
-
+button:hover {
+    background-color: #3e8e41;
+  }
 #error-container-login {
     color: red;
     margin-top: 20px;
