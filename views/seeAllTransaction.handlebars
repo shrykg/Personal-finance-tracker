@@ -1,9 +1,5 @@
+<link rel="stylesheet" type="text/css" href="/public/css/dashboard.css">
 <h1>Transaction</h1>
-
-
-<link rel="stylesheet" type="text/css" href="/public/dashboard.css">
-
-
 <form id="filter-form" action="/transactions/seeAllTransaction/filters" method="GET">
   <label for="start-date-input">Start Date:</label>
   <input type="date" id="start-date-input" name="start_date" {{#if start}} value="{{start}}" {{/if}}>
