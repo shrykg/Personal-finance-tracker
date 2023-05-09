@@ -1,38 +1,38 @@
-<link rel="stylesheet" href="/public/budget.css">
+<link rel="stylesheet" href="/public/css/budget.css">
 <h1>All expired Budgets</h1>
 {{#if error_server}}
 <div class="error">{{error_server}}</div>
 {{/if}}
-  <table>
-    <thead>
-      <tr>
-        <th>Date Started</th>
-        <th>Date Valid till</th>
-        <th>category</th>
-        <th>Amount</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each budget}}
-      <tr>
-        <td>{{start_date}}</td>
-        <td>{{end_date}}</td>
-        <td>{{category}}</td>
-        <td>{{budget_amount}}</td>
-         <td>
-          <form name="delete_form" method="POST" action="/budget/remove/{{_id}}">
+<table>
+  <thead>
+    <tr>
+      <th>Date Started</th>
+      <th>Date Valid till</th>
+      <th>category</th>
+      <th>Amount</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each budget}}
+    <tr>
+      <td>{{start_date}}</td>
+      <td>{{end_date}}</td>
+      <td>{{category}}</td>
+      <td>{{budget_amount}}</td>
+      <td>
+        <form name="delete_form" method="POST" action="/budget/remove/{{_id}}">
           <input type="hidden" name="_method" value="DELETE">
           <button type="submit" onclick="return confirmDelete()">Remove</button>
           <script src='/public/validations/budget.js'></script>
-          </form>
-          </td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
+        </form>
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
 
-  <button onclick="window.location.href='/dashboard'">Back to Dashboard</button>
-  <button onclick="window.location.href='/budget/seeAllBudgets/active'">See All Active Budgets</button>
-  <button onclick="window.location.href='/budget/expiredBudgets/sort'">Sort By Start Date</button>
-  <button onclick="window.location.href='/budget/expiredBudgets'">Reset</button>
+<button onclick="window.location.href='/dashboard'">Back to Dashboard</button>
+<button onclick="window.location.href='/budget/seeAllBudgets/active'">See All Active Budgets</button>
+<button onclick="window.location.href='/budget/expiredBudgets/sort'">Sort By Start Date</button>
+<button onclick="window.location.href='/budget/expiredBudgets'">Reset</button>

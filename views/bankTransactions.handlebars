@@ -1,35 +1,35 @@
-<link rel="stylesheet" type="text/css" href="/public/dashboard.css">
+<link rel="stylesheet" type="text/css" href="/public/css/dashboard.css">
 <h2>Bank Transaction history</h2>
 
 <table>
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Description</th>
-        <th>Category</th>
-        <th>Amount</th>
-        <th>Type</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each transactions}}
-      <tr class="transaction-row" data-date="{{date}}" data-category="{{category}}">
-        <td>{{date}}</td>
-        <td>{{name}}</td>
-        {{#each category}}
-            {{#if @first}}
-                <td>{{this}}</td>
-            {{/if}}
-        {{/each}}
-        <td>{{iso_currency_code}} {{amount}}</td>
-        <td>{{transaction_type}}</td>
-        {{!-- <td>
-          <button type="button" onclick="window.location.href='/transactions/{{_id}}'">Edit</button>
-          <button class="del-btn" data-transaction-id="{{_id}}">Delete</button>
-        </td> --}}
-      </tr>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Description</th>
+      <th>Category</th>
+      <th>Amount</th>
+      <th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each transactions}}
+    <tr class="transaction-row" data-date="{{date}}" data-category="{{category}}">
+      <td>{{date}}</td>
+      <td>{{name}}</td>
+      {{#each category}}
+      {{#if @first}}
+      <td>{{this}}</td>
+      {{/if}}
       {{/each}}
-    </tbody>
-  </table>
+      <td>{{iso_currency_code}} {{amount}}</td>
+      <td>{{transaction_type}}</td>
+      {{!-- <td>
+        <button type="button" onclick="window.location.href='/transactions/{{_id}}'">Edit</button>
+        <button class="del-btn" data-transaction-id="{{_id}}">Delete</button>
+      </td> --}}
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
 
-  <button onclick="window.location.href='/dashboard'">Back to Dashboard</button>
+<button onclick="window.location.href='/dashboard'">Back to Dashboard</button>

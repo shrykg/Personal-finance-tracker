@@ -1,17 +1,17 @@
 <h1>All Goals</h1>
 
-<link rel="stylesheet" type="text/css" href="/public/dashboard.css">
+<link rel="stylesheet" type="text/css" href="/public/css/dashboard.css">
 
 {{#if error}}
 <div class="error">
-    {{error}}
+  {{error}}
 </div>
 {{/if}}
 
 <div id="error-message" style="display:none;">
-    {{#each errors}}
-        <p>{{this}}</p>
-    {{/each}}
+  {{#each errors}}
+  <p>{{this}}</p>
+  {{/each}}
 </div>
 
 <h2>Current Goals Set</h2>
@@ -54,8 +54,9 @@
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 
-{{!-- <script src="/public/js/deleteGoal.js"></script> --}}
+{{!--
+<script src="/public/js/deleteGoal.js"></script> --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-{{!-- <script src='/public/validations/allGoals.js'></script> --}}
+{{!--
+<script src='/public/validations/allGoals.js'></script> --}}
 <script src="/public/js/deleteGoal.js"></script>
-

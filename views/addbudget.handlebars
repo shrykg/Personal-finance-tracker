@@ -1,15 +1,16 @@
-<link rel="stylesheet" href="/public/budget.css">
+<link rel="stylesheet" href="/public/css/budget.css">
 <h1>Let's get started with a budget!</h1>
 <h2>Answer a few questions</h2>
 <form id="budget_form" action="/budget/new" method="POST" autocomplete="off">
-{{#if success}}
+  {{#if success}}
   <div class="alert">
     {{success}}
   </div>
   {{/if}}
   <div class="form-group">
     <label for="amount">1. How much do you want to save?</label>
-    <input type="number" id="amount" name="amount" {{#if amount}} value={{amount}} {{/if}}placeholder="Enter amount" step="0.01" required>
+    <input type="number" id="amount" name="amount" {{#if amount}} value={{amount}} {{/if}}placeholder="Enter amount"
+      step="0.01" required>
   </div>
 
   <div class="form-group">
@@ -38,7 +39,7 @@
 
   <div class="form-group">
     <label for="end_Date">End Date</label>
-    <input type="date" id="end_Date"  {{#if end_Date}} value={{end_Date}} {{/if}} name="end_Date" required>
+    <input type="date" id="end_Date" {{#if end_Date}} value={{end_Date}} {{/if}} name="end_Date" required>
   </div>
   <div class="error" id="error" hidden></div>
   <button type="submit">Add Budget</button>
