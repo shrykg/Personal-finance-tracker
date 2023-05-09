@@ -1,79 +1,104 @@
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f2f2f2;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-}
-
-h1 {
-    font-size: 32px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
 form {
     max-width: 500px;
     margin: 0 auto;
     font-family: Arial, sans-serif;
   }
-label {
-    font-size: 18px;
-    font-weight: bold;
+
+  label {
+    display: block;
     margin-bottom: 5px;
-}
+  }
 
-select,
-input[type="text"],
-input[type="number"],
-input[type="date"] {
+  input[type="text"],
+  input[type="number"],
+  select {
+    width: 100%;
     padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
     border: 1px solid #ccc;
-    margin-bottom: 10px;
-}
-
-select {
-    appearance: none;
-    -webkit-appearance: none;
-    background: url('https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-arrow-down-512.png') no-repeat center right;
-    background-size: 20px 20px;
-}
-
-input[type="submit"] {
+    border-radius: 5px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+  }
+  button {
     background-color: #1e7132;
-    color: #fff;
+    color: white;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    font-size: 16px;
     cursor: pointer;
-}
+  }
 
-input[type="submit"]:hover {
+  button:hover {
     background-color: #3e8e41;
-}
+  }
 
-.error {
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .form-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .form-group label {
+    font-weight: bold;
+    margin-top: 30px;
+    margin-bottom: 5px;
+  }
+
+  .error {
     color: red;
-    font-size: 16px;
-    margin-bottom: 10px;
+  }
+  
+  body,
+  table {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font-family: sans-serif;
+    vertical-align: baseline;
+  }
+
+  /* Style the table */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  /* Style the table headers */
+  th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    text-align: left;
+    padding: 8px;
+  }
+
+  /* Style the table cells */
+  td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  /* Style alternating rows */
+  tbody tr:nth-child(even) {
+    background-color: #f5f5f5;
+  }
+
+  /* Style the page title */
+  h1,h2 {
     text-align: center;
-}
+    margin-top: 24px;
+    margin-bottom: 16px;
+  }
 
-button {
-    background-color: #1e7132;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #3e8e41;
-}
+  /* Style the page wrapper */
+  body {
+    padding: 16px;
+  }
+  button[name='remove']
+  {
+    background-color: #f44336;
+  }

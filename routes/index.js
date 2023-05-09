@@ -3,7 +3,7 @@ import budgetRoutes from './budget.js'
 import transactionRoutes from './transactions.js';
 import chartRoutes from './charts.js';
 import settingRoutes from './settings.js'
-import goalRoutes from './goalss.js'
+import goalRoutes from './goals.js'
 import plaidRoutes from './plaid.js'
 import notificationRoutes from './notifications.js'
 const constructorMethod = (app) => {
