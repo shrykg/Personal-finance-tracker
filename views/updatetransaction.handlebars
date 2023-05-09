@@ -36,8 +36,8 @@
 
   <div class="form-group">
     <label for="transaction_date">Date</label>
-    <input type="date" id="transaction_date" name="transaction_date" {{#if transaction}}
-      value="{{moment transaction.transaction_date format=" YYYY-MM-DD"}}" {{/if}} required>
+    <input type="date" id="transaction_date" name="transaction_date" 
+      value="{{transaction.transaction_date}}"  required>
   </div>
 
   <div class="form-group">

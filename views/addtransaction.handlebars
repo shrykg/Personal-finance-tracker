@@ -1,12 +1,22 @@
 {{!-- <h1> Add Transaction</h1> --}}
 <link rel="stylesheet" href="/public/addtransaction.css">
 <h1> Add Transaction</h1>
+
+
+
 <form id="transaction_form" action="/transactions/new" method="POST">
+
+<div class="alert">
+    {{successMessage}}
+  </div>
+
   <div class="form-group">
     <label for="description">Description</label>
     <input type="text" id="description" name="description" placeholder="Enter description"
       value="{{transaction.description}}" required>
   </div>
+
+  
 
   <div class="form-group">
     <label for="category">Category</label>
