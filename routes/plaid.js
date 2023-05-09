@@ -8,7 +8,7 @@ import { Router } from "express";
 const router = Router();
 
 const config = new Configuration({
-  basePath: PlaidEnvironments.sandbox,
+  basePath: PlaidEnvironments.development,
   baseOptions: {
     headers: {
       "PLAID-CLIENT-ID": process.env.PLAID_CLIENT_ID,
@@ -61,9 +61,10 @@ router.route("/data")
     let plaidCredentials = await plaidData.getPlaidCredentials(req.session.user.id)
     const access_token = plaidCredentials.accessToken;
     const balanceResponse = await client.accountsBalanceGet({ access_token });
-    return res.json({
-      Balance: balanceResponse.data,
-    });
+    // return res.json({
+    //   Balance: balanceResponse.data,
+    // });
+    return res.render('viewBalance', {accounts: balanceResponse.data.accounts})
     } catch (error) {
     console.error(error);
     return res.status(500).send('Error fetching plaid credentials');
@@ -133,31 +134,6 @@ router.route("/transactions")
   }
 });
 
-// router
-//   .route('/investments')
-//   .get(async (req,res) => {
-//     // Pull Holdings for an Item
-//   let access_token
-//   try {
-//     let plaidCredentials = await plaidData.getPlaidCredentials(req.session.user.id)
-//     access_token = plaidCredentials.accessToken;
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).send('Error getting bank account');
-//   }  
-//   const request = {
-//   access_token: access_token,
-// };
-// try {
-//   const response = await plaidClient.investmentsHoldingsGet(request);
-//   const holdings = response.data.holdings;
-//   const securities = response.data.securities;
-//   res.json
-// } catch (error) {
-//   // handle error
-//   return res.status(500).send('Error getting Investments');
-// }
-//   })
 
 router.
   route('/removeBankAccount')

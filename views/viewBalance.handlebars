@@ -1,0 +1,21 @@
+<link rel="stylesheet" type="text/css" href="/public/dashboard.css">
+<h1> View Balance</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Account Name</th>
+      <th>Account Type</th>
+      <th>Current Balance</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each accounts}}
+    <tr>
+      <td>{{this.name}}</td>
+      <td>{{this.type}}</td>
+      <td>{{this.balances.iso_currency_code}} {{this.balances.current}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+<button onclick="window.location.href='/dashboard'">Back to Dashboard</button>

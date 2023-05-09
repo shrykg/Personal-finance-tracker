@@ -14,10 +14,10 @@ const exportedMethods = {
     },
 
     async get_user_by_id(id) {
-        validation.checkString(email, 'email');
+        // validation.checkString(email, 'email');
         const user_collection = await users();
 
-        return await user_collection.findOne({ '_id': id })
+        return await user_collection.findOne({ '_id': new ObjectId(id) })
     },
 
     async add_user(firstname, lastname, dob, email, new_password, region) {
@@ -57,12 +57,14 @@ const exportedMethods = {
         const user_collection = await users();
 
         try {
-            await user_collection.insertOne(data);
+            const newInsertInformation = await user_collection.insertOne(data);
+            const newId = newInsertInformation.insertedId;
+            return await this.get_user_by_id(newId.toString())
         }
         catch (e) {
             console.log(e);
         }
-
+        
 
     },
 

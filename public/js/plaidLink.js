@@ -50,13 +50,24 @@
       href: '/api/transactions',
       text: 'View All Bank Transactions'
     })
+    const investmentsLink = $('<a>', {
+      href: '/api/investments',
+      text: 'View All Bank Investments'
+    })
+    const viewbalanceLink = $('<a>', {
+      href: '/api/data',
+      text: 'View Balance'
+    })
     const removeLink = $('<a>', {
       href: '',
       text: 'Remove account'
     })
     // add the new link to the dropdown content
     $('.dropdown-content-bank').append(transactionLink);
+    $('.dropdown-content-bank').append(investmentsLink);
+    $('.dropdown-content-bank').append(viewbalanceLink);
     $('.dropdown-content-bank').append(removeLink);
+
     // add event handlers to the links
     transactionLink.on('click', function(event) {
       event.preventDefault();
@@ -68,6 +79,19 @@
       // your code to remove the account goes here
       console.log('remove bank account tapped')
       deleteBankAccount()
+    });
+
+    viewbalanceLink.on('click', function(event) {
+      event.preventDefault();
+      // your code to remove the account goes here
+      console.log('View Balance')
+      window.location.href = $(this).attr('href');
+    });
+
+    transactionLink.on('click', function(event) {
+      event.preventDefault();
+      // your code to remove the account goes here
+      window.location.href = $(this).attr('href');
     });
    }
   
@@ -90,11 +114,13 @@
         method: "GET",
       });
       const data = await response.json();
+      console.log('balance data------')
+      console.log(data)
   
       //Render response data
-      const pre = document.getElementById("response");
-      pre.textContent = JSON.stringify(data, null, 2);
-      pre.style.background = "#F6F6F6";
+      // const pre = document.getElementById("response");
+      // pre.textContent = JSON.stringify(data, null, 2);
+      // pre.style.background = "#F6F6F6";
     };
   
     // Retrieves balance information
