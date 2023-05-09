@@ -98,4 +98,7 @@ form {
   body {
     padding: 16px;
   }
-
+  button[name='remove']
+  {
+    background-color: #f44336;
+  }

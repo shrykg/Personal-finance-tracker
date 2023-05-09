@@ -23,7 +23,7 @@
          <td>
           <form name="remove_form" method="POST" action="/budget/ActiveRemove/{{_id}}">
           <input type="hidden" name="_method" value="DELETE">
-          <button type="submit" onclick="return confirmDelete()">Remove</button>
+          <button name="remove" type="submit" onclick="return confirmDelete()">Remove</button>
           <script src='/public/validations/budget.js'></script>
           </form>
           </td>
