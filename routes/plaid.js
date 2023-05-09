@@ -513,7 +513,7 @@ router.
   } catch (error) {
     // handle error
     console.log("------")
-    console.log(error)
+    res.status(500).send('Investment data is only available when you link investment type account!');
   }
     })
 
