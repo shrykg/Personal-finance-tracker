@@ -42,7 +42,7 @@ router
         const newGoal = await goalDataFunctions.create(user_id, goal_name, goal_amount, target_date, goal_purpose);
         if(newGoal.inserted===true)
         {
-        return res.status(200).redirect('/goals/viewgoals',{success:" Goal successfully added!"})
+          return res.status(500).render('goals', {success:" Goal successfully added!"});
         }
     } catch (e) {
       return res.status(500).render('goals', { error_server: e });
@@ -85,25 +85,30 @@ router.get('/new', async (req, res) => {
     let user_id = req.session.user.id;
     let goal_name = xss(req.body.goal_select);
     let savings = xss(req.body.amount);
-
-    savings = Number(savings);
-
     try {
-      validations.checkString(goal_name, 'Goal Name');
-    } catch (e) {
-      return res.status(400).render('goal_savings', { error: e });
-    }
-    try {
-      validations.checkNumber(savings, 'Savings Amount');
-    } catch (e) {
-      return res.status(400).render('goal_savings', { error: e });
-    }
+      user_id = validations.checkId(user_id);
+  }
+  catch(e)
+  {
+    return res.status(400).render('goal_savings', { error_server: e });
+  }
+  try{
+    savings=Number(savings)
+    validations.checkSavings(goal_name,savings);
+  }
+  catch(e)
+  {
+    return res.status(400).render('goal_savings', { error_server: e });
+
+  }
     try
     {
       const updated_data = await goalDataFunctions.update_savings(user_id, goal_name, savings);
-      return res.redirect('/goals/viewall');
+      if(updated_data.updated===true){
+        return res.status(200).render('goal_savings', {success:"Savings added successfully!"});
+      }
     } catch (e) {
-      return res.status(500).render('goal_savings', { error: e });
+      return res.status(500).render('goal_savings', { error_server: e });
     }
   })
 
@@ -121,11 +126,7 @@ router.get('/remove/:goalId', async (req, res) => {
 
     let rslt = await goalDataFunctions.remove(goalId);
     return res.status(200).json(rslt);
-    // if (rslt.deletedGoal === true) {
-    //   return res.status(200).redirect('/goals/viewall');
-    // }
-  } catch (e) {
-    // return res.status(500).render('allgoals', { error: e });
+     } catch (e) {
       console.log(e)
       let status = e[0];
       let message = e[1];
@@ -133,84 +134,6 @@ router.get('/remove/:goalId', async (req, res) => {
     }
   });
 
-router.get('/edit/:goalId', async (req, res) => {
-  // console.log('test edit/goal id route');
-  if (!req.session.user) {
-    return res.redirect('/login');
-  }
-
-  let user_id = req.session.user.id;
-  let goalId = xss(req.params.goalId);
-
-  try {
-    validations.checkId(goalId, 'Goal ID');
-  } catch (err) {
-    return res.status(400).render('edit_goal', { error: err });
-  }
-
-  try {
-    const goal = await goalDataFunctions.get(goalId);
-    return res.render('edit_goal', { goal: goal });
-  } catch (err) {
-    return res.status(500).render('edit_goal', { error: err });
-  }
-
-    
-  // try {
-  //   const data = await goalDataFunctions.getAll(user_id);
-  //   return res.status(500).render('allgoals', {data: data });
-  // } catch (err) {
-  //   console.log(err);
-  // }
-})
-  .post('/edit/:goalId', async (req, res) => {
-    if (!req.session.user) {
-      return res.redirect('/login');
-    }
-
-    let user_id = req.session.user.id;
-    let goalId = xss(req.params.goalId);
-    let goal_name = xss(req.body.goal_name);
-    let goal_amount = parseFloat(xss(req.body.goal_amount));
-    let target_date = xss(req.body.goal_date);
-    let goal_purpose = xss(req.body.goal_select);
-    
-    try {
-      validations.checkId(goalId, 'Goal ID');
-    } catch (err) {
-      return res.status(400).render('edit_goal', { error: err });
-    }
-    try {
-      validations.checkString(goal_name, 'Goal Name');
-    } catch (err) {
-      return res.status(400).render('edit_goal', { error: err });
-    }
-    try {
-      validations.checkNumber(goal_amount, 'Goal Amount');
-    } catch(err) {
-      return res.status(400).render('edit_goal', { error: err });
-    }
-    try {
-      validations.checkDate1(target_date, 'Target Date');
-    } catch (err) {
-      return res.status(400).render('edit_goal', { error: err });
-    }
-    try {
-      validations.checkString(goal_purpose, 'Goal Purpose');
-    } catch (err) {
-      return res.status(400).render('edit_goal', { error: err });
-    }
-
-
-    try {
-      // console.log('routes test');
-      await goalDataFunctions.update(goalId, goal_name, goal_amount, target_date);
-      return res.redirect('/goals/viewall');
-    } catch (e) {
-      // console.log(e)
-      return res.status(500).render('edit_goal', { error: e, goal: { _id: goalId, goal_name, goal_amount, target_date, goal_purpose } });
-    }
-  });
 
 export default router;
 

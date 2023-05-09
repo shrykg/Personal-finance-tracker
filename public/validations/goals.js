@@ -1,5 +1,5 @@
 let goalForm = document.getElementById("goal-form");
-
+let goal_saving_form=document.getElementById("goal_saving_form");
 if (goalForm) {
   goalForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -63,4 +63,40 @@ if (goalForm) {
       goalForm.reset();
     }
   })
+}
+if(goal_saving_form){
+  goal_saving_form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    let errorDiv = document.getElementById("error");
+    let err = [];
+    errorDiv.hidden = true;
+    errorDiv.innerHTML = "";
+
+    
+    let goalName = document.getElementById("goal_select").value.trim();
+    if (!goalName) { err.push("Please provide a name for your goal"); }
+    if (typeof goalName !== "string") { err.push("Please enter a valid goal name") }
+    if(goalName.length===0){err.push("Goal name cannot be empty string")}
+    let nameRegex = /^[a-zA-Z\s]*$/;
+    if (!nameRegex.test(goalName)) {
+      err.push("Please enter a valid goal name");
+    }
+
+    let savings = document.getElementById("amount").value.trim();
+    if (!savings) { err.push("Please provide an amount for your goal"); }
+    savings = Number(savings);
+    if (isNaN(savings) || savings <= 0) { err.push("Please enter a valid amount."); }
+    if (savings > 999999999) { err.push("Enter amount under 9 digits only"); }
+
+    if (err.length > 0) {
+      errorDiv.hidden = false;
+      for (let i = 0; i < err.length; i++) {
+        errorDiv.innerHTML += err[i] + "<br/>";
+      }
+    } else {
+      errorDiv.hidden = true;
+      goal_saving_form.submit();
+      goal_saving_form.reset();
+    }
+  });
 }

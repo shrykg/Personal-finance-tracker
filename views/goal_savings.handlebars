@@ -1,10 +1,12 @@
 <link rel="stylesheet" href="/public/goal_savings.css">
 <h1>Add Goal Savings</h1>
 <form id="goal_saving_form" action="/goals/new" method="POST">
-    {{!-- <div class="form-group">
-        <label for="description">Description</label>
-        <input type="text" id="description" name="description" placeholder="Enter description" required>
-    </div> --}}
+{{#if success}}
+  <div class="alert">
+    {{success}}
+  </div>
+  {{/if}}
+   {{#if error_server}} <div class="err">{{error_server}}</div>{{/if}}
     <label for="goal_select">What Goal is this for?</label>
     <select id="goal_select" name="goal_select">
         <option value="">--Select from existing goals</option>
@@ -18,14 +20,9 @@
         <input type="number" id="amount" name="amount" placeholder="Enter amount" step="0.01" required>
     </div>
 
-    <div class="form-group">
-        <label for="goal_saving_date">Date</label>
-        <input type="date" id="goal_saving_date" name="goal_saving_date" required>
-    </div>
-
     <div class="error" id="error" hidden></div>
-   {{#if error}} <div class="err">{{error}}</div>{{/if}}
     <button type="submit">Add to Savings !</button>
-
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src='/public/validations/goals.js'></script>
 </form>
 <button onclick="window.location.href='/dashboard'">Back to Dashboard</button>

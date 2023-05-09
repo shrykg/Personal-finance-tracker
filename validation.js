@@ -276,6 +276,22 @@ const exportedMethods = {
     if (moment(target_date).isAfter(maxDate)) {
       throw "Goal deadline cannot be more than 20 years from today.";
     }
+  },
+  checkSavings(goal_name,savings)
+  {
+    if (!goal_name) {
+      throw "Please provide a name for your goal";
+    }
+    if (typeof goal_name !== "string") { throw "Please enter a valid goal name" }
+    if(goal_name.trim().length===0){throw "Goal name cannot be empty string"}
+    let nameRegex = /^[a-zA-Z\s]*$/;
+    if (!nameRegex.test(goal_name)) {
+      throw "Please enter a valid goal name";
+    }
+    if (!savings) { throw("Please provide an amount for your goal"); }
+    savings = Number(savings);
+    if (isNaN(savings) || savings <= 0) { throw("Please enter a valid amount."); }
+    if (savings > 999999999) { throw("Enter amount under 9 digits only"); }
   }
 }
 export default exportedMethods;

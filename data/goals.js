@@ -10,6 +10,7 @@ const create = async (user_id, goal_name, goal_amount, target_date, goal_purpose
   let today = moment().startOf('day');
   let targetDate = moment(target_date, 'YYYY-MM-DD');
 
+    goal_name=goal_name.toLowerCase()
     const getGoals = await goals();
     const foundGoal = await getGoals.findOne({ user_id: user_id.trim(), goal_name: goal_name.trim(), goal_purpose: goal_purpose.trim() ,target_date: { $gt: today.format('YYYY-MM-DD')}});
     if (foundGoal) 
@@ -19,11 +20,8 @@ const create = async (user_id, goal_name, goal_amount, target_date, goal_purpose
     const numberOfMonths = Math.ceil(targetDate.diff(today, 'months', true));
     const monthlySavings = Math.ceil(goal_amount / numberOfMonths);
 
-    const today2 = moment().format('YYYY-MM-DD');
-
     const newGoal = {
       user_id: user_id.trim(),
-      created_date: today2.trim(),
       goal_purpose: goal_purpose.trim(),
       goal_name: goal_name.trim(),
       goal_amount: goal_amount,
@@ -85,100 +83,30 @@ const remove = async (goal_id) => {
   }
 };
 
-const update = async (goal_id, goal_name, goal_amount, target_date) => {
-  try {
-    // console.log('test update data');
-    goal_id = validation.checkId(goal_id, 'Goal ID');
-    goal_name = validation.checkString(goal_name, 'Goal Name');
-    goal_amount = validation.checkNumber(goal_amount, 'Goal Amount');
-
-    const getGoals = await goals();
-    if (!getGoals) throw 'Error: Failed to retrieve goals from database.';
-
-    const goal1 = await get(goal_id);
-    let created_at = goal1.created_date;
-
-    created_at = validation.checkDateCreatedAtGoals(created_at, 'Created Date');
-    const createdAt = moment(created_at, 'YYYY-MM-DD');
-    target_date = validation.checkTargetDateAfterCreatedDate(target_date, created_at, 'Target Date', 1);
-
-    const today = moment().startOf('day');
-    const targetDate = moment(target_date, 'YYYY-MM-DD');
-    if (targetDate.isBefore(today)) throw 'Error: Target date must be in the future.';
-
-    const goalToUpdate = await getGoals.findOne({ _id: new ObjectId(goal_id) });
-    if (!goalToUpdate) throw 'Error: Goal not found.';
-
-    goal_name = goal_name.trim();
-
-    const foundGoal = await getGoals.findOne({
-      _id: new ObjectId(goal_id) ,
-      user_id: goalToUpdate.user_id,
-      goal_name: goal_name,
-      target_date: { $gt: today.toDate() }
-    });
-
-    if (foundGoal) {
-      throw 'Error: A goal with this name already exists for this user with a target date in the future.';
-    }
-
-    const numberOfMonths = Math.ceil(targetDate.diff(createdAt, 'months', true));
-    const monthlySavings = Math.ceil(goal_amount / numberOfMonths);
-
-    goal_name = goal_name.trim();
-
-    const updatedGoal = {
-      goal_name: goal_name,
-      goal_amount: goal_amount,
-      target_date: target_date,
-      monthlySavings: monthlySavings,
-    };
-
-    const updatedGoalData = await getGoals.findOneAndUpdate(
-      { _id: new ObjectId(goal_id) },
-      { $set: updatedGoal },
-      { returnDocument: 'after' }
-    );
-
-    if (updatedGoalData.lastErrorObject.n === 0) {
-      throw 'Error: Could not update data.';
-    }
-
-    updatedGoalData.value._id = updatedGoalData.value._id.toString();
-    return updatedGoalData.value;
-  } catch (err) {
-    throw err;
-  }
-};
 const update_savings = async (user_id, goal_name, savings) => {
-  try {
-    user_id = validation.checkId(user_id, 'User ID');
-    goal_name = validation.checkString(goal_name, 'Goal Name');
-    savings = validation.checkNumber(savings, 'Savings');
-
-    const getGoals = await goals();
-    if (!getGoals) throw 'Error: Failed to retrieve goals from database.';
-
+    user_id=user_id.trim();
+    user_id= validation.checkId(user_id)
+    goal_name=goal_name.trim().toLowerCase();
+    let getGoals = await goals();
+    let temp=getGoals.findOne({user_id:user_id.trim(),goal_name:goal_name.trim()})
+    if(!temp)
+    {
+      throw "This goal is not exist"
+    }
     user_id = user_id.trim();
     goal_name = goal_name.trim();
-    savings = parseInt(savings);
+    savings = Number(savings);
 
-    const updatedGoalData = await getGoals.findOneAndUpdate(
+    let updatedGoalData = await getGoals.findOneAndUpdate(
       { user_id: user_id, goal_name: goal_name },
       { $inc: { savings: savings } },
       { returnOriginal: false }
     );
-
-    console.log(updatedGoalData);
-    if (!updatedGoalData) {
-      throw new Error('Could not update data');
+    if(updatedGoalData.lastErrorObject.n===0) {
+      throw 'could not update data';
     }
-    console.log('Added !')
-  } catch (error) {
-    console.error(error);
-    throw new Error('Could not update data');
-  }
+  return{updated:true}
 };
 
-const goalDataFunctions = { create, getAll, get, remove, update, update_savings };
+const goalDataFunctions = { create, getAll, get, remove,update_savings };
 export default goalDataFunctions;
