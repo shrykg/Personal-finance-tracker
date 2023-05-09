@@ -118,7 +118,7 @@ router.route('/changepassword').get(async (req, res) => {
   }
   try {
     await update_password(data.id, old_password, new_password);
-    return res.render('settings');
+    return res.render('settings', { data: data });
   }
   catch (e) {
     return res.status(400).render('changepassword', { error_server: e });

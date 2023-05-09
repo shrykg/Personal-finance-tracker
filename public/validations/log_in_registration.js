@@ -52,7 +52,7 @@ if (form) {
         if (passwordInput === '') {
             errors.push('Password is required');
         } else if (!isValidPassword(passwordInput)) {
-            errors.push('Password must be at least 8 characters long and contain a combination of letters, numbers, and special characters');
+            errors.push('Password must be at least 8 characters long and contain a combination of letters, numbers, and special characters and atleast 1 Uppercase letter');
         }
 
         if (confirmPasswordInput === '') {
