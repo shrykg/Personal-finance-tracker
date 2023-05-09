@@ -21,9 +21,9 @@
         <td>{{category}}</td>
         <td>{{budget_amount}}</td>
          <td>
-          <form id="remove_form" method="POST" action="/budget/ActiveRemove/{{_id}}">
+          <form name="remove_form" method="POST" action="/budget/ActiveRemove/{{_id}}">
           <input type="hidden" name="_method" value="DELETE">
-          <button type="submit" >Remove</button>
+          <button type="submit" onclick="return confirmDelete()">Remove</button>
           <script src='/public/validations/budget.js'></script>
           </form>
           </td>

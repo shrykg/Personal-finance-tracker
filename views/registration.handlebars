@@ -6,13 +6,13 @@
     <h1>Registration Page</h1>
     <form id="registration-form" action="/registration" method="POST">
         <label for="firstname">First Name</label>
-        <input type="text" id="firstname" name="firstname" required value={{firstname}}>
+        <input type="text" id="firstname" name="firstname" required {{#if firstname}}value={{firstname}}{{/if}}>
         <label for="lastname">Last Name</label>
-        <input type="text" id="lastname" name="lastname" required value={{lastname}}>
+        <input type="text" id="lastname" name="lastname" required {{#if lastname}} value={{lastname}}{{/if}}>
         <label for="dob">Date of Birth</label>
-        <input type="date" id="dob" name="dob" required value={{dob}}>
+        <input type="date" id="dob" name="dob" required {{#if dob}} value={{dob}} {{/if}}>
         <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" required value={{email}}>
+        <input type="email" id="email" name="email" required {{#if email}} value={{email}} {{/if}}>
         <label for="password_initial">Set a new Password</label>
         <input type="password" id="password_initial" name="password_initial" required>
         <label for="password_confirm">Confirm Password</label>

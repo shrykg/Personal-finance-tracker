@@ -1,7 +1,4 @@
-let budget=document.getElementById("budget_form")
-let remove =document.getElementById("remove_form");
-let expired=document.getElementById("delete_form");
-
+let budget=document.getElementById("budget_form");
 if(budget)
 {
     budget.addEventListener('submit', (event) => {
@@ -54,7 +51,7 @@ if(budget)
         start_Date= moment(start_Date).format("YYYY-MM-DD");
         end_Date= moment(end_Date).format("YYYY-MM-DD");
         let today = moment().format("YYYY-MM-DD");
-        let maxEndDate = moment(today).add(2, 'years').format("YYYY-MM-DD");
+        let maxEndDate = moment(today).add(1, 'years').format("YYYY-MM-DD");
 
         if(moment(start_Date).isBefore(today))
         {
@@ -74,7 +71,7 @@ if(budget)
         }
         if(moment(end_Date).isAfter(maxEndDate))
         {
-            err.push("End date cannot be more than 2 years from today.");
+            err.push("End date cannot be more than 1 year from today.");
         }
         if(err.length>0)
         {
@@ -94,24 +91,10 @@ if(budget)
         }
     })
 }
-
-if(remove)
-{
-    remove.addEventListener('submit', (event) => {
-    event.preventDefault();
-    if (confirm("Are you sure you want to delete this active budget?")) 
-    {   
-        remove.submit();
+function confirmDelete() {
+    if (confirm("Are you sure you want to delete this budget?")) {
+      return true;
+    } else {
+      return false;
     }
-    });
-}
-if(expired)
-{
-    expired.addEventListener('submit', (event) => {
-    event.preventDefault();
-    if (confirm("Are you sure you want to delete this expired budget?")) 
-    {   
-        expired.submit();
-    }
-    });
-}
+  }
