@@ -2,15 +2,34 @@
 Personal finance tracker
 
 
-@Yuvaraj - login back button bug
-Login page isn't secure. Dashboard is being rendered by clicking back button.
-Add logout button and forgot password
+## Prerequisites
+Before running the seed.js file, you need to ensure that you have the following installed on your computer:
 
-<!-- !!Validation errors: -->
-Settings.handlebars
-registration.handlebars
-all update functions (currency symbol giving error on update transaction)
-updateTransaction.handlebars {
-    Error: Bad value $9000 for attribute value on element input: Expected a minus sign or a digit but saw $ instead.
-    From line 35, column 5; to line 35, column 113
-    <input type="number" id="amount" name="amount" placeholder="Enter amount" step="0.01" value="$9000" required };
+Node.js
+npm (Node Package Manager)
+
+
+## Steps to Run seed.js File
+
+Clone the project from GitHub to your local machine.
+Open the command prompt or terminal and navigate to the project directory.
+Run the following command to install the required dependencies:
+Copy code
+npm install
+Next, run the following command to execute the seed.js file and populate the database with sample data:
+
+npm run seed
+
+You should see seed data in the console indicating that the data was successfully added to the database.
+
+
+## Steps to Start Node Project
+After running the seed.js file, run the following command to start the Node project:
+
+npm start
+
+Open your browser and navigate to http://localhost:3000 to view the project.
+
+Login with the created user credentials that was created in seed file
+email: abc@example.com
+password: Pass@1234 
