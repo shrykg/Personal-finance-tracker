@@ -29,9 +29,15 @@
 
         <button type="submit" value="Submit">Submit</button>
     </form>
+    {{#if error}}
     <div class="error">
         {{error}}
     </div>
+
     <button id="dashboard" onclick="window.location.href='/dashboard'">Back to Dashboard</button>
+
+    {{/if}}
+    
+
 
 </div>

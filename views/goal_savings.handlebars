@@ -23,6 +23,12 @@
         <input type="date" id="goal_saving_date" name="goal_saving_date" required>
     </div>
 
+    {{#if error}}
+    <div class="error">
+        {{error}}
+    </div>
+    {{/if}}
+    
     <div class="error" id="error" hidden></div>
    {{#if error}} <div class="err">{{error}}</div>{{/if}}
     <button type="submit">Add to Savings !</button>

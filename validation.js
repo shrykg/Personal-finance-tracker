@@ -37,6 +37,47 @@ const exportedMethods = {
     return date.format('YYYY-MM-DD');
   },
 
+  checkDate1(dateString, varName) {
+    if (!dateString) throw `Error: You must supply a ${varName}!`;
+    if (typeof dateString !== 'string') throw `Error: ${varName} must be a string!`;
+    dateString = dateString.trim();
+    if (dateString.length !== 10) throw `Error: ${varName} must be in the format YYYY-MM-DD!`;
+    if (!moment(dateString, 'YYYY-MM-DD', true).isValid()) throw `Error: ${varName} must be in the format YYYY-MM-DD!`;
+  
+    const todayDate = moment().startOf('day').add(1, 'month');
+    const date = moment(dateString, 'YYYY-MM-DD');
+  
+    if (date.isBefore(todayDate)) throw `Error: ${varName} cannot be before one month from the current date!`;
+    return date.format('YYYY-MM-DD');
+  },
+
+  checkDateCreatedAtGoals(date, varName) {
+    if (!date) throw `Error: You must provide a ${varName}`;
+    if (typeof date !== 'string') throw `Error: ${varName} must be a string`;
+    date = date.trim();
+    if (date.length === 0)
+      throw `Error: ${varName} cannot be an empty string or just spaces`;
+    if (!moment(date, 'YYYY-MM-DD', true).isValid())
+      throw `Error: ${varName} is not a valid date format (YYYY-MM-DD)`;
+    return date;
+  },
+
+  checkTargetDateAfterCreatedDate(targetDateString, createdDateString, varName, minMonthsDifference) {
+    targetDateString = this.checkDateCreatedAtGoals(targetDateString, varName);
+    createdDateString = this.checkDateCreatedAtGoals(createdDateString, 'Created Date');
+  
+    const targetDate = moment(targetDateString, 'YYYY-MM-DD');
+    const createdDate = moment(createdDateString, 'YYYY-MM-DD');
+    const monthsDifference = targetDate.diff(createdDate, 'months', true);
+  
+    if (monthsDifference < minMonthsDifference) {
+      throw `Error: ${varName} must be at least ${minMonthsDifference} month(s) after the created date.`;
+    }
+  
+    return targetDateString;
+  }
+  ,
+
   checkNumber(numVal, varName) {
     if (!numVal) throw `Error: You must supply a ${varName}!`;
     if (typeof numVal !== 'number') throw `Error: ${varName} must be a number!`;
