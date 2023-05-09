@@ -46,6 +46,10 @@
 <div id="transactions-data" style="display:none;">{{json transactions}}</div>
 <h1 style="text-align: center">Welcome {{data.firstname}} {{data.lastname}}</h1>
 
+{{#if notification}}
+<div id="notification_alert">You have new Notifications, please check the notifications tab</div>
+{{/if}}
+
 {{#if transactions}}
 <div id="chart_wrapper">
   <div id="piechart" style="width: 900px; height: 500px;">Charts</div>
@@ -54,10 +58,10 @@
 </div>
 
 {{else}}
-  <div class="error-message">
-    <h2>Error: No transaction data available</h2>
-    <p>Please make sure you have entered transactions</p>
-  </div>
+<div class="error-message">
+  <h2>Error: No transaction data available</h2>
+  <p>Please make sure you have entered transactions</p>
+</div>
 {{/if}}
 
 <h2>Current Budgets Set</h2>
