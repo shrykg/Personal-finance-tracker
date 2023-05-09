@@ -98,6 +98,8 @@ router
         let trans_data = '';
         let active_budget = '';
         let amount_remaining = '';
+        let notifications = '';
+        let is_notification = false;
         //console.log(data);
         try {
             trans_data = await transactionData.getLatestTransactions(data.id);
@@ -128,9 +130,20 @@ router
             console.log(e);
         }
 
+        try {
+            notifications = await budgetDataFunctions.checkBudgetNotifications(data.id);
+            if (notifications.length > 0) {
+                is_notification = true;
+            }
+        }
+
+        catch (e) {
+            console.log(e);
+        }
+
         if (data) {
             try {
-                return res.status(200).render('dashboard', { data: data, transactions: trans_data, active_budget: active_budget });
+                return res.status(200).render('dashboard', { data: data, transactions: trans_data, active_budget: active_budget, notification: is_notification });
             }
 
             catch (e) {

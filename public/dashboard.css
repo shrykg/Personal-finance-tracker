@@ -217,25 +217,27 @@ h2:last-of-type {
     justify-content: space-between;
     max-width: 1900px;
     margin: auto;
-  }
-  
-  .chart {
+}
+
+.chart {
     width: 900px;
     height: 500px;
     margin-bottom: 20px;
-  }
+}
 
-  /* Style the page title */
-  h1,h2 {
+/* Style the page title */
+h1,
+h2 {
     text-align: center;
     margin-top: 24px;
     margin-bottom: 16px;
-  }
+}
 
-  /* Style the page wrapper */
-  body {
+/* Style the page wrapper */
+body {
     padding: 16px;
-  }
+}
+
 
   button {
     background-color: #1e7132;
@@ -244,20 +246,30 @@ h2:last-of-type {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-  }
-
-  button:hover {
-    background-color: #3e8e41;
-  }
-
-.centered {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin-bottom: 20px;
 }
 
-.centered > form {
-  margin-bottom: 20px;
+button:hover {
+    background-color: #3e8e41;
+}
+
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.centered>form {
+    margin-bottom: 20px;
+}
+
+#notification_alert {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+    font-size: 1 rem;
+    color: red;
+    text-align: center;
 }
