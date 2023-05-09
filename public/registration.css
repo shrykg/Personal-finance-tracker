@@ -32,7 +32,8 @@ input[name="monthly_target"],
 input[type="email"],
 input[type="date"],
 input[name="password_initial"],
-input[name="password_confirm"] {
+input[name="password_confirm"] ,
+input[id="region-select"]{
     padding: 10px;
     margin-bottom: 20px;
     border-radius: 5px;
@@ -40,8 +41,9 @@ input[name="password_confirm"] {
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
 }
 
-input[type="submit"] {
-    background-color: #4CAF50;
+button[type="submit"] {
+    margin-top: 15px;
+    background-color: #1e7132;
     color: #fff;
     padding: 10px;
     border: none;
@@ -50,7 +52,7 @@ input[type="submit"] {
     cursor: pointer;
 }
 
-input[type="submit"]:hover {
+button[type="submit"]:hover {
     background-color: #3e8e41;
 }
 

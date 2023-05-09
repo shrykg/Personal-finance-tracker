@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" href="../public/registration.css">
 <nav>
-    <img id="logo" src="../public/images/798-7981159_piggy-bank-png-icon-white-piggy-bank-vector.png" alt = "logo">
+    <img id="logo" src="../public/images/798-7981159_piggy-bank-png-icon-white-piggy-bank-vector.png" alt="logo">
 </nav>
 <div class="container">
     <h1>Registration Page</h1>
@@ -18,7 +18,7 @@
         <label for="password_confirm">Confirm Password</label>
         <input type="password" id="password_confirm" name="password_confirm" required>
         <label for="region-select">Select a Region:</label>
-        <select id="region-select" name="region">
+        <select id="region-select" name="region-select">
             <option value="">--Select Region--</option>
             <!-- Create options for each region in alphabetical order -->
             <option value="Afghanistan">Afghanistan</option>
@@ -71,9 +71,9 @@
             <option value="Vietnam">Vietnam</option>
             <option value="Yemen">Yemen</option>
         </select>
-        <input type="submit" id="register_button" value="Register">
+        <button type="submit" id="register_button" value="Register">Register</button>
     </form>
+    <div id="error-container" hidden>{{error}}</div>
 </div>
 <script src='/public/validations/log_in_registration.js'></script>
 <p>Already have an account? <a href="login">Click here to log-in</a></p>
-<div id="error-container" hidden>{{error}}</div>

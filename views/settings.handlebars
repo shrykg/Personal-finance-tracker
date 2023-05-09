@@ -5,12 +5,16 @@
     <form id="setting-form" action="/settings/profile" method="POST">
         <label for="firstname">First Name</label>
         <input type="text" id="firstname" name="firstname" value="{{data.firstname}}">
-        <label for=" lastname">Last Name</label>
+
+        <label for="lastname">Last Name</label>
         <input type="text" id="lastname" name="lastname" value="{{data.lastname}}">
-        <label for=" dob">Date of Birth</label>
+
+        <label for="dob">Date of Birth</label>
         <input type="date" id="dob" name="dob" value="{{data.dob}}">
-        <label for=" email">Email Address</label>
+
+        <label for="email">Email Address</label>
         <input type="email" id="email" name="email" value="{{data.email}}" readonly>
+
         <label for="user_since">User Since</label>
         <p>{{data.created_at}}</p>
 
@@ -22,6 +26,9 @@
 </div>
 
 <div id="error-container-settings">{{error}}</div>
+{{#if error_server}}
+<div id="error-server">{{error_server}}</div>
+{{/if}}
 <script src='/public/validations/settings.js'></script>
 {{!--
 <script src='/public/validations/log_in_registration.js'></script> --}}

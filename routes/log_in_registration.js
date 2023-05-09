@@ -9,7 +9,7 @@ import validation from '../validation.js'
 router.
     route('/').get(async (req, res) => {
         try {
-           return res.redirect('/login')
+            return res.redirect('/login')
         }
         catch (e) {
             return res.status(500).render('error', { error_occured: e })
@@ -24,7 +24,7 @@ router
         }
 
         catch (e) {
-           return  res.status(500).render('error',{ error_occured: e });
+            return res.status(500).render('error', { error_occured: e });
         }
     })
 
@@ -32,11 +32,11 @@ router
     .route('/registration')
     .get(async (req, res) => {
         try {
-            return  res.render('registration');
+            return res.render('registration');
         }
 
         catch (e) {
-            return  res.status(500).render('error',{ error_occured: e });
+            return res.status(500).render('error', { error_occured: e });
         }
     })
     .post(async (req, res) => {
@@ -49,19 +49,19 @@ router
         let password_1 = xss(req.body.password_initial);
         let region = xss(req.body.region)
         if (!firstname || !lastname || !dob || !email || !password || !password_1 || !region) {
-            return  res.status(400).render('registration', { error: 'All fields are required' })
+            return res.status(400).render('registration', { error: 'All fields are required' })
         }
         if (validation.validateDOB(dob) < 13) {
-            return  res.status(400).render('registration', { error: 'You must be 13 years or older to register !', firstname: firstname, lastname: lastname, dob: dob, email: email, region: region })
+            return res.status(400).render('registration', { error: 'You must be 13 years or older to register !', firstname: firstname, lastname: lastname, dob: dob, email: email, region: region })
         }
         if (password !== password_1) {
-            return  res.status(400).render('registration', { error: 'Passwords do not match ! Please try again', firstname: firstname, lastname: lastname, dob: dob, email: email, region: region })
+            return res.status(400).render('registration', { error: 'Passwords do not match ! Please try again', firstname: firstname, lastname: lastname, dob: dob, email: email, region: region })
         }
         try {
             validation.validateEmail(email);
         }
         catch (e) {
-            return   res.status(400).render('registration', { error: e })
+            return res.status(400).render('registration', { error: e })
         }
         //checking if the user with the same email already exists
         let check = '';
@@ -69,19 +69,19 @@ router
             check = await login_reg_data.get_user_by_email(email);
         }
         catch (e) {
-            return  res.status(400).json({ error: e });
+            return res.status(400).json({ error: e });
         }
         if (!check) {
             try {
                 await login_reg_data.add_user(firstname, lastname, dob, email, password, region);
-                return  res.status(200).redirect('/login');
+                return res.status(200).redirect('/login');
             }
             catch (e) {
                 return res.status(400).render('registration', { error: 'Something went wrong , please try again !', firstname: firstname, lastname: lastname, dob: dob, email: email, region: region })
             }
         }
         else {
-            return  res.status(400).render('registration', { error: 'User already exists', firstname: firstname, lastname: lastname, dob: dob, email: email, region: region })
+            return res.status(400).render('registration', { error: 'User already exists', firstname: firstname, lastname: lastname, dob: dob, email: email, region: region })
         }
 
     })
@@ -90,17 +90,16 @@ router
 router
     .route('/dashboard')
     .get(async (req, res) => {
-         
-        console.log('in dashboard bitch')
-
         if (!req.session.user) {
             return res.redirect('/login');
-          }
+        }
 
         let data = req.session.user;
         let trans_data = '';
         let active_budget = '';
         let amount_remaining = '';
+        let notifications = '';
+        let is_notification = false;
         //console.log(data);
         try {
             trans_data = await transactionData.getLatestTransactions(data.id);
@@ -131,18 +130,29 @@ router
             console.log(e);
         }
 
+        try {
+            notifications = await budgetDataFunctions.checkBudgetNotifications(data.id);
+            if (notifications.length > 0) {
+                is_notification = true;
+            }
+        }
+
+        catch (e) {
+            console.log(e);
+        }
+
         if (data) {
             try {
-               return  res.status(200).render('dashboard', { data: data, transactions: trans_data, active_budget: active_budget });
+                return res.status(200).render('dashboard', { data: data, transactions: trans_data, active_budget: active_budget, notification: is_notification });
             }
 
             catch (e) {
-                return  res.status(400).render('error',{ error_occured: e });
+                return res.status(400).render('error', { error_occured: e });
             }
         }
 
         else {
-            return  res.redirect('/login');
+            return res.redirect('/login');
         }
 
     })
@@ -159,7 +169,8 @@ router
             res.clearCookie()
             return res.status(200).render('logout');
         } else {
-          return   res.status(403).redirect('/login')        }
+            return res.status(403).redirect('/login')
+        }
     });
 
 router.
@@ -169,7 +180,7 @@ router.
             return res.status(200).render('login');
         }
         catch (e) {
-            return  res.status(400).render('error',{ error_occured: e });
+            return res.status(400).render('error', { error_occured: e });
         }
     })
     .post(async (req, res) => {
@@ -183,7 +194,7 @@ router.
             data = await login_reg_data.checkUser(username, password);
         }
         catch (e) {
-           return  res.status(400).render('error', { error_occured: e });
+            return res.status(400).render('error', { error_occured: e });
         }
         //storing user session data
         if (!data) {
@@ -195,10 +206,10 @@ router.
             let symbol = login_reg_data.check_currency_symbol(data.region)
             req.session.user = { id: data._id.toString(), firstname: data.firstname, lastname: data.lastname, email: data.email, dob: data.dob, created_at: new Date(data.created_at).toISOString().slice(0, 10), symbol: symbol }
             if (req.session.user) {
-              return  res.redirect('/dashboard');
+                return res.redirect('/dashboard');
             }
             else {
-               return res.status(400).render('login', { error: "Invalid credentials used to log in" })
+                return res.status(400).render('login', { error: "Invalid credentials used to log in" })
             }
         }
     });

@@ -63,7 +63,7 @@ input {
 }
 
 button[name="edit"] {
-    background-color: #15722b;
+    background-color: #1e7132;
     color: white;
     border: none;
     cursor: pointer;
@@ -74,7 +74,13 @@ button[name="edit"] {
     font-size: 16px;
 }
 
-#error-container-login {
+#error-container-settings {
+    color: red;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#error-server {
     color: red;
     margin-top: 20px;
     text-align: center;
@@ -88,4 +94,30 @@ button[name="edit"] {
 .forgot-password {
     text-align: center;
     margin-top: 20px;
+}
+
+button[id='dashboard'] {
+    background-color: #1e7132;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[id='dashboard']:hover {
+    background-color: #3e8e41;
+}
+
+button[id='change_password'] {
+    background-color: #1e7132;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[id='change_password']:hover {
+    background-color: #3e8e41;
 }
