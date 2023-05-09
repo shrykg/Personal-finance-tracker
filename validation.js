@@ -159,6 +159,8 @@ const exportedMethods = {
     start_Date = moment(start_Date).format("YYYY-MM-DD");
     end_Date = moment(end_Date).format("YYYY-MM-DD");
     let today = moment().format("YYYY-MM-DD");
+    let maxEndDate = moment(today).add(1, 'years').format("YYYY-MM-DD");
+
     if (moment(start_Date).isBefore(today)) {
       throw "Start date cannot be earlier than today.";
     }
@@ -170,6 +172,10 @@ const exportedMethods = {
     }
     if (moment(end_Date).isBefore(start_Date)) {
       throw "End date cannot be earlier than start date."
+    }
+    if(moment(end_Date).isAfter(maxEndDate))
+    {
+      throw "End date cannot be more than 1 year from today.";
     }
   }
 }
