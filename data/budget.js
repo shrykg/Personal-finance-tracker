@@ -8,6 +8,7 @@ import moment from 'moment';
 const checkExist = async (user_id, category, start, value) => {
   /* checking that user already have done transaction on that perticular category
    and if yes then it will compare total of that amount with budget amount and allow only if amount<budget */
+   let temp=validation.checkId(user_id,"user_id")
   const get_data = await transactions();
   let today = moment().format("YYYY-MM-DD");
   if (today.trim() === start.trim()) {
@@ -28,6 +29,7 @@ const checkExist = async (user_id, category, start, value) => {
 }
 //  creating new budget
 const create = async (user_id, category, amount, start, end) => {
+  let temp=validation.checkId(user_id,"user_id")
   validation.checkBudget(category, amount, start, end);
   let newdata =
   {
@@ -50,6 +52,7 @@ const create = async (user_id, category, amount, start, end) => {
 // get all active budget
 
 const get_all_active_users = async (user_id) => {
+  let temp=validation.checkId(user_id,"user_id")
   const get_data = await budget();
   let today = moment().format("YYYY-MM-DD");
 
@@ -63,6 +66,7 @@ const get_all_active_users = async (user_id) => {
 //remove active budget
 
 const removeActive = async (budget_id) => {
+  let temp=validation.checkId(budget_id,"budget_id")
   budget_id = budget_id.trim();
   const getbudget = await budget();
   let deldata = await getbudget.findOneAndDelete({ _id: new ObjectId(budget_id.trim()) });
@@ -91,6 +95,7 @@ const archiveExpiredBudgets = async () => {
 // get all expired budget
 
 const getAll = async (user_id) => {
+  let temp=validation.checkId(user_id,"user_id")
   const getBudget = await expired();
   let alldata = await getBudget.find({ user_id: user_id.trim() }).toArray();
   alldata = alldata.map((ele) => {
@@ -103,6 +108,7 @@ const getAll = async (user_id) => {
 //get all expired budget, sort by start_date 
 
 const getAllsort = async (user_id) => {
+  let temp=validation.checkId(user_id,"user_id")
   const allBud = await expired();
   let alldata = await allBud.find({ user_id: user_id.trim() }).sort({ start_date: 1 }).toArray();
   alldata = alldata.map((ele) => {
@@ -115,6 +121,7 @@ const getAllsort = async (user_id) => {
 //remove expired budget
 
 const removeExpired = async (budget_id) => {
+  let temp=validation.checkId(budget_id,"budget_id")
   budget_id = budget_id.trim();
   const getbudget = await expired();
   let deldata = await getbudget.findOneAndDelete({ _id: new ObjectId(budget_id.trim()) });
@@ -128,6 +135,7 @@ const removeExpired = async (budget_id) => {
 
 async function amount_remaining(user_id, category) {
   // Find the budget for the given category
+  let temp=validation.checkId(user_id,"user_id")
   const transactions_data = await transactions();
   const budget_data = await budget();
   const budget_req = await budget_data.findOne({ user_id, category });

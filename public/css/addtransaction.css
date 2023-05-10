@@ -36,7 +36,10 @@
     font-weight: bold;
     margin-bottom: 5px;
   }
-
+  .alert{
+    font-weight:bolder;
+    color:#1e7132;
+  }
   button {
     background-color: #1e7132;
     color: white;

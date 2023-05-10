@@ -36,7 +36,7 @@ router
     }
     catch(e)
     {
-      return res.status(400).render('goals', { error_server: e });
+      return res.status(400).render('goals', { error_server: e ,goal_name:goal_name,goal_amount:goal_amount,goal_date:target_date});
     }
     try {
         const newGoal = await goalDataFunctions.create(user_id, goal_name, goal_amount, target_date, goal_purpose);
@@ -45,7 +45,7 @@ router
           return res.status(500).render('goals', {success:" Goal successfully added!"});
         }
     } catch (e) {
-      return res.status(500).render('goals', { error_server: e });
+      return res.status(500).render('goals', { error_server: e,goal_name:goal_name,goal_amount:goal_amount,goal_date:target_date });
     }
 });
 
@@ -89,7 +89,7 @@ router.get('/new', async (req, res) => {
   }
   catch(e)
   {
-    return res.status(400).render('goal_savings', { error_server: e });
+    return res.status(400).render('goal_savings', { error_server: e,amount:savings });
   }
   try{
     savings=Number(savings)
@@ -97,7 +97,7 @@ router.get('/new', async (req, res) => {
   }
   catch(e)
   {
-    return res.status(400).render('goal_savings', { error_server: e });
+    return res.status(400).render('goal_savings', { error_server: e,amount:savings });
 
   }
     try
@@ -107,7 +107,7 @@ router.get('/new', async (req, res) => {
         return res.status(200).render('goal_savings', {success:"Savings added successfully!"});
       }
     } catch (e) {
-      return res.status(500).render('goal_savings', { error_server: e });
+      return res.status(500).render('goal_savings', { error_server: e,amount:savings });
     }
   })
 
