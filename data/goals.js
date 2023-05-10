@@ -12,6 +12,8 @@ const create = async (user_id, goal_name, goal_amount, target_date, goal_purpose
 
     goal_name=goal_name.toLowerCase()
     const getGoals = await goals();
+    const temp=await getGoals.findOne({user_id:user_id.trim(),goal_name:goal_name});
+    if(temp){throw "Goal name is alredy exist try with another name"}
     const foundGoal = await getGoals.findOne({ user_id: user_id.trim(), goal_name: goal_name.trim(), goal_purpose: goal_purpose.trim() ,target_date: { $gt: today.format('YYYY-MM-DD')}});
     if (foundGoal) 
     {
