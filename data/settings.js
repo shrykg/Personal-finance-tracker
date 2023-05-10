@@ -42,6 +42,8 @@ export async function update_user_dob(id, new_value) {
     if (!new_value) {
         throw ('Field is required')
     }
+    let age=validation.validateDOB(new_value)
+    if(age <13 || age>100 ){throw "Enter valid age!"}
     const user_collection = await users();
     try {
         user_collection.updateOne(

@@ -40,8 +40,8 @@ if (form) {
         }
         let age = validateDOB(dob);
 
-        if (age < 13) {
-            errors.push('You must be 13 years or older to register on the website !')
+        if (age < 13 || age>100) {
+            errors.push('Enter valid age !')
         }
 
         // Display error messages if there are any

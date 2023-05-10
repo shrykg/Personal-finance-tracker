@@ -31,8 +31,8 @@ const exportedMethods = {
         email = validation.checkString(email, 'email');
 
         let age = validation.validateDOB(dob);
-        if (age < 13) {
-            throw ('You must be more than 13 years old to register !')
+        if (age < 13 || age>100) {
+            throw ('Enter valid age !')
         }
 
         try {

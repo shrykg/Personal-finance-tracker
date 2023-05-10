@@ -145,7 +145,7 @@ const exportedMethods = {
     const ageInMilliseconds = Date.now() - birthdate.getTime();
     const ageDate = new Date(ageInMilliseconds);
     const age = Math.abs(ageDate.getUTCFullYear() - 1970);
-
+    if(age<13 || age>100){throw "Enter valid age"}
     // display the age
     return age;
   },
