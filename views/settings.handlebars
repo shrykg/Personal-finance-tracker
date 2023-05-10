@@ -19,6 +19,8 @@
         <p>{{data.created_at}}</p>
 
         <button name="edit" type="submit">Edit</button>
+        <script src='/public/validations/settings.js'></script>
+
     </form>
 
     <button id="dashboard" onclick="window.location.href='/dashboard'">Back to Dashboard</button>
@@ -29,6 +31,5 @@
 {{#if error_server}}
 <div id="error-server">{{error_server}}</div>
 {{/if}}
-<script src='/public/validations/settings.js'></script>
 {{!--
 <script src='/public/validations/log_in_registration.js'></script> --}}

@@ -32,7 +32,13 @@
 
 
 </form>
-
+<div id="error-message" style="display:none;">
+  <ol>
+    {{#each errors}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ol>
+</div>
 
 <table>
   <thead>
@@ -62,13 +68,7 @@
   </tbody>
 </table>
 
-<div id="error-message" style="display:none;">
-  <ol>
-    {{#each errors}}
-    <li>{{this}}</li>
-    {{/each}}
-  </ol>
-</div>
+
 <button onclick="window.location.href='/dashboard'">Back to Dashboard</button>
 
 <button onclick="window.location.href='/transactions/seeAllTransaction/export'">Export all Transactions</button>
