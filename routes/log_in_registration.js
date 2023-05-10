@@ -48,9 +48,9 @@ router
         let password = xss(req.body.password_confirm);
         let password_1 = xss(req.body.password_initial);
         let region = xss(req.body.region)
-        if (!firstname || !lastname || !dob || !email || !password || !password_1 || !region) {
-            return res.status(400).render('registration', { error: 'All fields are required' })
-        }
+        // if (!firstname || !lastname || !dob || !email || !password || !password_1 || !region) {
+        //     return res.status(400).render('registration', { error: 'All fields are required' })
+        // }
         if (validation.validateDOB(dob) < 13) {
             return res.status(400).render('registration', { error: 'You must be 13 years or older to register !', firstname: firstname, lastname: lastname, dob: dob, email: email, region: region })
         }
