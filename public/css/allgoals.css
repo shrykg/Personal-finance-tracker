@@ -46,7 +46,10 @@ button {
   margin-bottom: 20px;
   cursor: pointer;
 }
-
+.alert{
+  font-weight:bolder;
+  color:#1e7132;
+}
 /* Style the button hover effect */
 button:hover {
   background-color: #3e8e41;

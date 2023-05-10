@@ -27,6 +27,12 @@ router.route('/new').get(async (req, res) => {
     let amount = xss(req.body.amount).trim();
     let start_Date = xss(req.body.start_Date).trim()
     let end_Date = xss(req.body.end_Date).trim()
+    try
+    {
+       let temp=validation.checkId(user_id,"user_id")
+    }
+    catch (e) { return res.status(400).render('addbudget', { error_server: e, amount: amount, start_Date: start_Date, end_Date }) }
+
     try {
       amount = Number(amount);
       validation.checkBudget(category, amount, start_Date, end_Date);
@@ -51,6 +57,13 @@ router.get('/seeAllBudgets/active', async (req, res) => { // to see all active b
   if (!req.session.user) {
     return res.redirect('/login/');
   }
+  try
+  {
+    let temp=validation.checkId(req.session.user.id,"user_id")
+  }
+  catch (e) {
+    return res.status(400).render('seeActiveBudgets', { error_server: e });
+  }
   try {
     let user_id = req.session.user.id.trim();
     const active_budgets = await budgetDataFunctions.get_all_active_users(user_id);
@@ -62,6 +75,14 @@ router.get('/seeAllBudgets/active', async (req, res) => { // to see all active b
 router.delete('/ActiveRemove/:id', async (req, res) => { // to delete active budget
   if (!req.session.user) {
     return res.redirect('/login/');
+  }
+  try
+  {
+    let temp=validation.checkId(req.params.id,"budget_id")
+
+  }
+  catch (e) {
+    return res.status(400).render('seeActiveBudgets', { error_server: e });
   }
   try {
     let budget_id = req.params.id.trim()
@@ -78,6 +99,14 @@ router.route('/expiredBudgets').get(async (req, res) => { // to see expired budg
   if (!req.session.user) {
     return res.redirect('/login/');
   }
+  try
+  {
+    let temp=validation.checkId(req.session.user.id,"user_id")
+
+  }
+  catch (e) {
+    return res.status(400).render('expiredBudgets', { error_server: e });
+  }
   try {
     let user_id = req.session.user.id.trim();
     const result = await budgetDataFunctions.getAll(user_id)
@@ -88,7 +117,16 @@ router.route('/expiredBudgets').get(async (req, res) => { // to see expired budg
 router.route('/expiredBudgets/sort').get(async (req, res) => { //to see expired budget, sort by start_date
   if (!req.session.user) {
     return res.redirect('/login/');
-  } try {
+  }
+  try
+  {
+    let temp=validation.checkId(req.session.user.id,"user_id")
+
+  }
+  catch (e) {
+    return res.status(400).render('expiredBudgets', { error_server: e });
+  }
+   try {
     let user_id = req.session.user.id.trim();
     const result = await budgetDataFunctions.getAllsort(user_id)
     return res.status(200).render('expiredBudgets', { budget: result })
@@ -99,6 +137,14 @@ router.route('/expiredBudgets/sort').get(async (req, res) => { //to see expired 
 router.delete('/remove/:id', async (req, res) => { // to remove expired budget 
   if (!req.session.user) {
     return res.redirect('/login/');
+  }
+  try
+  {
+    let temp=validation.checkId(req.params.id,"budget_id")
+
+  }
+  catch (e) {
+    return res.status(400).render('expiredBudgets', { error_server: e });
   }
   try {
     let budget_id = req.params.id.trim()
