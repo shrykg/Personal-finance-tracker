@@ -1,22 +1,22 @@
-import {dbConnection, closeConnection} from './config/mongoConnection.js';
-import { transactionData, login_reg_data } from './data/index.js';
-
+import { dbConnection, closeConnection } from './config/mongoConnection.js';
+import { transactionData, login_reg_data, budgetData, goalData } from './data/index.js';
+import moment from 'moment'
 
 const db = await dbConnection();
 await db.dropDatabase();
 
 let myUser = undefined
-
+let today = moment().format("YYYY-MM-DD");
 console.log('creating user')
 
 try {
-    myUser = await login_reg_data.add_user("Seed","User","1995-06-03","abc@example.com","Pass@1234","United States")
+    myUser = await login_reg_data.add_user("Seed", "User", "1995-06-03", "abc@example.com", "Pass@1234", "United States")
     console.log(myUser)
 } catch (error) {
     console.log(error)
 }
 
-console.log("now add some transactions for this user")
+console.log("now adding some transactions for this user")
 let firstTransaction = undefined
 let secondTransaction = undefined
 let thirdTransaction = undefined
@@ -63,8 +63,7 @@ try {
 
 console.log("Fifth Transaction")
 try {
-    fifthTransaction = await transactionData.addTransaction(myUser._id.toString(),"Cash",500,"Fifth transaction","travel","2023-01-01")
-    console.log(fifthTransaction)
+    fifthTransaction = await transactionData.addTransaction(myUser._id.toString(), "Cash", 500, "Fifth transaction", "travel", "2023-01-01")
 } catch (error) {
     console.log(error)
 }
@@ -109,7 +108,132 @@ try {
     console.log(error)
 }
 
+let firstBudget = undefined
+let secondBudget = undefined
+let thirdBudget = undefined
+let forthBudget = undefined
+// let fifthBudget = undefined
+// let sixthBudget = undefined
+// let seventhBudget = undefined
+// let eigthBudget = undefined
+// let ninthBudget = undefined
+// let tenthBudget = undefined
 
+//Adding budgets
+
+console.log('Adding first budget')
+try {
+    firstBudget = await budgetData.create(myUser._id.toString(), "Groceries", 1500, today, '2023-06-30');
+}
+catch (e) {
+    console.log(e);
+}
+console.log('Adding second budget')
+try {
+    secondBudget = await budgetData.create(myUser._id.toString(), "Shopping", 20000, today, '2023-06-30');
+}
+catch (e) {
+    console.log(e);
+}
+console.log('Adding third budget')
+try {
+    thirdBudget = await budgetData.create(myUser._id.toString(), "Healthcare", 25000, today, '2023-10-01');
+}
+catch (e) {
+    console.log(e);
+}
+console.log('Adding fourth budget')
+try {
+    forthBudget = await budgetData.create(myUser._id.toString(), "Bills", 7500, today, '2023-06-30');
+}
+catch (e) {
+    console.log(e);
+}
+
+// try {
+//     fifthBudget = await budgetData.create(myUser._id.toString(), "Groceries", 1500, '2023-04-01', '2023-06-30');
+// }
+// catch (e) {
+//     console.log(e);
+// }
+
+// try {
+//     sixthBudget = await budgetData.create(myUser._id.toString(), "Groceries", 1500, '2023-04-01', '2023-06-30');
+// }
+// catch (e) {
+//     console.log(e);
+// }
+
+// try {
+//     seventhBudget = await budgetData.create(myUser._id.toString(), "Groceries", 1500, '2023-04-01', '2023-06-30');
+// }
+// catch (e) {
+//     console.log(e);
+// }
+
+// try {
+//     eigthBudget = await budgetData.create(myUser._id.toString(), "Groceries", 1500, '2023-04-01', '2023-06-30');
+// }
+// catch (e) {
+//     console.log(e);
+// }
+
+// try {
+//     ninthBudget = await budgetData.create(myUser._id.toString(), "Groceries", 1500, '2023-04-01', '2023-06-30');
+// }
+// catch (e) {
+//     console.log(e);
+// }
+
+// try {
+//     tenthBudget = await budgetData.create(myUser._id.toString(), "Groceries", 1500, '2023-04-01', '2023-06-30');
+// }
+// catch (e) {
+//     console.log(e);
+// }
+
+let firstGoal = undefined
+let secondGoal = undefined
+let thirdGoal = undefined
+let forthGoal = undefined
+let fifthGoal = undefined
+
+//["crush_credit_card_debt", "wipe_out_my_loans", "save_for_a_rainy_day", "prepare_for_retirement", "buy_a_home", "buy_a_car", "save_for_college", "take_a_trip", "improve_my_home", "something_else"];
+console.log('Adding First goal');
+try {
+    firstGoal = await goalData.create(myUser._id.toString(), "Save for trip", 10000, '2024-01-01', 'crush_credit_card_debt');
+}
+catch (e) {
+    console.log(e);
+}
+console.log('Adding Second goal');
+try {
+    secondGoal = await goalData.create(myUser._id.toString(), "Save for trip", 15000, '2024-03-01', 'take_a_trip');
+}
+catch (e) {
+    console.log(e);
+}
+console.log('Adding third goal');
+try {
+    thirdGoal = await goalData.create(myUser._id.toString(), "Pay College Debt", 100000, '2025-01-01', 'wipe_out_my_loans');
+}
+catch (e) {
+    console.log(e);
+}
+console.log('Adding fourth goal');
+try {
+    forthGoal = await goalData.create(myUser._id.toString(), "Save for a bad day", 7500, '2024-01-01', 'save_for_a_rainy_day');
+}
+catch (e) {
+    console.log(e);
+}
+console.log('Adding fifth goal');
+try {
+    fifthGoal = await goalData.create(myUser._id.toString(), "Retirement Fund", 5000000, '2043-01-01', 'prepare_for_retirement');
+}
+catch (e) {
+    console.log(e);
+}
 
 console.log('Done seeding database');
 
