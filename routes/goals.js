@@ -12,7 +12,6 @@ router
     }
     return res.render('goals')
   })
-
   .post(async (req, res) => {
     if (!req.session.user) {
       return res.redirect('/login');
@@ -111,8 +110,34 @@ router.get('/new', async (req, res) => {
     }
   })
 
-router.get('/remove/:goalId', async (req, res) => {
-  // console.log('test delete goal');
+// router.get('/remove/:goalId', async (req, res) => {
+//   // console.log('test delete goal');
+//   if (!req.session.user) {
+//     return res.redirect('/login');
+//   }
+
+//   let user_id = req.session.user.id;
+//   let goalId = xss(req.params.goalId);
+
+//   try {
+//     validations.checkId(goalId, 'Goal ID');
+
+//     let rslt = await goalDataFunctions.remove(goalId);
+//     return res.status(200).json(rslt);
+//      } catch (e) {
+//       console.log(e)
+//       let status = e[0];
+//       let message = e[1];
+//       return res.status(status).json({ error: message });
+//     }
+//   });
+
+router.route('/:goalId')
+      .get(async (req, res) => {
+
+      })
+      .delete(async (req, res) => {
+          // console.log('test delete goal');
   if (!req.session.user) {
     return res.redirect('/login');
   }
@@ -131,7 +156,7 @@ router.get('/remove/:goalId', async (req, res) => {
       let message = e[1];
       return res.status(status).json({ error: message });
     }
-  });
+      })
 
 
 export default router;

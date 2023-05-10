@@ -4,10 +4,10 @@ $('.del-btn').click(function() {
 
   if (confirm("Are you sure you want to delete this Goal?")) {
     $.ajax({
-      url: `/goals/remove/${goalId}`,
-      type: 'GET',
+      url: `/goals/${goalId}`,
+      type: 'DELETE',
       success: function(response) {
-        if (response.status === 'success') {
+        if (response.deletedGoal === true) {
           goalElement.remove(); // Remove the deleted entry's HTML element (the 'tr' element) from the page
         } else {
           console.error('Error deleting goal:', response);
@@ -21,3 +21,5 @@ $('.del-btn').click(function() {
     });
   }
 });
+
+

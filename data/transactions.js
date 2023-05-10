@@ -134,9 +134,9 @@ const exportedMethods = {
 
     async getTransactionsByDateRangeAndCategory(userId, startDate, endDate, category) {
         userId = validation.checkId(userId, 'User ID');
-        // console.log("Before");
+        
         const transactionCollections = await transactions();
-        // console.log("After");
+        
 
 
         // Create an object to hold the filter criteria
@@ -150,8 +150,7 @@ const exportedMethods = {
 
         // Use the filter object to find transactions that match the criteria
         const transactions1 = await transactionCollections.find(filter).toArray();
-        // console.log('filtered transactions')
-        // console.log(transactions1)
+        
 
         const transformedResult = transactions1.map((transaction) => {
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -163,19 +162,16 @@ const exportedMethods = {
             };
         });
 
-        // console.log("Transformed result:", transformedResult);
+       
 
         return transformedResult;
     },
 
     async getTransactionsByDateRangeAndCategoryWithoutDateFormat(userId, startDate, endDate, category) {
         userId = validation.checkId(userId, 'User ID');
-        // console.log("Before");
+        
         const transactionCollections = await transactions();
-        // console.log("After");
-
-
-        // Create an object to hold the filter criteria
+        
         const filter = { user_id: new ObjectId(userId) };
         if (startDate && endDate) {
             filter.transaction_date = { $gte: startDate, $lte: endDate };
@@ -186,11 +182,6 @@ const exportedMethods = {
 
         // Use the filter object to find transactions that match the criteria
         const transactions1 = await transactionCollections.find(filter).toArray();
-        console.log('filtered transactions')
-        console.log(transactions1)
-
-
-        // console.log("Transformed result:", transformedResult);
 
         return transactions1;
     }

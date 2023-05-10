@@ -121,8 +121,10 @@ router
 router
   .route('/seeAllTransaction/filters')
   .get(async (req, res) => {
-    let userId = req.session.user.id
-    let { start_date, end_date, category } = req.query;
+    let userId = req.session.user.id.trim()
+    let start_date = xss(req.query.start_date).trim()
+    let end_date = xss(req.query.end_date).trim()
+    let category = xss(req.query.category).trim()
     if (!req.session.user) {
       return res.redirect('/login')
     }
@@ -182,14 +184,16 @@ router
       return res.redirect('/login')
     }
 
+   let id = xss(req.params.id)
     
     try {
-      req.params.id = validation.checkId(req.params.id, 'Id URL Param');
+      id = validation.checkId(id, 'Id URL Param');
     } catch (e) {
       return res.status(400).json({ error: e });
     }
     try {
-      let transaction = await transactionData.getTransaction(req.params.id)
+      let transaction = await transactionData.getTransaction(id)
+      console.log(transaction)
       return res.render('updatetransaction', { transaction })
     } catch (e) {
       return res.status(404).json({ error: e });
@@ -200,63 +204,79 @@ router
     if (!req.session.user) {
       return res.redirect('/login')
     }
-
+    
     const updatedData = req.body;
 
     updatedData['user_id'] = req.session.user.id
     updatedData['amount'] = Number(updatedData.amount)
 
+    let id = req.params.id.trim()
+    let user_id = req.session.user.id.trim();
+    let description = xss(req.body.description).trim()
+    let category = xss(req.body.category).trim()
+    let amount = xss(req.body.amount);
+    amount = Number(amount)
+    let transaction_date = xss(req.body.transaction_date).trim();
+    let paymentType = xss(req.body.paymentType).trim()
+
     let errors = []
     try {
-      req.params.id = validation.checkId(req.params.id, 'ID url param');
+      id = validation.checkId(id, 'ID url param');
     } catch (error) {
       errors.push(error)
     }
 
     try {
-      updatedData.description = validation.checkString(updatedData.description, 'Description');
+      description = validation.checkString(description, 'Description');
     } catch (error) {
       errors.push(error)
     }
 
     try {
-      updatedData.category = validation.checkString(updatedData.category, 'category');
+      category = validation.checkString(category, 'category');
     } catch (error) {
       errors.push(error)
     }
 
     try {
-      updatedData.amount = validation.checkNumber(updatedData.amount, 'Amount')
+      amount = validation.checkNumber(amount, 'Amount')
     } catch (error) {
       errors.push(error)
     }
 
     try {
-      updatedData.transaction_date = validation.checkDate(updatedData.transaction_date, 'Transaction Date')
+      transaction_date = validation.checkDate(transaction_date, 'Transaction Date')
     } catch (error) {
       errors.push(error)
     }
 
     try {
-      updatedData.paymentType = validation.checkString(updatedData.paymentType, 'Payment Type')
+      paymentType = validation.checkString(paymentType, 'Payment Type')
     } catch (error) {
       errors.push(error)
     }
 
     try {
-      updatedData.user_id = validation.checkId(
-        updatedData.user_id,
+      user_id = validation.checkId(
+        user_id,
         'User ID'
       );
     } catch (error) {
       errors.push(error)
     }
+    
+    let updatedTransactionObject = {
+      user_id, description, category, amount, transaction_date, paymentType 
+    }
+
+    console.log('updated Transaction')
+    console.log(updatedTransactionObject)
 
     try {
       if (errors.length > 0) {
         const transaction = await transactionData.updateTransaction(
-          req.params.id,
-          updatedData
+          id,
+          updatedTransactionObject
         );
         res.render(res.render('updatetransaction', { transaction, errors }))
       }
@@ -269,14 +289,14 @@ router
     try {
       const updatedTransaction = await transactionData.updateTransaction(
         req.params.id,
-        updatedData
+        updatedTransactionObject
       );
 
 
       return res.json({ "update": true })
 
     } catch (e) {
-      
+      console.log(e)
       let status = e[0];
       let message = e[1];
       return res.status(status).json({ error: message });
@@ -287,15 +307,15 @@ router
     if (!req.session.user) {
       return res.redirect('/login')
     }
-
+    let id = xss(req.params.id)
     try {
-      req.params.id = validation.checkId(req.params.id, 'Id URL Param');
+      id = validation.checkId(id, 'Id URL Param');
     } catch (e) {
       
       return res.status(400).json({ error: e });
     }
     try {
-      let deletedTransaction = await transactionData.removeTransaction(req.params.id)
+      let deletedTransaction = await transactionData.removeTransaction(id)
       return res.status(200).json(deletedTransaction);
     } catch (e) {
       console.log(e)
@@ -313,7 +333,7 @@ router.route('/seeAllTransaction/export').get(async (req, res) => {
     return res.redirect('/login')
   }
   let session = req.session.user;
-  //console.log()
+  
   let user_id = session.id
   console.log(user_id);
   let result = '';
@@ -323,7 +343,10 @@ router.route('/seeAllTransaction/export').get(async (req, res) => {
     return res.render('seeAllTransaction', { success: result, transactions: result1.reverse() });
   }
   catch (e) {
-    console.log(e);
+    console.log(e)
+      let status = e[0];
+      let message = e[1];
+      return res.status(status).json({ error: message });
   }
 
 
