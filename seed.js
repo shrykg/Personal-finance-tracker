@@ -123,28 +123,28 @@ let forthBudget = undefined
 
 console.log('Adding first budget')
 try {
-    firstBudget = await budgetData.create(myUser._id.toString(), "Groceries", 1500, today, '2023-06-30');
+    firstBudget = await budgetData.create(myUser._id.toString(), "groceries", 1500, today, '2023-06-30');
 }
 catch (e) {
     console.log(e);
 }
 console.log('Adding second budget')
 try {
-    secondBudget = await budgetData.create(myUser._id.toString(), "Shopping", 20000, today, '2023-06-30');
+    secondBudget = await budgetData.create(myUser._id.toString(), "shopping", 20000, today, '2023-06-30');
 }
 catch (e) {
     console.log(e);
 }
 console.log('Adding third budget')
 try {
-    thirdBudget = await budgetData.create(myUser._id.toString(), "Healthcare", 25000, today, '2023-10-01');
+    thirdBudget = await budgetData.create(myUser._id.toString(), "healthcare", 25000, today, '2023-10-01');
 }
 catch (e) {
     console.log(e);
 }
 console.log('Adding fourth budget')
 try {
-    forthBudget = await budgetData.create(myUser._id.toString(), "Bills", 7500, today, '2023-06-30');
+    forthBudget = await budgetData.create(myUser._id.toString(), "bills", 7500, today, '2023-06-30');
 }
 catch (e) {
     console.log(e);
