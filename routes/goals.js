@@ -88,7 +88,7 @@ router.get('/new', async (req, res) => {
   }
   catch(e)
   {
-    return res.status(400).render('goal_savings', { error_server: e,amount:savings });
+    return res.status(400).render('goal_savings', { data:req.body,error_server: e,amount:savings });
   }
   try{
     savings=Number(savings)
@@ -96,17 +96,18 @@ router.get('/new', async (req, res) => {
   }
   catch(e)
   {
-    return res.status(400).render('goal_savings', { error_server: e,amount:savings });
+    return res.status(400).render('goal_savings', { data:req.body,error_server: e,amount:savings });
 
   }
     try
     {
       const updated_data = await goalDataFunctions.update_savings(user_id, goal_name, savings);
+      const data = await goalDataFunctions.getAll(user_id);
       if(updated_data.updated===true){
-        return res.status(200).render('goal_savings', {success:"Savings added successfully!"});
+        return res.status(200).render('goal_savings', {success:"Savings added successfully!", data:data});
       }
     } catch (e) {
-      return res.status(500).render('goal_savings', { error_server: e,amount:savings });
+      return res.status(500).render('goal_savings', { data:req.body,error_server: e,amount:savings });
     }
   })
 
